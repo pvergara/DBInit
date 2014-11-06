@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Core", "Ecos.DBInit.Core\Ecos.DBInit.Core.csproj", "{672AC957-B6EC-4999-9740-60ADDFEDEC8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Test", "Ecos.DBInit.Test\Ecos.DBInit.Test.csproj", "{27920306-3C44-4998-818C-742A513DF986}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase", "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase.csproj", "{F5DE2173-6DFF-4238-8539-1A57F92492BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.MySql", "Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj", "{6655574E-35A1-47FC-94F5-E4C2623BA5D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27920306-3C44-4998-818C-742A513DF986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27920306-3C44-4998-818C-742A513DF986}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27920306-3C44-4998-818C-742A513DF986}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27920306-3C44-4998-818C-742A513DF986}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Ecos.DBInit.Core\Ecos.DBInit.Core.csproj
+	EndGlobalSection
+EndGlobal
