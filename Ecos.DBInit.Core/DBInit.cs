@@ -53,7 +53,7 @@ namespace Ecos.DBInit.Core
 
         }
 
-		private List<string> SingleExecuteQueryGettingFirstFieldAsString (string queryWithDropTablesClauses,List<string> scripts)
+		private ICollection<string> SingleExecuteQueryGettingFirstFieldAsString (string queryWithDropTablesClauses,ICollection<string> scripts)
 		{
 			_dbConnection.Open ();
 			using (var dbCommand = _dbConnection.CreateCommand ()) {
@@ -69,7 +69,7 @@ namespace Ecos.DBInit.Core
 
         private IEnumerable<string> LoadDropTablesScripts()
         {
-            var scripts = new List<string>();
+			ICollection<string> scripts = new List<string>();
 			
 			IEnumerable<string> queries = LoadSchemaScripts(@"/home/pvergara/Documents/MonoWorkspace/DBInit/Ecos.DBInit.MySql/Scripts/Schema");
 

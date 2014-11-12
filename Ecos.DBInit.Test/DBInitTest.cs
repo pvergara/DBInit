@@ -6,7 +6,7 @@ using System.Data.Common;
 namespace Ecos.DBInit.Test
 {
 	[TestFixture]
-	public class Test
+	public class DBInitTest
 	{
 		static long ExecScalarByUsing (string providerInvariantName, string connectionString, string sqlCommand)
 		{
