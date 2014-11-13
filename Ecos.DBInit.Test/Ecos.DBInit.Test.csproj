@@ -46,6 +46,10 @@
       <Project>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</Project>
       <Name>Ecos.DBInit.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase.csproj">
+      <Project>{F5DE2173-6DFF-4238-8539-1A57F92492BA}</Project>
+      <Name>Ecos.DBInit.Samples.ProjectWithAMySQLDataBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase\app.config">
