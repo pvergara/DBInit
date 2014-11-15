@@ -10,8 +10,10 @@ namespace Ecos.DBInit.Test.Helpers
         [Test]
         public void GivenTheAssemblyNameWhenIInvokeFindMethodIndicatingTheScriptTypeThenItReturnsMeTheContainerWhereTheScriptsAre()
         {
-            var finder = new ScriptFinderOnEmbbededResource("Ecos.DBInit.Samples.ProjectWithAMySQLDataBase");
-            var container = finder.Find(ScriptType.Schema);
+            var container = ScriptFinderFluentFactory.
+                    FromEmbeddedResource.
+                        InitWith("Ecos.DBInit.Samples.ProjectWithAMySQLDataBase",ScriptType.Schema).
+                    GetContainer();
 
             Assert.That(container, Is.Not.Null);
             Assert.That(container.Path, Is.EqualTo("Ecos.DBInit.Samples.ProjectWithAMySQLDataBase.Scripts.Schema"));

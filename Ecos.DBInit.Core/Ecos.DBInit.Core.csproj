@@ -31,16 +31,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IDBInit.cs" />
     <Compile Include="DBInit.cs" />
-    <Compile Include="ScriptsHelpers\IScriptFinder.cs" />
-    <Compile Include="ScriptsHelpers\IScriptAppender.cs" />
     <Compile Include="ScriptsHelpers\ScriptFinderOnEmbbededResource.cs" />
-    <Compile Include="ScriptsHelpers\ScriptAppender.cs" />
-    <Compile Include="ScriptsHelpers\IScriptLoader.cs" />
-    <Compile Include="ScriptsHelpers\ScriptsLoaderFactory.cs" />
     <Compile Include="ScriptsHelpers\ScriptLoaderOnEmbeddedResource.cs" />
     <Compile Include="Model\Container.cs" />
     <Compile Include="Model\Script.cs" />
     <Compile Include="Model\ScriptType.cs" />
+    <Compile Include="ScriptsHelpers\ScriptFinderFluentFactory.cs" />
+    <Compile Include="ScriptsHelpers\ScriptLoaderFluentFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

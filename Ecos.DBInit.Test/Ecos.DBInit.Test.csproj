@@ -41,7 +41,6 @@
     <Compile Include="DBInitTest.cs" />
     <Compile Include="Helpers\ScriptFinderOnEmbeddedResourceTest.cs" />
     <Compile Include="Helpers\ScriptLoaderOnEmbbededResourceTest.cs" />
-    <Compile Include="Helpers\ScriptAppenderTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

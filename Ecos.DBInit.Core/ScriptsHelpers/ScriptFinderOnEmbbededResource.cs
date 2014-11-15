@@ -3,18 +3,20 @@ using Ecos.DBInit.Core.Model;
 
 namespace Ecos.DBInit.Core.ScriptsHelpers
 {
-	public class ScriptFinderOnEmbbededResource: IScriptFinder
+	public class ScriptFinderOnEmbbededResource
 	{
         private readonly String _assemblyName;
+        private readonly ScriptType _scriptType;
 
-        public ScriptFinderOnEmbbededResource(String assemblyName)
+        public ScriptFinderOnEmbbededResource(String assemblyName,ScriptType scriptType)
 		{
+            _scriptType = scriptType;
             _assemblyName = assemblyName;
 		}
 
-        public Container Find (ScriptType type)
+        public Container GetContainer()
 		{
-            return Container.From(String.Format ("{0}.Scripts.{1}", _assemblyName, type));
+            return Container.From(String.Format ("{0}.Scripts.{1}", _assemblyName, _scriptType));
 		}
 	}
 }

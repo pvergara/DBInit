@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Ecos.DBInit.Core.ScriptsHelpers;
 using Ecos.DBInit.Core.Model;
-using System.IO;
 using System.Collections.Generic;
 
 namespace Ecos.DBInit.Test.Helpers
@@ -12,11 +11,20 @@ namespace Ecos.DBInit.Test.Helpers
         [Test]
         public void GivenThenAssemblyWhenIInvokeWithTheContainerThenItReturnsMeAStreamReaderCollectionWithAllTheScriptsQueriesFoundedOnTheContainer()
         {
-            var loader = new ScriptLoaderOnEmbeddedResource("Ecos.DBInit.Samples.ProjectWithAMySQLDataBase");
-            var streams = loader.Load(Container.From("Ecos.DBInit.Samples.ProjectWithAMySQLDataBase.Scripts.Schema"));
+            const string assemblyName = "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase";
+            var container = ScriptFinderFluentFactory.
+                FromEmbeddedResource.
+                    InitWith(assemblyName, ScriptType.Schema).
+                GetContainer();
 
-            Assert.That(streams,Is.Not.Null);
-            Assert.That(streams,Is.InstanceOf<IEnumerable<StreamReader>>());
+            var scripts = ScriptLoaderFluentFactory.
+                    FromEmbeddedResource.
+                        InitWith(assemblyName,container).
+                    GetScripts();
+
+
+            Assert.That(scripts,Is.Not.Null);
+            Assert.That(scripts,Is.InstanceOf<IEnumerable<Script>>());
         }
     }
 }

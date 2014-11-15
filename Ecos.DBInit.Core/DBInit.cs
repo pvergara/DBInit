@@ -7,10 +7,9 @@ using System.IO;
 //TODO: Each DataBase Engine could use different command to clean the database/schema!!!!
 //TODO: BEWARE WITH REFERENTIAL INTEGRITY
 using System.Text;
-using MySql.Data.MySqlClient;
 using Ecos.DBInit.Core.ScriptsHelpers;
 using Ecos.DBInit.Core.Model;
-using System.Linq;
+using MySql.Data.MySqlClient;
 
 
 namespace Ecos.DBInit.Core
@@ -19,12 +18,25 @@ namespace Ecos.DBInit.Core
     {
         private IDbConnection _dbConnection;
         private string _dbName;
+        private string _connectionString;
+        private string _assemblyName;        
+
+        public DBInit(string providerInvariantName, string connectionString,string assemblyName)
+        {
+            _assemblyName = assemblyName;
+            _connectionString = connectionString;
+            var dbProviderFactory = DbProviderFactories.GetFactory(providerInvariantName);
+            _dbConnection = dbProviderFactory.CreateConnection();
+
+            _dbConnection.ConnectionString = connectionString;
+            _dbName = _dbConnection.Database;
+        }
 
         private static void SingleExecuteNonQuery(IDbCommand dbCommand, string script)
         {
             dbCommand.CommandText = script;
             dbCommand.ExecuteNonQuery();
-		}
+        }
 
         private static IEnumerable<string> LoadSchemaScripts(string path)
         {
@@ -56,32 +68,32 @@ namespace Ecos.DBInit.Core
 
         }
 
-		private ICollection<string> SingleExecuteQueryGettingFirstFieldAsString (string queryWithDropTablesClauses,ICollection<string> scripts)
-		{
-			_dbConnection.Open ();
-			using (var dbCommand = _dbConnection.CreateCommand ()) {
-				dbCommand.CommandText = queryWithDropTablesClauses;
-				var reader = dbCommand.ExecuteReader ();
-				while (reader.Read ()) {
-					scripts.Add (reader.GetString (0));
-				}
-			}
-			_dbConnection.Close ();
-			return scripts;
-		}
+        private ICollection<string> SingleExecuteQueryGettingFirstFieldAsString (string queryWithDropTablesClauses,ICollection<string> scripts)
+        {
+            _dbConnection.Open ();
+            using (var dbCommand = _dbConnection.CreateCommand ()) {
+                dbCommand.CommandText = queryWithDropTablesClauses;
+                var reader = dbCommand.ExecuteReader ();
+                while (reader.Read ()) {
+                    scripts.Add (reader.GetString (0));
+                }
+            }
+            _dbConnection.Close ();
+            return scripts;
+        }
 
         private IEnumerable<string> LoadDropTablesScripts()
         {
-			ICollection<string> scripts = new List<string>();
-			
-			IEnumerable<string> queries = LoadSchemaScripts(@"/home/pvergara/Documents/MonoWorkspace/DBInit/Ecos.DBInit.MySql/Scripts/Schema");
+            ICollection<string> scripts = new List<string>();
+            
+            IEnumerable<string> queries = LoadSchemaScripts(@"/home/pvergara/Documents/MonoWorkspace/DBInit/Ecos.DBInit.MySql/Scripts/Schema");
 
-			foreach (string query in queries) {
-				var aux = query.Replace ("_DATABASE_NAME_", _dbName);
-				scripts = SingleExecuteQueryGettingFirstFieldAsString (aux, scripts);
-			}
+            foreach (string query in queries) {
+                var aux = query.Replace ("_DATABASE_NAME_", _dbName);
+                scripts = SingleExecuteQueryGettingFirstFieldAsString (aux, scripts);
+            }
 
-			return scripts;
+            return scripts;
         }
 
         private void CleanDB()
@@ -99,38 +111,17 @@ namespace Ecos.DBInit.Core
             _dbConnection.Close();
         }
 
-		private string _connectionString;
-
-		private IScriptAppender _appender;
-
-        IScriptFinder _finder;
-
-        IScriptLoader _loader;
-
-        public DBInit(string providerInvariantName, string connectionString,IScriptFinder finder,IScriptLoader loader,IScriptAppender appender)
-        {
-            _loader = loader;
-            _finder = finder;
-			_appender = appender;
-			_connectionString = connectionString;
-            var dbProviderFactory = DbProviderFactories.GetFactory(providerInvariantName);
-            _dbConnection = dbProviderFactory.CreateConnection();
-
-            _dbConnection.ConnectionString = connectionString;
-            _dbName = _dbConnection.Database;
-        }
-
         private void LoadSchema()
         {
-            var container = _finder.Find(ScriptType.Schema);
-            var scripts = _appender.GetScriptsFrom(_loader.Load(container));
+            var container = ScriptFinderFluentFactory.FromEmbeddedResource.InitWith(_assemblyName,ScriptType.Schema).GetContainer();
+            var scripts = ScriptLoaderFluentFactory.FromEmbeddedResource.InitWith(_assemblyName,container).GetScripts();
 
-			var cn = new MySqlConnection(_connectionString);
-			foreach (var sql in scripts)
-			{
-				var script = new MySqlScript(cn, sql.Query);
-				script.Execute ();
-			}
+            var cn = new MySqlConnection(_connectionString);
+            foreach (var sql in scripts)
+            {
+                var script = new MySqlScript(cn, sql.Query);
+                script.Execute ();
+            }
 
         }
 

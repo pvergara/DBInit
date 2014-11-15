@@ -42,10 +42,7 @@ namespace Ecos.DBInit.Test
 			const string providerInvariantName = "MySql.Data.MySqlClient";
 
             const string assemblyName = "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase";
-            IScriptFinder finder = new ScriptFinderOnEmbbededResource(assemblyName);
-            IScriptLoader loader = new ScriptLoaderOnEmbeddedResource(assemblyName);
-            IScriptAppender appender = new ScriptAppender();
-			var dbInit = new Core.DBInit (providerInvariantName, connectionString,finder,loader,appender);
+            var dbInit = new Core.DBInit (providerInvariantName, connectionString,assemblyName);
 
 			//Act
 			dbInit.InitSchema ();

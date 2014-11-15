@@ -12,7 +12,7 @@ namespace Ecos.DBInit.Test.Helpers
         public void WhenIInvokeGetScriptsFromWithStreamReaderCollectionThenItReturnsMeAllTheScripts()
         {
             var loader = new ScriptLoaderOnEmbeddedResource("Ecos.DBInit.Samples.ProjectWithAMySQLDataBase");
-            var streams = loader.Load(Container.From("Ecos.DBInit.Samples.ProjectWithAMySQLDataBase.Scripts.Schema"));
+            var streams = loader.GetScripts(Container.From("Ecos.DBInit.Samples.ProjectWithAMySQLDataBase.Scripts.Schema"));
             var appender = new ScriptAppender();
 
             var scripts = appender.GetScriptsFrom(streams);
