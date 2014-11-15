@@ -3,7 +3,6 @@ using Core = Ecos.DBInit.Core;
 using System;
 using System.Data.Common;
 using Ecos.DBInit.Core.ScriptsHelpers;
-using Ecos.DBInit.Core.Model;
 
 namespace Ecos.DBInit.Test
 {
