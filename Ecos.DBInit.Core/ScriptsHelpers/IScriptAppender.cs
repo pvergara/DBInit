@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using Ecos.DBInit.Core.Model;
 
-namespace Ecos.DBInit.Core.ScriptHelpers
+namespace Ecos.DBInit.Core.ScriptsHelpers
 {
 	public interface IScriptAppender
 	{
-		void Append(ICollection<string> scripts);
+        IEnumerable<Script> GetScriptsFrom(IEnumerable<StreamReader> streams);
 	}
 }

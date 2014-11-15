@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Ecos.DBInit.Core</RootNamespace>
     <AssemblyName>Ecos.DBInit.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,8 +34,13 @@
     <Compile Include="ScriptsHelpers\IScriptFinder.cs" />
     <Compile Include="ScriptsHelpers\IScriptAppender.cs" />
     <Compile Include="ScriptsHelpers\ScriptFinderOnEmbbededResource.cs" />
-    <Compile Include="ScriptsHelpers\ScriptType.cs" />
     <Compile Include="ScriptsHelpers\ScriptAppender.cs" />
+    <Compile Include="ScriptsHelpers\IScriptLoader.cs" />
+    <Compile Include="ScriptsHelpers\ScriptsLoaderFactory.cs" />
+    <Compile Include="ScriptsHelpers\ScriptLoaderOnEmbeddedResource.cs" />
+    <Compile Include="Model\Container.cs" />
+    <Compile Include="Model\Script.cs" />
+    <Compile Include="Model\ScriptType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

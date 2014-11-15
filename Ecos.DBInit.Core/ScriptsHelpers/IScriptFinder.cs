@@ -1,10 +1,10 @@
-﻿using System.IO;
+﻿using Ecos.DBInit.Core.Model;
 
-namespace Ecos.DBInit.Core.ScriptHelpers
+namespace Ecos.DBInit.Core.ScriptsHelpers
 {
 	public interface IScriptFinder
 	{
-		StreamReader Find ();
+        Container Find(ScriptType type);
 	}
 }
 

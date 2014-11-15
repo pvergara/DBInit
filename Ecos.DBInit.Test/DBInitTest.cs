@@ -2,8 +2,8 @@
 using Core = Ecos.DBInit.Core;
 using System;
 using System.Data.Common;
-using Ecos.DBInit.Core.ScriptHelpers;
-using Ecos.DBInit.Samples.ProjectWithAMySQLDataBase;
+using Ecos.DBInit.Core.ScriptsHelpers;
+using Ecos.DBInit.Core.Model;
 
 namespace Ecos.DBInit.Test
 {
@@ -42,9 +42,11 @@ namespace Ecos.DBInit.Test
 			const string queryToKnowNumberOfRowsOfActorsTable = "SELECT count(*) FROM "+dbName+".actor;";
 			const string providerInvariantName = "MySql.Data.MySqlClient";
 
-			IScriptFinder finder = new ScriptFinderOnEmbbededResource (typeof(SomeClassThatHasTheAssembly).Assembly,"sakila-schema.sql",ScriptType.Schema);
-			var appender = new ScriptAppender(finder);
-			var dbInit = new Core.DBInit (providerInvariantName, connectionString,appender);
+            const string assemblyName = "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase";
+            IScriptFinder finder = new ScriptFinderOnEmbbededResource(assemblyName);
+            IScriptLoader loader = new ScriptLoaderOnEmbeddedResource(assemblyName);
+            IScriptAppender appender = new ScriptAppender();
+			var dbInit = new Core.DBInit (providerInvariantName, connectionString,finder,loader,appender);
 
 			//Act
 			dbInit.InitSchema ();

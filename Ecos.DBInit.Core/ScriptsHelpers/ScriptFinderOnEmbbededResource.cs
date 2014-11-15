@@ -1,27 +1,20 @@
 ﻿using System;
-using System.Reflection;
-using System.IO;
+using Ecos.DBInit.Core.Model;
 
-namespace Ecos.DBInit.Core.ScriptHelpers
+namespace Ecos.DBInit.Core.ScriptsHelpers
 {
 	public class ScriptFinderOnEmbbededResource: IScriptFinder
 	{
-		private readonly Assembly _assembly;
-		private readonly string _resourceName;
-		private readonly ScriptType _scriptType;
+        private readonly String _assemblyName;
 
-		public ScriptFinderOnEmbbededResource(Assembly assembly,string resourceName,ScriptType type)
+        public ScriptFinderOnEmbbededResource(String assemblyName)
 		{
-			_scriptType = type;
-			_resourceName = resourceName;
-			_assembly = assembly;
+            _assemblyName = assemblyName;
 		}
 
-		public StreamReader Find ()
+        public Container Find (ScriptType type)
 		{
-			var resourcePath = String.Format ("{0}.Scripts.{1}.{2}", _assembly.GetName().Name, _scriptType, _resourceName);
-			var stream = _assembly.GetManifestResourceStream (resourcePath);
-			return new StreamReader (stream);
+            return Container.From(String.Format ("{0}.Scripts.{1}", _assemblyName, type));
 		}
 	}
 }

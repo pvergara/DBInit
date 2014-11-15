@@ -8,7 +8,9 @@ using System.IO;
 //TODO: BEWARE WITH REFERENTIAL INTEGRITY
 using System.Text;
 using MySql.Data.MySqlClient;
-using Ecos.DBInit.Core.ScriptHelpers;
+using Ecos.DBInit.Core.ScriptsHelpers;
+using Ecos.DBInit.Core.Model;
+using System.Linq;
 
 
 namespace Ecos.DBInit.Core
@@ -101,8 +103,14 @@ namespace Ecos.DBInit.Core
 
 		private IScriptAppender _appender;
 
-		public DBInit(string providerInvariantName, string connectionString,IScriptAppender appender)
+        IScriptFinder _finder;
+
+        IScriptLoader _loader;
+
+        public DBInit(string providerInvariantName, string connectionString,IScriptFinder finder,IScriptLoader loader,IScriptAppender appender)
         {
+            _loader = loader;
+            _finder = finder;
 			_appender = appender;
 			_connectionString = connectionString;
             var dbProviderFactory = DbProviderFactories.GetFactory(providerInvariantName);
@@ -114,13 +122,13 @@ namespace Ecos.DBInit.Core
 
         private void LoadSchema()
         {
-			ICollection<string> scripts = new List<string> (); 
-			_appender.Append(scripts);
+            var container = _finder.Find(ScriptType.Schema);
+            var scripts = _appender.GetScriptsFrom(_loader.Load(container));
 
 			var cn = new MySqlConnection(_connectionString);
 			foreach (var sql in scripts)
 			{
-				var script = new MySqlScript(cn, sql);
+				var script = new MySqlScript(cn, sql.Query);
 				script.Execute ();
 			}
 

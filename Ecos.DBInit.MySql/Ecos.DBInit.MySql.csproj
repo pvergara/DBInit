@@ -3,12 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Ecos.DBInit.MySql</RootNamespace>
     <AssemblyName>Ecos.DBInit.MySql</AssemblyName>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,13 +36,9 @@
     <Folder Include="Scripts\Schema\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\Schema\QueryWithDropStoredProceduresClauses.sql">
-      <DependentUpon>QueryWithDropFunctionClauses.sql</DependentUpon>
-    </None>
+    <None Include="Scripts\Schema\QueryWithDropStoredProceduresClauses.sql" />
     <None Include="Scripts\Schema\QueryWithDropFunctionClauses.sql" />
     <None Include="Scripts\Schema\QueryWithDropViewsClauses.sql" />
-    <None Include="Scripts\Schema\QueryWithDropTablesClauses.sql">
-      <DependentUpon>QueryWithDropFunctionClauses.sql</DependentUpon>
-    </None>
+    <None Include="Scripts\Schema\QueryWithDropTablesClauses.sql" />
   </ItemGroup>
 </Project>

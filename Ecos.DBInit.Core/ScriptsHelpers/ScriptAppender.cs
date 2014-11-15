@@ -1,21 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using Ecos.DBInit.Core.Model;
 
-namespace Ecos.DBInit.Core.ScriptHelpers
+namespace Ecos.DBInit.Core.ScriptsHelpers
 {
 	public class ScriptAppender:IScriptAppender
 	{
-		readonly IScriptFinder _finder;
-
-		public ScriptAppender (IScriptFinder finder)
+        public IEnumerable<Script> GetScriptsFrom (IEnumerable<StreamReader> streams)
 		{
-			_finder = finder;
+            var scripts = new List<Script>();
+            foreach(StreamReader stream in streams)
+                scripts.Add(Script.From(stream.ReadToEnd()));
+            return scripts;
 		}
-
-		public void Append (ICollection<string> scripts)
-		{
-			var stream = _finder.Find ();
-			scripts.Add(stream.ReadToEnd());
-		}
-	}
+    }
 }
 
