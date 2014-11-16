@@ -3,6 +3,7 @@ using System.Reflection;
 using Ecos.DBInit.Core.Model;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Ecos.DBInit.Core.ScriptsHelpers
 {
@@ -19,6 +20,11 @@ namespace Ecos.DBInit.Core.ScriptsHelpers
 
         public IEnumerable<Script> GetScripts()
         {
+            return GetScripts("", "");
+        }
+
+        public IEnumerable<Script> GetScripts(string oldValue,string newValue)
+        {
             var assembly = Assembly.ReflectionOnlyLoad(_assemblyName);
             var resourcesName = assembly.GetManifestResourceNames().Where(s=>s.Contains(_container.Path));
             ICollection<Script> scripts = new List<Script>();
@@ -26,7 +32,8 @@ namespace Ecos.DBInit.Core.ScriptsHelpers
             {
                 var stream = assembly.GetManifestResourceStream(resourceName);
                 var text = new StreamReader(stream).ReadToEnd();
-
+                if (!String.IsNullOrEmpty(oldValue) && !String.IsNullOrEmpty(newValue))
+                    text = text.Replace(oldValue, newValue);
                 var script = Script.From(text);
                 scripts.Add(script);
             }

@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using Core = Ecos.DBInit.Core;
 using System;
 using System.Data.Common;
-using Ecos.DBInit.Core.ScriptsHelpers;
+using Ecos.DBInit.Core.Model;
+using Ecos.DBInit.Wire;
 
 namespace Ecos.DBInit.Test
 {
@@ -42,7 +42,10 @@ namespace Ecos.DBInit.Test
 			const string providerInvariantName = "MySql.Data.MySqlClient";
 
             const string assemblyName = "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase";
-            var dbInit = new Core.DBInit (providerInvariantName, connectionString,assemblyName);
+            var dbInit = DBInitFactory.
+                From(ProviderType.MySql).
+                    InitWith(connectionString, assemblyName).
+                GetDBInit();
 
 			//Act
 			dbInit.InitSchema ();

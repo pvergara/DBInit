@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</ProjectGuid>
+    <ProjectGuid>{D20E96B6-811C-470C-B989-38673DF2F474}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Ecos.DBInit.Core</RootNamespace>
-    <AssemblyName>Ecos.DBInit.Core</AssemblyName>
+    <RootNamespace>Ecos.DBInit.Wire</RootNamespace>
+    <AssemblyName>Ecos.DBInit.Wire</AssemblyName>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,28 +29,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IDBInit.cs" />
-    <Compile Include="ScriptsHelpers\ScriptFinderOnEmbbededResource.cs" />
-    <Compile Include="Model\Container.cs" />
-    <Compile Include="Model\Script.cs" />
-    <Compile Include="Model\ScriptType.cs" />
-    <Compile Include="ScriptsHelpers\ScriptFinderFluentFactory.cs" />
-    <Compile Include="ScriptsHelpers\ScriptLoaderFluentFactory.cs" />
-    <Compile Include="Model\ProviderType.cs" />
-    <Compile Include="ScriptsHelpers\ScriptLoaderOnEmbeddedResource.cs" />
+    <Compile Include="DBInitFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="ScriptsHelpers\" />
+    <ProjectReference Include="..\Ecos.DBInit.Core\Ecos.DBInit.Core.csproj">
+      <Project>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</Project>
+      <Name>Ecos.DBInit.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj">
+      <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
+      <Name>Ecos.DBInit.MySql</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Data" />
-    <Reference Include="System" />
-    <Reference Include="MySql.Data">
-      <HintPath>..\packages\MySql.Data.6.9.5\lib\net45\MySql.Data.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="app.config" />
   </ItemGroup>
 </Project>

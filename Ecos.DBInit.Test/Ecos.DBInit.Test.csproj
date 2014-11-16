@@ -52,6 +52,10 @@
       <Project>{F5DE2173-6DFF-4238-8539-1A57F92492BA}</Project>
       <Name>Ecos.DBInit.Samples.ProjectWithAMySQLDataBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.Wire\Ecos.DBInit.Wire.csproj">
+      <Project>{D20E96B6-811C-470C-B989-38673DF2F474}</Project>
+      <Name>Ecos.DBInit.Wire</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase\app.config">

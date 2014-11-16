@@ -4,9 +4,7 @@ namespace Ecos.DBInit.Core.ScriptsHelpers
 {
     public class ScriptLoaderFluentFactory
     {
-        private ScriptLoaderFluentFactory()
-        {
-        }
+        private ScriptLoaderFluentFactory(){}
 
         public static ScriptLoaderFluentFactory FromEmbeddedResource
         {

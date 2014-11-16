@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Samples.Project
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.MySql", "Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj", "{6655574E-35A1-47FC-94F5-E4C2623BA5D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Wire", "Ecos.DBInit.Wire\Ecos.DBInit.Wire.csproj", "{D20E96B6-811C-470C-B989-38673DF2F474}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D20E96B6-811C-470C-B989-38673DF2F474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D20E96B6-811C-470C-B989-38673DF2F474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D20E96B6-811C-470C-B989-38673DF2F474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D20E96B6-811C-470C-B989-38673DF2F474}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
