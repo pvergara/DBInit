@@ -9,13 +9,27 @@ namespace Ecos.DBInit.Test
 	[TestFixture]
 	public class DBInitTest
 	{
-		static long ExecScalarByUsing (string providerInvariantName, string connectionString, string sqlCommand)
+        const string DBName = "sakila";
+
+        readonly string _connectionString;
+
+        public DBInitTest(){
+            _connectionString =
+                "Server=localhost;" +
+                "Database=" + DBName + ";" +
+                "User ID=desarrollo;" +
+                "Password=3QSo5cff;" +
+                "Allow User Variables=True";
+        }
+
+		long ExecScalarByUsing (string sqlCommand)
 		{
+            const string providerInvariantName = "MySql.Data.MySqlClient";
 			long result;
 		
 			var dbProviderFactory = DbProviderFactories.GetFactory (providerInvariantName);
 			var dbcon = dbProviderFactory.CreateConnection ();
-			dbcon.ConnectionString = connectionString;
+			dbcon.ConnectionString = _connectionString;
 			dbcon.Open ();
 			using (var dbcmd = dbcon.CreateCommand ()) {
 				dbcmd.CommandText = sqlCommand;
@@ -28,32 +42,24 @@ namespace Ecos.DBInit.Test
 		[Test]
 		public void WhenIUseInitSchemaAllTheTablesWillBeEmpty ()
 		{
-			//Arrange
-			const string dbName = "sakila";
-			const string connectionString =
-				"Server=localhost;" +
-				"Database="+dbName+";" +
-				"User ID=desarrollo;" +
-				"Password=3QSo5cff;" +
-				"Allow User Variables=True";
-			const string queryToKnowNumberOfTablesAndViews = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '"+dbName+"';";
-			const string queryToKnowNumberOfStoredProceduresAndFunctions = "SELECT count(*) FROM information_schema.routines WHERE routine_schema = '"+dbName+"';";
-			const string queryToKnowNumberOfRowsOfActorsTable = "SELECT count(*) FROM "+dbName+".actor;";
-			const string providerInvariantName = "MySql.Data.MySqlClient";
+			//Arrange			
+			const string queryToKnowNumberOfTablesAndViews = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '"+DBName+"';";
+			const string queryToKnowNumberOfStoredProceduresAndFunctions = "SELECT count(*) FROM information_schema.routines WHERE routine_schema = '"+DBName+"';";
+            const string queryToKnowNumberOfRowsOfActorsTable = "SELECT count(*) FROM "+DBName+".actor;";
 
             const string assemblyName = "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase";
             var dbInit = DBInitFactory.
                 From(ProviderType.MySql).
-                    InitWith(connectionString, assemblyName).
+                    InitWith(_connectionString, assemblyName).
                 GetDBInit();
 
 			//Act
 			dbInit.InitSchema ();
 
 			//Pre-Assert
-			var numberOfTablesAndViews = ExecScalarByUsing (providerInvariantName, connectionString, queryToKnowNumberOfTablesAndViews);
-			var numberOfStoredProcecuresAndFunctions = ExecScalarByUsing (providerInvariantName, connectionString, queryToKnowNumberOfStoredProceduresAndFunctions);
-			var numberOfKnowNumberOfRowsOfActorsTable = ExecScalarByUsing (providerInvariantName, connectionString, queryToKnowNumberOfRowsOfActorsTable);
+			var numberOfTablesAndViews = ExecScalarByUsing (queryToKnowNumberOfTablesAndViews);
+			var numberOfStoredProcecuresAndFunctions = ExecScalarByUsing (queryToKnowNumberOfStoredProceduresAndFunctions);
+			var numberOfKnowNumberOfRowsOfActorsTable = ExecScalarByUsing (queryToKnowNumberOfRowsOfActorsTable);
 
 			//Assert
 			Assert.That (numberOfTablesAndViews, Is.EqualTo (23));

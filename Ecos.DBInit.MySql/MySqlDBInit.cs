@@ -1,6 +1,6 @@
 using Ecos.DBInit.Core;
 using System.Collections.Generic;
-using Ecos.DBInit.Core.ScriptsHelpers;
+using Ecos.DBInit.Core.ScriptHelpers;
 using Ecos.DBInit.Core.Model;
 using MySql.Data.MySqlClient;
 
@@ -24,6 +24,7 @@ namespace Ecos.DBInit.MySql
         {
             CleanDB();
             InitializeDB();
+            ExecuteFromUoW();
         }
 
 
@@ -31,6 +32,16 @@ namespace Ecos.DBInit.MySql
         {
             DeactivateReferentialIntegrity();
             DropDataBaseObjects();
+        }
+
+        void ExecuteFromUoW()
+        {
+            foreach (var sql in _scripts)
+            {
+                var script = new MySqlScript(_connection, sql.Query);
+                script.Execute();
+            }
+            _scripts.Clear();
         }
 
         private void InitializeDB()
@@ -43,7 +54,7 @@ namespace Ecos.DBInit.MySql
         {
             var scripts = new []{ Script.From("SET @@foreign_key_checks = 0;") };
 
-            Execute(scripts);
+            AddToUoW(scripts);
         }
 
         void DropDataBaseObjects()
@@ -52,7 +63,7 @@ namespace Ecos.DBInit.MySql
 
             scripts.AddRange(LoadDropAllSchemaObjectsScripts());
 
-            Execute(scripts);
+            AddToUoW(scripts);
         }
                  
         IEnumerable<Script> LoadDropAllSchemaObjectsScripts()
@@ -79,7 +90,7 @@ namespace Ecos.DBInit.MySql
         {
             var scripts = new []{ Script.From("SET @@foreign_key_checks = 1;") };
 
-            Execute(scripts);
+            AddToUoW(scripts);
         }
 
         void CreateDataBaseObjects()
@@ -96,16 +107,14 @@ namespace Ecos.DBInit.MySql
                 InitWith(_assemblyName, container).
                 GetScripts();
 
-            Execute(scripts);
+            AddToUoW(scripts);
         }
 
-        void Execute(IEnumerable<Script> scripts)
+        List<Script> _scripts = new List<Script>();
+
+        void AddToUoW(IEnumerable<Script> scripts)
         {
-            foreach (var sql in scripts)
-            {
-                var script = new MySqlScript(_connection, sql.Query);
-                script.Execute();
-            }
+            _scripts.AddRange(scripts);
         }
 
 

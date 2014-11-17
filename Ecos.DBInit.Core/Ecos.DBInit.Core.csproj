@@ -30,18 +30,18 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IDBInit.cs" />
-    <Compile Include="ScriptsHelpers\ScriptFinderOnEmbbededResource.cs" />
     <Compile Include="Model\Container.cs" />
     <Compile Include="Model\Script.cs" />
     <Compile Include="Model\ScriptType.cs" />
-    <Compile Include="ScriptsHelpers\ScriptFinderFluentFactory.cs" />
-    <Compile Include="ScriptsHelpers\ScriptLoaderFluentFactory.cs" />
     <Compile Include="Model\ProviderType.cs" />
-    <Compile Include="ScriptsHelpers\ScriptLoaderOnEmbeddedResource.cs" />
+    <Compile Include="ScriptHelpers\ScriptFinderOnEmbbededResource.cs" />
+    <Compile Include="ScriptHelpers\ScriptFinderFluentFactory.cs" />
+    <Compile Include="ScriptHelpers\ScriptLoaderFluentFactory.cs" />
+    <Compile Include="ScriptHelpers\ScriptLoaderOnEmbeddedResource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="ScriptsHelpers\" />
+    <Folder Include="ScriptHelpers\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data" />

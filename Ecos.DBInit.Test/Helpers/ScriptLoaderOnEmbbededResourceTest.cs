@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Ecos.DBInit.Core.ScriptsHelpers;
+using Ecos.DBInit.Core.ScriptHelpers;
 using Ecos.DBInit.Core.Model;
 using System.Collections.Generic;
 
