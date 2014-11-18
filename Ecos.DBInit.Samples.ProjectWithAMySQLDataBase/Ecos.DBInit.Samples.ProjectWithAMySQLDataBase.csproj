@@ -42,5 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Scripts\Schema\sakila-schema.sql" />
+    <EmbeddedResource Include="Scripts\Data\sakila-data.sql" />
   </ItemGroup>
 </Project>
