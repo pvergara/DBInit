@@ -30,11 +30,14 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MySqlDBInit.cs" />
+    <Compile Include="ScriptHelpers\MySqlScriptHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Scripts\" />
     <Folder Include="Scripts\Schema\" />
+    <Folder Include="ScriptHelpers\" />
+    <Folder Include="Scripts\Data\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -57,5 +60,6 @@
     <EmbeddedResource Include="Scripts\Schema\QueryWithDropStoredProceduresClauses.sql" />
     <EmbeddedResource Include="Scripts\Schema\QueryWithDropTablesClauses.sql" />
     <EmbeddedResource Include="Scripts\Schema\QueryWithDropViewsClauses.sql" />
+    <EmbeddedResource Include="Scripts\Data\GetTableNames.sql" />
   </ItemGroup>
 </Project>

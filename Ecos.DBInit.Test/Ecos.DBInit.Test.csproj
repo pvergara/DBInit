@@ -41,6 +41,7 @@
     <Compile Include="DBInitTest.cs" />
     <Compile Include="Helpers\ScriptFinderOnEmbeddedResourceTest.cs" />
     <Compile Include="Helpers\ScriptLoaderOnEmbbededResourceTest.cs" />
+    <Compile Include="SpecificScriptHelpers\MySqlScriptHelperTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -56,6 +57,10 @@
       <Project>{D20E96B6-811C-470C-B989-38673DF2F474}</Project>
       <Name>Ecos.DBInit.Wire</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj">
+      <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
+      <Name>Ecos.DBInit.MySql</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase\app.config">
@@ -65,5 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />
+    <Folder Include="SpecificScriptHelpers\" />
   </ItemGroup>
 </Project>
