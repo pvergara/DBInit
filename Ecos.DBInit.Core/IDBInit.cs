@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Ecos.DBInit.Core
+﻿namespace Ecos.DBInit.Core
 {
 	public interface IDBInit
 	{
