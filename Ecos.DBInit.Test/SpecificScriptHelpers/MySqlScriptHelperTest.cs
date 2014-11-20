@@ -12,8 +12,6 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
     public class MySqlScriptHelperTest
     {
         readonly string _connectionString;
-        readonly ICollection<String> _collection = new List<String>();
-        readonly Dictionary<int,ICollection<String>> _setOfCollection = new Dictionary<int,ICollection<String>>();
         IEnumerable<String> _someTablesAndViewOfSakilaDB;
 
         public MySqlScriptHelperTest(){
@@ -33,17 +31,19 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 var query = Script.From("SHOW TABLES;");
 
                 //Act
-                helper.ExecuteAndProcess(query, TransformTheReatherOnString);
+                ICollection<String> results = new List<String>();
+                helper.ExecuteAndProcess(query,results, TransformTheReaderAndReturnString);
 
                 //Asserts
-                Assert.That(_collection.Count, Is.EqualTo(23));
-                Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(_collection));
+                Assert.That(results.Count, Is.EqualTo(23));
+                Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(results));
             }
         }
 
-        void TransformTheReatherOnString(IDataRecord reader)
+        static ICollection<string> TransformTheReaderAndReturnString(IDataRecord reader,ICollection<string> collection)
         {
-            _collection.Add(reader.GetString(0));
+            collection.Add(reader.GetString(0));
+            return collection;
         }
 
         [Test]
@@ -52,23 +52,29 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
             using (var helper = new MySqlScriptHelper(_connectionString))
             {
                 //Arrange
-                IDictionary<int,Script> queries = new Dictionary<int,Script>();
+                IDictionary<int,Script> indexedQueries = new Dictionary<int,Script>();
+                IDictionary<int,ICollection<String>> indexedResults = new Dictionary<int,ICollection<String>>();
                 const int firsQueryIndex = 0;
                 const int secondQueryIndex = 1;
 
-                queries.Add(firsQueryIndex, Script.From("SHOW TABLES;"));
-                queries.Add(secondQueryIndex, Script.From("SELECT specific_name FROM information_schema.routines WHERE routine_schema = 'sakila';"));
+                indexedQueries.Add(firsQueryIndex, Script.From("SHOW TABLES;"));
+                indexedQueries.Add(secondQueryIndex, Script.From("SELECT specific_name FROM information_schema.routines WHERE routine_schema = 'sakila';"));
 
                 //Act
-                helper.ExecuteAndProcess<int>(queries, ProcessQueries);
+                helper.ExecuteAndProcess<int,String>(indexedQueries, indexedResults,ProcessIndexedQueriesOnIndexedResults);
 
                 //Asserts
-                Assert.That(_setOfCollection[firsQueryIndex].Count, Is.EqualTo(23));
-                Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(_setOfCollection[firsQueryIndex]));
+                Assert.That(indexedResults[firsQueryIndex].Count, Is.EqualTo(23));
+                Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(indexedResults[firsQueryIndex]));
 
-                Assert.That(_setOfCollection[secondQueryIndex].Count, Is.EqualTo(6));
-                Assert.That(new[]{ "get_customer_balance", "film_in_stock" }, Is.SubsetOf(_setOfCollection[secondQueryIndex]));
+                Assert.That(indexedResults[secondQueryIndex].Count, Is.EqualTo(6));
+                Assert.That(new[]{ "get_customer_balance", "film_in_stock" }, Is.SubsetOf(indexedResults[secondQueryIndex]));
             }
+        }
+
+        static ICollection<string> ProcessIndexedQueriesOnIndexedResults(IDataRecord reader, int index,ICollection<string> collectionForThisIndex){
+            collectionForThisIndex.Add(reader.GetString(0));
+            return collectionForThisIndex;
         }
 
         [Test]
@@ -89,6 +95,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
             {
                 //Act
                 helper.Execute(new[]{
+                    Script.From("DELETE FROM film_actor;"),
                     Script.From("DELETE FROM actor;"),
                     Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Kevin','Spacey');"),
                     Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Carmelo','Gómez');"),
@@ -104,17 +111,6 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
             }
         }
             
-        void ProcessQueries(IDataRecord reader, int index)
-        {
-            ICollection<String> collection = new List<String>();
-            if (!_setOfCollection.ContainsKey(index)){
-                _setOfCollection.Add(index,collection);
-            }
-            collection = _setOfCollection[index];
-            collection.Add(reader.GetString(0));
-            _setOfCollection[index] = collection;
-        }
-
     }
 }
 

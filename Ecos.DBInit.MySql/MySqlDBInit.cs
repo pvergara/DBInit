@@ -14,9 +14,7 @@ namespace Ecos.DBInit.MySql
         readonly string _assemblyName;
         readonly MySqlConnection _connection;
         readonly List<Script> _scripts = new List<Script>();
-        readonly ICollection<Script> _dropAllSchemaObjectsScripts = new List<Script>();
         readonly MySqlScriptHelper _helper;
-        readonly ICollection<string> _tableNames = new List<string>();
 
         public MySqlDBInit(string connectionString,string assemblyName){
             _assemblyName = assemblyName;
@@ -68,12 +66,14 @@ namespace Ecos.DBInit.MySql
                 GetScripts("_DATABASE_NAME_",_connection.Database);
 
             IDictionary<int, Script> scriptMap = scriptsWithTableNames.Select((s, i) => new { s, i }).ToDictionary(x => x.i, x => x.s);
-            _helper.ExecuteAndProcess(scriptMap,AddFirstFieldIntoStringCollectionField);
-            return _tableNames;
+            IDictionary<int,ICollection<string>> tableNames = new Dictionary<int,ICollection<string>>();
+            _helper.ExecuteAndProcess(scriptMap,tableNames,AddFirstFieldIntoStringCollectionField);
+            return tableNames.Values.SelectMany(v=>v);
         }
             
-        void AddFirstFieldIntoStringCollectionField(IDataRecord reader,int index){
-            _tableNames.Add(reader.GetString(0));
+        ICollection<string> AddFirstFieldIntoStringCollectionField(IDataRecord reader,int index,ICollection<string> tableNames){
+            tableNames.Add(reader.GetString(0));
+            return tableNames;
         }
 
         void AddData()
@@ -138,13 +138,16 @@ namespace Ecos.DBInit.MySql
         {
             IEnumerable<Script> scriptsWithDropFunction = ComposeScriptsWithDroptAllSchemaObjects();
             IDictionary<int, Script> dictionary = scriptsWithDropFunction.Select((s, i) => new { s, i }).ToDictionary(x => x.i, x => x.s);
-            _helper.ExecuteAndProcess(dictionary,AddFirstFieldIntoScriptMap);
-            return _dropAllSchemaObjectsScripts;
+            IDictionary<int,ICollection<Script>> dropAllSchemaObjectsScripts = new Dictionary<int,ICollection<Script>>();
+
+            _helper.ExecuteAndProcess(dictionary,dropAllSchemaObjectsScripts,AddFirstFieldIntoScriptMap);
+            return dropAllSchemaObjectsScripts.Values.SelectMany(v => v);
         }
 
-        void AddFirstFieldIntoScriptMap(IDataRecord reader, int index)
+        ICollection<Script> AddFirstFieldIntoScriptMap(IDataRecord reader, int index,ICollection<Script> dropAllSchemaObjectsScripts)
         {
-            _dropAllSchemaObjectsScripts.Add(Script.From(reader.GetString(0)));
+            dropAllSchemaObjectsScripts.Add(Script.From(reader.GetString(0)));
+            return dropAllSchemaObjectsScripts;
         }
 
         IEnumerable<Script> ComposeScriptsWithDroptAllSchemaObjects()

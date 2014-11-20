@@ -11,7 +11,7 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
     {
         readonly MySqlConnection _connection;
 
-        Action<IDataReader> _function;
+
 
         public MySqlScriptHelper(string connectionString)
         {
@@ -19,24 +19,24 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
 
         }
 
-        public void ExecuteAndProcess(Script script, Action<IDataReader> function)
+        public void ExecuteAndProcess<TValue>(Script script,ICollection<TValue> result, Func<IDataReader,ICollection<TValue>,ICollection<TValue>> function)
         {
-            _function = function;
+            const int firstItem = 0;
 
-            var dictionary = new Dictionary<int, Script>();
-            dictionary.Add(0, script);
-            ExecuteAndProcess(dictionary,ProcessTheQuery);
+            var indexedScript = new Dictionary<int, Script>();
+            indexedScript.Add(firstItem, script);
 
+            var indexedResult = new Dictionary<int, ICollection<TValue>>();
+            indexedResult.Add(firstItem, result);
+
+            Func<IDataReader,int,ICollection<TValue>,ICollection<TValue>> par = (reader, index, ir) => function(reader, ir);
+            ExecuteAndProcess<int,TValue>(indexedScript, indexedResult, par);
         }
 
-        void ProcessTheQuery(IDataReader reader, int scriptIndex)
-        {
-            _function(reader);
-        }
 
-        public void ExecuteAndProcess<T>(IDictionary<T, Script> queries, Action<IDataReader,T> functionOnEachQuery)
+        public void ExecuteAndProcess<TKey,TValue>(IDictionary<TKey, Script> indexedQueries, IDictionary<TKey, ICollection<TValue>> indexedResults, Func<IDataReader,TKey,ICollection<TValue>,ICollection<TValue>> functionOnEachQueryToEachResult)
         {
-            foreach (KeyValuePair<T,Script> element in queries)
+            foreach (KeyValuePair<TKey,Script> element in indexedQueries)
             {
                 _connection.Open();
                 var command = new MySqlCommand(element.Value.Query,_connection);
@@ -44,13 +44,24 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
                 {
                     while (reader.Read())
                     {
-                        functionOnEachQuery(reader,element.Key);
+                        TKey index = element.Key;
+                        indexedResults =  AddNewItemIfNotExists(index,indexedResults);
+                        indexedResults[index] = functionOnEachQueryToEachResult(reader,index,indexedResults[index]);
                     }
                     reader.Close();
                 }
                 _connection.Close();
             }
+        }
 
+        static IDictionary<TKey, ICollection<TValue>> AddNewItemIfNotExists<TKey,TValue>(TKey index,IDictionary<TKey, ICollection<TValue>> setOfCollection)
+        {
+            ICollection<TValue> collection = new List<TValue>();
+            if (!setOfCollection.ContainsKey(index))
+            {
+                setOfCollection.Add(index, collection);
+            }
+            return setOfCollection;
         }
 
         public T ExecuteScalar<T>(Script script)
