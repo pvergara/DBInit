@@ -2,7 +2,6 @@ using Ecos.DBInit.Core;
 using System.Collections.Generic;
 using Ecos.DBInit.Core.ScriptHelpers;
 using Ecos.DBInit.Core.Model;
-using MySql.Data.MySqlClient;
 using Ecos.DBInit.MySql.ScriptHelpers;
 using System.Data;
 using System.Linq;
@@ -15,10 +14,13 @@ namespace Ecos.DBInit.MySql
         readonly string _assemblyName;
         readonly List<Script> _scripts = new List<Script>();
         readonly MySqlScriptHelper _helper;
+        readonly MySqlSchemaInfo _schemaInfo;
 
         public MySqlDBInit(string connectionString,string assemblyName){
             _assemblyName = assemblyName;
-            _databaseName = new MySqlConnection(connectionString).Database;
+            //TODO: WHAT ABOUT THE INJECTION!!!!
+            _schemaInfo = new MySqlSchemaInfo(connectionString);
+            _databaseName = _schemaInfo.DatabaseName;
             //TODO: WHAT ABOUT THE INJECTION!!!!
             _helper = new MySqlScriptHelper(connectionString);
         }
