@@ -3,8 +3,8 @@
     <connectionStrings>
       <clear />
         <add 
-            name="sakila" 
-            connectionString="SERVER=localhost; DATABASE=sakila; UID=desarrollo; PASSWORD=3QSo5cff;Allow User Variables=True;" 
+            name="<connectionStringName>" 
+            connectionString="SERVER=<serverName>; DATABASE=<databaseName>; UID=<userName>; PASSWORD=<password>;Allow User Variables=True;" 
             providerName="MySql.Data.MySqlClient"
         />
     </connectionStrings>

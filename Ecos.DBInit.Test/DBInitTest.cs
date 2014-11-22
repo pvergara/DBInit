@@ -3,6 +3,7 @@ using System;
 using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Wire;
 using Ecos.DBInit.MySql.ScriptHelpers;
+using System.Configuration;
 
 namespace Ecos.DBInit.Test
 {
@@ -18,12 +19,7 @@ namespace Ecos.DBInit.Test
         readonly MySqlScriptHelper _helper;
 
         public DBInitTest(){
-            _connectionString =
-                "Server=localhost;" +
-                "Database=" + DBName + ";" +
-                "User ID=desarrollo;" +
-                "Password=3QSo5cff;" +
-                "Allow User Variables=True";
+            _connectionString = ConfigurationManager.ConnectionStrings["sakila"].ConnectionString;
             _helper = new MySqlScriptHelper(_connectionString);
         }
 

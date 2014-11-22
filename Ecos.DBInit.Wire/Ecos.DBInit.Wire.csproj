@@ -42,7 +42,4 @@
       <Name>Ecos.DBInit.MySql</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
 </Project>

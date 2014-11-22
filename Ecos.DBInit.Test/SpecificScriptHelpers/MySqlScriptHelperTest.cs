@@ -5,21 +5,30 @@ using System.Data;
 using System.Collections.Generic;
 using Constraints = NUnit.Framework.Constraints;
 using Ecos.DBInit.Core.Model;
+using System.Configuration;
 
 namespace Ecos.DBInit.Test.SpecificScriptHelpers
 {
     [TestFixture]
     public class MySqlScriptHelperTest
     {
-        readonly string _connectionString;
-        IEnumerable<String> _someTablesAndViewOfSakilaDB;
+        private readonly string _connectionString;
+        private readonly IEnumerable<String> _someTablesAndViewOfSakilaDB;
 
         public MySqlScriptHelperTest(){
-            _connectionString = "Server = localhost;" +
-                "Database = sakila;" +
-                "User ID = desarrollo;" +
-                "Password = 3QSo5cff;";
+            _connectionString = ConfigurationManager.ConnectionStrings["sakila"].ConnectionString;
             _someTablesAndViewOfSakilaDB = new[]{ "actor", "address", "category", "film_category", "actor_info" };
+        }
+
+        private static ICollection<string> ProcessIndexedQueriesOnIndexedResults(IDataRecord reader, int index,ICollection<string> collectionForThisIndex){
+            collectionForThisIndex.Add(reader.GetString(0));
+            return collectionForThisIndex;
+        }
+
+        private static ICollection<string> TransformTheReaderAndReturnString(IDataRecord reader,ICollection<string> collection)
+        {
+            collection.Add(reader.GetString(0));
+            return collection;
         }
 
         [Test]
@@ -38,12 +47,6 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 Assert.That(results.Count, Is.EqualTo(23));
                 Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(results));
             }
-        }
-
-        static ICollection<string> TransformTheReaderAndReturnString(IDataRecord reader,ICollection<string> collection)
-        {
-            collection.Add(reader.GetString(0));
-            return collection;
         }
 
         [Test]
@@ -70,11 +73,6 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 Assert.That(indexedResults[secondQueryIndex].Count, Is.EqualTo(6));
                 Assert.That(new[]{ "get_customer_balance", "film_in_stock" }, Is.SubsetOf(indexedResults[secondQueryIndex]));
             }
-        }
-
-        static ICollection<string> ProcessIndexedQueriesOnIndexedResults(IDataRecord reader, int index,ICollection<string> collectionForThisIndex){
-            collectionForThisIndex.Add(reader.GetString(0));
-            return collectionForThisIndex;
         }
 
         [Test]

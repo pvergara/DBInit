@@ -36,12 +36,14 @@
     <Reference Include="MySql.Data">
       <HintPath>..\packages\MySql.Data.6.9.5\lib\net45\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBInitTest.cs" />
     <Compile Include="Helpers\ScriptFinderOnEmbeddedResourceTest.cs" />
     <Compile Include="Helpers\ScriptLoaderOnEmbbededResourceTest.cs" />
     <Compile Include="SpecificScriptHelpers\MySqlScriptHelperTest.cs" />
+    <Compile Include="SpecificScriptHelpers\MySqSchemalInfoTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -67,6 +69,9 @@
       <Link>app.config</Link>
     </None>
     <None Include="packages.config" />
+    <None Include="..\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase\app.config.dist">
+      <Link>app.config.dist</Link>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />
