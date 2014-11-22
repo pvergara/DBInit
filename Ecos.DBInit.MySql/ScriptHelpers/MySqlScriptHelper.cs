@@ -11,12 +11,20 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
     {
         readonly MySqlConnection _connection;
 
-
-
         public MySqlScriptHelper(string connectionString)
         {
             _connection = new MySqlConnection(connectionString);
 
+        }
+
+        private static IDictionary<TKey, ICollection<TValue>> AddNewItemIfNotExists<TKey,TValue>(TKey index,IDictionary<TKey, ICollection<TValue>> setOfCollection)
+        {
+            ICollection<TValue> collection = new List<TValue>();
+            if (!setOfCollection.ContainsKey(index))
+            {
+                setOfCollection.Add(index, collection);
+            }
+            return setOfCollection;
         }
 
         public void ExecuteAndProcess<TValue>(Script script,ICollection<TValue> result, Func<IDataReader,ICollection<TValue>,ICollection<TValue>> function)
@@ -32,7 +40,6 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
             Func<IDataReader,int,ICollection<TValue>,ICollection<TValue>> par = (reader, index, ir) => function(reader, ir);
             ExecuteAndProcess<int,TValue>(indexedScript, indexedResult, par);
         }
-
 
         public void ExecuteAndProcess<TKey,TValue>(IDictionary<TKey, Script> indexedQueries, IDictionary<TKey, ICollection<TValue>> indexedResults, Func<IDataReader,TKey,ICollection<TValue>,ICollection<TValue>> functionOnEachQueryToEachResult)
         {
@@ -52,16 +59,6 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
                 }
                 _connection.Close();
             }
-        }
-
-        static IDictionary<TKey, ICollection<TValue>> AddNewItemIfNotExists<TKey,TValue>(TKey index,IDictionary<TKey, ICollection<TValue>> setOfCollection)
-        {
-            ICollection<TValue> collection = new List<TValue>();
-            if (!setOfCollection.ContainsKey(index))
-            {
-                setOfCollection.Add(index, collection);
-            }
-            return setOfCollection;
         }
 
         public T ExecuteScalar<T>(Script script)

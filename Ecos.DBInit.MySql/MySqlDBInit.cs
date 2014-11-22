@@ -11,15 +11,14 @@ namespace Ecos.DBInit.MySql
 {
     public class MySqlDBInit:IDBInit
 	{
+        readonly string _databaseName;
         readonly string _assemblyName;
-        readonly MySqlConnection _connection;
         readonly List<Script> _scripts = new List<Script>();
         readonly MySqlScriptHelper _helper;
 
         public MySqlDBInit(string connectionString,string assemblyName){
             _assemblyName = assemblyName;
-            //TODO: WHAT ABOUT THE INJECTION!!!!
-            _connection = new MySqlConnection(connectionString);
+            _databaseName = new MySqlConnection(connectionString).Database;
             //TODO: WHAT ABOUT THE INJECTION!!!!
             _helper = new MySqlScriptHelper(connectionString);
         }
@@ -28,6 +27,13 @@ namespace Ecos.DBInit.MySql
         {
             CleanData();
             AddData();
+            ExecuteFromUoW();
+        }
+
+        public void InitSchema()
+        {
+            CleanDB();
+            InitializeDB();
             ExecuteFromUoW();
         }
 
@@ -64,7 +70,7 @@ namespace Ecos.DBInit.MySql
             var scriptsWithTableNames = ScriptLoaderFluentFactory.
                 FromEmbeddedResource.
                     InitWith(GetType().Assembly.GetName().Name, container).
-                GetScripts("_DATABASE_NAME_",_connection.Database);
+                GetScripts("_DATABASE_NAME_",_databaseName);
 
             IDictionary<int, Script> scriptMap = FromCollectionToDictionary(scriptsWithTableNames);
             IDictionary<int,ICollection<string>> tableNames = new Dictionary<int,ICollection<string>>();
@@ -111,13 +117,6 @@ namespace Ecos.DBInit.MySql
                 GetScripts();
 
             AddToUoW(scripts);
-        }
-
-        public void InitSchema()
-        {
-            CleanDB();
-            InitializeDB();
-            ExecuteFromUoW();
         }
             
         private void CleanDB()
@@ -174,7 +173,7 @@ namespace Ecos.DBInit.MySql
             return ScriptLoaderFluentFactory.
                 FromEmbeddedResource.
                     InitWith(GetType().Assembly.GetName().Name, container).
-                GetScripts("_DATABASE_NAME_",_connection.Database);
+                GetScripts("_DATABASE_NAME_",_databaseName);
         }
             
         void ActivateReferentialIntegrity()
@@ -212,5 +211,4 @@ namespace Ecos.DBInit.MySql
             _scripts.Clear();
         }
 	}
-
 }
