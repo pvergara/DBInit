@@ -3,6 +3,7 @@ using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Wire;
 using Ecos.DBInit.MySql.ScriptHelpers;
 using System.Configuration;
+using Ecos.DBInit.Test.ObjectMothers;
 
 namespace Ecos.DBInit.Test
 {
@@ -51,8 +52,8 @@ namespace Ecos.DBInit.Test
             _dbInit.InitSchema();
 
             //Assert
-            Assert.That(ExecScalarByUsing(_queryToKnowNumberOfTablesAndViews), Is.EqualTo(23));
-            Assert.That(ExecScalarByUsing(_queryToKnowNumberOfStoredProceduresAndFunctions), Is.EqualTo(6));
+            Assert.That(ExecScalarByUsing(_queryToKnowNumberOfTablesAndViews), Is.EqualTo(SakilaDbOM.TablesCounter + SakilaDbOM.ViewsCounter ));
+            Assert.That(ExecScalarByUsing(_queryToKnowNumberOfStoredProceduresAndFunctions), Is.EqualTo(SakilaDbOM.SPsCounter + SakilaDbOM.FunctionsCounter));
             Assert.That(ExecScalarByUsing(_queryToKnowNumberOfRowsOfActorsTable), Is.EqualTo(0));
         }
 
@@ -66,8 +67,8 @@ namespace Ecos.DBInit.Test
             _dbInit.InitData();
 
             //Assert
-            Assert.That(ExecScalarByUsing(_queryToKnowNumberOfRowsOfActorsTable), Is.EqualTo(200));
-            Assert.That(ExecScalarByUsing(_queryToKnowNumberOfRowsOfAddressTable), Is.EqualTo(603));
+            Assert.That(ExecScalarByUsing(_queryToKnowNumberOfRowsOfActorsTable), Is.EqualTo(SakilaDbOM.TablesActorsCounter));
+            Assert.That(ExecScalarByUsing(_queryToKnowNumberOfRowsOfAddressTable), Is.EqualTo(SakilaDbOM.TablesAddressCounter));
         }
     }
 }

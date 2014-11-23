@@ -7,6 +7,7 @@ using Moq;
 using Ecos.DBInit.Core.Model;
 using System.Data;
 using System;
+using Ecos.DBInit.Test.ObjectMothers;
 
 namespace Ecos.DBInit.Test.SpecificScriptHelpers
 {
@@ -39,8 +40,8 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
             var tables = _schemaInfo.GetTables();
 
             //Assert
-            Assert.That(new []{ "actor", "address", "customer", "film_text", "inventory" }, Is.SubsetOf(tables));
-            Assert.That(tables, Has.Count.EqualTo(16));
+            Assert.That(SakilaDbOM.SomeTableNames, Is.SubsetOf(tables));
+            Assert.That(tables, Has.Count.EqualTo(SakilaDbOM.TablesCounter));
         }
 
         [Test]
@@ -56,7 +57,14 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
             schemaInfo.GetTables();
 
             //Assert
-            helperMock.Verify(m => m.ExecuteAndProcess<string>(It.IsAny<Script>(), It.IsAny<ICollection<string>>(), It.IsAny<Func<IDataReader,ICollection<string>,ICollection<string>>>()), Times.Once);
+            helperMock.Verify(m => 
+                m.ExecuteAndProcess<string>(
+                    It.IsAny<Script>(), 
+                    It.IsAny<ICollection<string>>(), 
+                    It.IsAny<Func<IDataReader,ICollection<string>,ICollection<string>>>()
+                ), 
+                Times.Once
+            );
         }
 
         [Test]
@@ -68,8 +76,8 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 var tables = _schemaInfo.GetTables();
 
                 //Assert
-                Assert.That(new []{ "actor", "address", "customer", "film_text", "inventory" }, Is.SubsetOf(tables));
-                Assert.That(tables, Has.Count.EqualTo(16));
+                Assert.That(SakilaDbOM.SomeTableNames, Is.SubsetOf(tables));
+                Assert.That(tables, Has.Count.EqualTo(SakilaDbOM.TablesCounter));
             }
         }
     }

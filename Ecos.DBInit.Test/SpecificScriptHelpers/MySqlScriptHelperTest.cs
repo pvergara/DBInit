@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Constraints = NUnit.Framework.Constraints;
 using Ecos.DBInit.Core.Model;
 using System.Configuration;
+using Ecos.DBInit.Test.ObjectMothers;
+using System.Linq;
 
 namespace Ecos.DBInit.Test.SpecificScriptHelpers
 {
@@ -17,7 +19,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
 
         public MySqlScriptHelperTest(){
             _connectionString = ConfigurationManager.ConnectionStrings["sakilaConStr"].ConnectionString;
-            _someTablesAndViewOfSakilaDB = new[]{ "actor", "address", "category", "film_category", "actor_info" };
+            _someTablesAndViewOfSakilaDB = SakilaDbOM.SomeTableNames;
         }
 
         private static ICollection<string> ProcessIndexedQueriesOnIndexedResults(IDataRecord reader, int index,ICollection<string> collectionForThisIndex){
@@ -44,7 +46,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 helper.ExecuteAndProcess(query,results, TransformTheReaderAndReturnString);
 
                 //Asserts
-                Assert.That(results.Count, Is.EqualTo(23));
+                Assert.That(results.Count, Is.EqualTo(SakilaDbOM.TablesCounter+SakilaDbOM.ViewsCounter));
                 Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(results));
             }
         }
@@ -67,11 +69,11 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 helper.ExecuteAndProcess<int,String>(indexedQueries, indexedResults,ProcessIndexedQueriesOnIndexedResults);
 
                 //Asserts
-                Assert.That(indexedResults[firsQueryIndex].Count, Is.EqualTo(23));
+                Assert.That(indexedResults[firsQueryIndex].Count, Is.EqualTo(SakilaDbOM.TablesCounter+SakilaDbOM.ViewsCounter));
                 Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(indexedResults[firsQueryIndex]));
 
-                Assert.That(indexedResults[secondQueryIndex].Count, Is.EqualTo(6));
-                Assert.That(new[]{ "get_customer_balance", "film_in_stock" }, Is.SubsetOf(indexedResults[secondQueryIndex]));
+                Assert.That(indexedResults[secondQueryIndex].Count, Is.EqualTo(SakilaDbOM.SPsCounter+SakilaDbOM.FunctionsCounter));
+                Assert.That(new[]{ SakilaDbOM.SomeFunctionNames.First(), SakilaDbOM.SomeSpNames.First() }, Is.SubsetOf(indexedResults[secondQueryIndex]));
             }
         }
 
@@ -111,4 +113,3 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
             
     }
 }
-
