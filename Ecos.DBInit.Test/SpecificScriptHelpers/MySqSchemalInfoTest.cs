@@ -59,7 +59,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
         }
 
         [Test]
-        public void OnlyTheFirstGetTablesInvokationItWillTryToGetTheDataFromTheDatabase()
+        public void GetTablesAccessToDatabaseOnlyOnce()
         {
             //Arrange
 
@@ -105,7 +105,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
         }
 
         [Test]
-        public void OnlyTheFirstGetViewsInvokationItWillTryToGetTheDataFromTheDatabase()
+        public void GetViewsAccessToDatabaseOnlyOnce()
         {
             //Arrange
 
