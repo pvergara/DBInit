@@ -59,13 +59,13 @@
       <Project>{F5DE2173-6DFF-4238-8539-1A57F92492BA}</Project>
       <Name>Ecos.DBInit.Samples.ProjectWithAMySQLDataBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecos.DBInit.Wire\Ecos.DBInit.Wire.csproj">
-      <Project>{D20E96B6-811C-470C-B989-38673DF2F474}</Project>
-      <Name>Ecos.DBInit.Wire</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj">
       <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
       <Name>Ecos.DBInit.MySql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.Bootstrap\Ecos.DBInit.Bootstrap.csproj">
+      <Project>{D20E96B6-811C-470C-B989-38673DF2F474}</Project>
+      <Name>Ecos.DBInit.Bootstrap</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

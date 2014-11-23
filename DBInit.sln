@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Samples.Project
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.MySql", "Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj", "{6655574E-35A1-47FC-94F5-E4C2623BA5D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Wire", "Ecos.DBInit.Wire\Ecos.DBInit.Wire.csproj", "{D20E96B6-811C-470C-B989-38673DF2F474}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Bootstrap", "Ecos.DBInit.Bootstrap\Ecos.DBInit.Bootstrap.csproj", "{D20E96B6-811C-470C-B989-38673DF2F474}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

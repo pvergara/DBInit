@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using Ecos.DBInit.Core.Model;
-using Ecos.DBInit.Wire;
+using Ecos.DBInit.Bootstrap;
 using Ecos.DBInit.MySql.ScriptHelpers;
 using System.Configuration;
 using Ecos.DBInit.Test.ObjectMothers;
@@ -33,7 +33,7 @@ namespace Ecos.DBInit.Test
             _queryToKnowNumberOfStoredProceduresAndFunctions = "SELECT count(*) FROM information_schema.routines WHERE routine_schema = '" + _dbName + "';";
 
             _dbInit = DBInitFactory.
-                From(ProviderType.MySql).
+                From().
                 InitWith(_connectionString, AssemblyName).
                 GetDBInit();
         }
