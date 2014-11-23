@@ -16,11 +16,20 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
     {
         private readonly MySqlSchemaInfo _schemaInfo;
         private readonly string _connectionString;
+        private Mock<IScriptExec> _helperMock;
+        private MySqlSchemaInfo _schemaInfoWithHelperMocked;
 
         public MySqlSchemaInfoTest()
         {
             _connectionString = ConfigurationManager.ConnectionStrings["sakilaConStr"].ConnectionString;
             _schemaInfo = new MySqlSchemaInfo(_connectionString, new MySqlScriptHelper(_connectionString));
+        }
+
+        [SetUp]
+        public void SetUp(){
+            _helperMock = new Mock<IScriptExec>();
+
+            _schemaInfoWithHelperMocked = new MySqlSchemaInfo(_connectionString, _helperMock.Object);
         }
 
         [Test]
@@ -48,16 +57,13 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
         public void OnlyTheFirstGetTablesInvokationItWillTryToGetTheDataFromTheDatabase()
         {
             //Arrange
-            var helperMock = new Mock<IScriptExec>();
-
-            var schemaInfo = new MySqlSchemaInfo(_connectionString, helperMock.Object);
 
             //Act
-            schemaInfo.GetTables();
-            schemaInfo.GetTables();
+            _schemaInfoWithHelperMocked.GetTables();
+            _schemaInfoWithHelperMocked.GetTables();
 
             //Assert
-            helperMock.Verify(m => 
+            _helperMock.Verify(m => 
                 m.ExecuteAndProcess<string>(
                     It.IsAny<Script>(), 
                     It.IsAny<ICollection<string>>(), 
@@ -80,5 +86,52 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 Assert.That(tables, Has.Count.EqualTo(SakilaDbOM.TablesCounter));
             }
         }
+
+
+        [Test]
+        public void GetViews()
+        {
+            //Act
+            IEnumerable<string> views = _schemaInfo.GetViews();
+
+            //Assert
+            Assert.That(SakilaDbOM.ViewNames, Is.EquivalentTo(views));
+            Assert.That(views, Has.Count.EqualTo(SakilaDbOM.ViewsCounter));
+        }
+
+        [Test]
+        public void OnlyTheFirstGetViewsInvokationItWillTryToGetTheDataFromTheDatabase()
+        {
+            //Arrange
+
+            //Act
+            _schemaInfoWithHelperMocked.GetViews();
+            _schemaInfoWithHelperMocked.GetViews();
+
+            //Assert
+            _helperMock.Verify(m => 
+                m.ExecuteAndProcess<string>(
+                    It.IsAny<Script>(), 
+                    It.IsAny<ICollection<string>>(), 
+                    It.IsAny<Func<IDataReader,ICollection<string>,ICollection<string>>>()
+                ), 
+                Times.Once
+            );
+        }
+            
+        [Test]
+        public void GetViewsIsIdempotent()
+        {
+            for (var i = 0; i < 5; i++)
+            {
+                //Act
+                var tables = _schemaInfo.GetViews();
+
+                //Assert
+                Assert.That(SakilaDbOM.ViewNames, Is.SubsetOf(tables));
+                Assert.That(tables, Has.Count.EqualTo(SakilaDbOM.ViewsCounter));
+            }
+        }
+
     }
 }

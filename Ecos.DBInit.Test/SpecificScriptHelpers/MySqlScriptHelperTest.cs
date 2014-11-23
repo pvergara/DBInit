@@ -46,7 +46,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 helper.ExecuteAndProcess(query,results, TransformTheReaderAndReturnString);
 
                 //Asserts
-                Assert.That(results.Count, Is.EqualTo(SakilaDbOM.TablesCounter+SakilaDbOM.ViewsCounter));
+                Assert.That(results.Count, Is.EqualTo(SakilaDbOM.ViewsCounter+SakilaDbOM.ViewsCounter));
                 Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(results));
             }
         }
@@ -69,7 +69,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 helper.ExecuteAndProcess<int,String>(indexedQueries, indexedResults,ProcessIndexedQueriesOnIndexedResults);
 
                 //Asserts
-                Assert.That(indexedResults[firsQueryIndex].Count, Is.EqualTo(SakilaDbOM.TablesCounter+SakilaDbOM.ViewsCounter));
+                Assert.That(indexedResults[firsQueryIndex].Count, Is.EqualTo(SakilaDbOM.ViewsCounter+SakilaDbOM.ViewsCounter));
                 Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(indexedResults[firsQueryIndex]));
 
                 Assert.That(indexedResults[secondQueryIndex].Count, Is.EqualTo(SakilaDbOM.SPsCounter+SakilaDbOM.FunctionsCounter));

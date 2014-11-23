@@ -13,7 +13,9 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
 
         readonly MySqlConnection _connection;
         readonly IScriptExec _exec;
+
         ICollection<string> _tables;
+        ICollection<string> _views;
 
         public MySqlSchemaInfo(string connectionString,IScriptExec exec)
         {
@@ -44,6 +46,24 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
             return script;
         }
 
+        Script ComposeGetViewsScript()
+        {
+            var str = string.Format("SELECT table_name FROM information_schema.tables WHERE table_schema = '{0}' AND TABLE_TYPE = 'VIEW';", DatabaseName);
+            var script = Script.From(str);
+            return script;
+        }
+
+        ICollection<string> SetOnlyOnceTheCollectionByUsingFunction(ICollection<string> collectionIn,Func<Script> function)
+        {
+            if (!IsSetted(collectionIn))
+            {
+                collectionIn = Init();
+                var script = function();
+                _exec.ExecuteAndProcess<string>(script, collectionIn, ReturnFirstFieldAsString);
+            }
+            return collectionIn;
+        }
+
         public string DatabaseName
         {
             get { return _connection.Database; }
@@ -51,15 +71,14 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
 
         public IEnumerable<string> GetTables()
         {
-            if (!IsSetted(_tables))
-            {
-                _tables = Init();
-
-                var script = ComposeGetTablesScript();
-
-                _exec.ExecuteAndProcess<string>(script, _tables, ReturnFirstFieldAsString);
-            }
+            _tables = SetOnlyOnceTheCollectionByUsingFunction(_tables, ComposeGetTablesScript);
             return _tables;
+        }
+
+        public IEnumerable<string> GetViews()
+        {
+            _views = SetOnlyOnceTheCollectionByUsingFunction(_views,ComposeGetViewsScript);
+            return _views;
         }
             
         public void Dispose()
