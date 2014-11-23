@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Core", "Ecos.DB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Test", "Ecos.DBInit.Test\Ecos.DBInit.Test.csproj", "{27920306-3C44-4998-818C-742A513DF986}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase", "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase.csproj", "{F5DE2173-6DFF-4238-8539-1A57F92492BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Samples.SakilaDataBase", "Ecos.DBInit.Samples.SakilaDataBase\Ecos.DBInit.Samples.SakilaDataBase.csproj", "{F5DE2173-6DFF-4238-8539-1A57F92492BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.MySql", "Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj", "{6655574E-35A1-47FC-94F5-E4C2623BA5D0}"
 EndProject

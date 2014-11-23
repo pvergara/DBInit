@@ -2,6 +2,7 @@
 using Ecos.DBInit.Core.ScriptHelpers;
 using Ecos.DBInit.Core.Model;
 using System.Collections.Generic;
+using Ecos.DBInit.Test.ObjectMothers;
 
 namespace Ecos.DBInit.Test.Helpers
 {
@@ -11,7 +12,7 @@ namespace Ecos.DBInit.Test.Helpers
         [Test]
         public void GivenThenAssemblyWhenIInvokeWithTheContainerThenItReturnsMeAStreamReaderCollectionWithAllTheScriptsQueriesFoundedOnTheContainer()
         {
-            const string assemblyName = "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase";
+            string assemblyName = SakilaDbOM.SampleProjectAssemblyName;
             var container = ScriptFinderFluentFactory.
                 FromEmbeddedResource.
                     InitWith(assemblyName, ScriptType.Schema).

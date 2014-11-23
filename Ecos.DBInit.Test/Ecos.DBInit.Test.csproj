@@ -55,10 +55,6 @@
       <Project>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</Project>
       <Name>Ecos.DBInit.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase.csproj">
-      <Project>{F5DE2173-6DFF-4238-8539-1A57F92492BA}</Project>
-      <Name>Ecos.DBInit.Samples.ProjectWithAMySQLDataBase</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj">
       <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
       <Name>Ecos.DBInit.MySql</Name>
@@ -67,13 +63,17 @@
       <Project>{D20E96B6-811C-470C-B989-38673DF2F474}</Project>
       <Name>Ecos.DBInit.Bootstrap</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.Samples.SakilaDataBase\Ecos.DBInit.Samples.SakilaDataBase.csproj">
+      <Project>{F5DE2173-6DFF-4238-8539-1A57F92492BA}</Project>
+      <Name>Ecos.DBInit.Samples.SakilaDataBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase\app.config">
+    <None Include="..\Ecos.DBInit.Samples.SakilaDataBase\app.config">
       <Link>app.config</Link>
     </None>
     <None Include="packages.config" />
-    <None Include="..\Ecos.DBInit.Samples.ProjectWithAMySQLDataBase\app.config.dist">
+    <None Include="..\Ecos.DBInit.Samples.SakilaDataBase\app.config.dist">
       <Link>app.config.dist</Link>
     </None>
   </ItemGroup>

@@ -10,7 +10,7 @@ namespace Ecos.DBInit.Test
     [TestFixture]
     public class DBInitTest
     {
-        const string AssemblyName = "Ecos.DBInit.Samples.ProjectWithAMySQLDataBase";
+        readonly string _assemblyName = SakilaDbOM.SampleProjectAssemblyName;
 
         readonly string _queryToKnowNumberOfRowsOfActorsTable;
         readonly string _queryToKnowNumberOfRowsOfAddressTable;
@@ -34,7 +34,7 @@ namespace Ecos.DBInit.Test
 
             _dbInit = DBInitFactory.
                 From().
-                InitWith(_connectionString, AssemblyName).
+                InitWith(_connectionString, _assemblyName).
                 GetDBInit();
         }
 

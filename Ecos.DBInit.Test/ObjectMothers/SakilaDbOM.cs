@@ -5,6 +5,10 @@ namespace Ecos.DBInit.Test.ObjectMothers
 {
     public static class SakilaDbOM
     {
+        public static string SampleProjectAssemblyName{
+            get { return "Ecos.DBInit.Samples.SakilaDataBase";}
+        }
+
         public static IEnumerable<string> SomeTableNames
         {
             get{ return new []{ "actor", "address", "customer", "film_text", "inventory" }; }

@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Ecos.DBInit.Core.ScriptHelpers;
 using Ecos.DBInit.Core.Model;
+using Ecos.DBInit.Test.ObjectMothers;
 
 namespace Ecos.DBInit.Test.Helpers
 {
@@ -12,11 +13,11 @@ namespace Ecos.DBInit.Test.Helpers
         {
             var container = ScriptFinderFluentFactory.
                     FromEmbeddedResource.
-                        InitWith("Ecos.DBInit.Samples.ProjectWithAMySQLDataBase",ScriptType.Schema).
+                        InitWith(SakilaDbOM.SampleProjectAssemblyName,ScriptType.Schema).
                     GetContainer();
 
             Assert.That(container, Is.Not.Null);
-            Assert.That(container.Path, Is.EqualTo("Ecos.DBInit.Samples.ProjectWithAMySQLDataBase.Scripts.Schema"));
+            Assert.That(container.Path, Is.EqualTo(string.Format("{0}.Scripts.Schema",SakilaDbOM.SampleProjectAssemblyName)));
         }
     }
 }

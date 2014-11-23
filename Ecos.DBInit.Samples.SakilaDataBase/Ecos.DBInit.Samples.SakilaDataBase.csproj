@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F5DE2173-6DFF-4238-8539-1A57F92492BA}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Ecos.DBInit.Samples.ProjectWithAMySQLDataBase</RootNamespace>
-    <AssemblyName>Ecos.DBInit.Samples.ProjectWithAMySQLDataBase</AssemblyName>
+    <RootNamespace>Ecos.DBInit.Samples.SakilaDataBase</RootNamespace>
+    <AssemblyName>Ecos.DBInit.Samples.SakilaDataBase</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
