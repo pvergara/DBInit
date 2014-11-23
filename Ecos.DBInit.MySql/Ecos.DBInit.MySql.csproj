@@ -35,10 +35,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Scripts\" />
-    <Folder Include="Scripts\Schema\" />
     <Folder Include="ScriptHelpers\" />
-    <Folder Include="Scripts\Data\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -55,12 +52,5 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Scripts\Schema\QueryWithDropFunctionClauses.sql" />
-    <EmbeddedResource Include="Scripts\Schema\QueryWithDropStoredProceduresClauses.sql" />
-    <EmbeddedResource Include="Scripts\Schema\QueryWithDropTablesClauses.sql" />
-    <EmbeddedResource Include="Scripts\Schema\QueryWithDropViewsClauses.sql" />
-    <EmbeddedResource Include="Scripts\Data\GetTableNames.sql" />
   </ItemGroup>
 </Project>

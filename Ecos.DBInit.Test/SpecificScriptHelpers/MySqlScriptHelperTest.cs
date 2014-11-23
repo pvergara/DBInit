@@ -73,7 +73,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(indexedResults[firsQueryIndex]));
 
                 Assert.That(indexedResults[secondQueryIndex].Count, Is.EqualTo(SakilaDbOM.SPsCounter+SakilaDbOM.FunctionsCounter));
-                Assert.That(new[]{ SakilaDbOM.SomeFunctionNames.First(), SakilaDbOM.SomeSpNames.First() }, Is.SubsetOf(indexedResults[secondQueryIndex]));
+                Assert.That(new[]{ SakilaDbOM.FunctionNames.First(), SakilaDbOM.SPsNames.First() }, Is.SubsetOf(indexedResults[secondQueryIndex]));
             }
         }
 

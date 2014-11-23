@@ -16,6 +16,8 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
 
         ICollection<string> _tables;
         ICollection<string> _views;
+        ICollection<string> _storedProcedures;
+        ICollection<string> _functions;
 
         private static string TablesScript
         {
@@ -25,6 +27,16 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
         private static string ViewsScript
         {
             get { return "SELECT table_name FROM information_schema.tables WHERE table_schema = '{0}' AND TABLE_TYPE = 'VIEW';";}
+        }
+
+        private static string StoredProceduresScript
+        {
+            get { return "SELECT routine_name FROM information_schema.ROUTINES WHERE ROUTINE_SCHEMA = '{0}' AND ROUTINE_TYPE = 'PROCEDURE';";}
+        }
+
+        private static string FunctionsScript
+        {
+            get { return "SELECT routine_name FROM information_schema.ROUTINES WHERE ROUTINE_SCHEMA = '{0}' AND ROUTINE_TYPE = 'FUNCTION';";}
         }
 
         public MySqlSchemaInfo(string connectionString,IScriptExec exec)
@@ -81,6 +93,18 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
         {
             _views = SetOnlyOnceTheCollectionByUsingFunction(_views,ComposeScript,ViewsScript);
             return _views;
+        }
+
+        public IEnumerable<string> GetStoredProcedures()
+        {
+            _storedProcedures = SetOnlyOnceTheCollectionByUsingFunction(_storedProcedures,ComposeScript,StoredProceduresScript);
+            return _storedProcedures;
+        }
+
+        public IEnumerable<string> GetFunctions()
+        {
+            _functions = SetOnlyOnceTheCollectionByUsingFunction(_functions,ComposeScript,FunctionsScript);
+            return _functions;
         }
             
         public void Dispose()

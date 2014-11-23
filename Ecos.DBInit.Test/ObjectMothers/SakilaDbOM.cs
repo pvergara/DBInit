@@ -25,26 +25,26 @@ namespace Ecos.DBInit.Test.ObjectMothers
             get{ return ViewNames.Count(); }
         }
 
-        public static byte SPsCounter
+        public static IEnumerable<string> SPsNames
         {
-            get{ return 3; }
+            get{ return new []{ "film_in_stock", "film_not_in_stock", "rewards_report" }; }
         }
 
-        public static  IEnumerable<string> SomeSpNames
+        public static int SPsCounter
         {
-            get{ return new []{ "film_in_stock" }; }
+            get{ return SPsNames.Count(); }
         }
 
-        public static byte FunctionsCounter
+        public static IEnumerable<string> FunctionNames
         {
-            get{ return 3; }
+            get{ return new []{ "get_customer_balance", "inventory_held_by_customer", "inventory_in_stock" }; }
         }
 
-        public static IEnumerable<string> SomeFunctionNames
+        public static int FunctionsCounter
         {
-            get{ return new []{ "get_customer_balance" }; }
+            get{ return FunctionNames.Count(); }
         }
-
+            
         public static byte TablesActorsCounter
         {
             get{ return 200; }

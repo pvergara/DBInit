@@ -64,22 +64,7 @@ namespace Ecos.DBInit.MySql
 
         IEnumerable<string> GetEachTableName()
         {
-            var container = ScriptFinderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(GetType().Assembly.GetName().Name, ScriptType.Data).
-                GetContainer();
-
-            var scriptsWithTableNames = ScriptLoaderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(GetType().Assembly.GetName().Name, container).
-                GetScripts("_DATABASE_NAME_",_databaseName);
-
-            IDictionary<int, Script> scriptMap = FromCollectionToDictionary(scriptsWithTableNames);
-            IDictionary<int,ICollection<string>> tableNames = new Dictionary<int,ICollection<string>>();
-
-            _helper.ExecuteAndProcess(scriptMap,tableNames,AddFirstFieldIntoStringCollectionField);
-
-            return tableNames.Values.SelectMany(v=>v);
+            return _schemaInfo.GetTables();
         }
 
         static Dictionary<int, Script> FromCollectionToDictionary(IEnumerable<Script> collection)
@@ -144,38 +129,36 @@ namespace Ecos.DBInit.MySql
         {
             var scripts = new List<Script>();
 
-            scripts.AddRange(LoadDropAllSchemaObjectsScripts());
+            scripts.AddRange(GetDropAllSchemaObjectsScripts());
 
             AddToUoW(scripts);
         }
                  
-        IEnumerable<Script> LoadDropAllSchemaObjectsScripts()
+        IEnumerable<Script> GetDropAllSchemaObjectsScripts()
         {
-            IEnumerable<Script> scriptsWithDropFunction = ComposeScriptsWithDroptAllSchemaObjects();
-            IDictionary<int, Script> indexedScriptsWithDropFunction = FromCollectionToDictionary(scriptsWithDropFunction);
-            IDictionary<int,ICollection<Script>> indexedDropAllSchemaObjectsScripts = new Dictionary<int,ICollection<Script>>();
+            var dropAllObjectsScript = new List<Script>();
 
-            _helper.ExecuteAndProcess(indexedScriptsWithDropFunction,indexedDropAllSchemaObjectsScripts,AddFirstFieldIntoCollection);
-            return indexedDropAllSchemaObjectsScripts.Values.SelectMany(script => script);
+            dropAllObjectsScript.AddRange(ComposeScriptsWithDropUsing("TABLE",_schemaInfo.GetTables()));
+            dropAllObjectsScript.AddRange(ComposeScriptsWithDropUsing("VIEW",_schemaInfo.GetViews()));
+            dropAllObjectsScript.AddRange(ComposeScriptsWithDropUsing("PROCEDURE",_schemaInfo.GetStoredProcedures()));
+            dropAllObjectsScript.AddRange(ComposeScriptsWithDropUsing("FUNCTION",_schemaInfo.GetFunctions()));
+
+            return dropAllObjectsScript;
+        }
+
+        IEnumerable<Script> ComposeScriptsWithDropUsing(string typeOfObject, IEnumerable<string> objectNames)
+        {
+            return objectNames.
+                Select(objectName => 
+                    Script.From(string.Format("DROP {0} IF EXISTS {1};", typeOfObject,objectName))
+                );
+
         }
 
         static ICollection<Script> AddFirstFieldIntoCollection(IDataRecord reader, int index,ICollection<Script> collection)
         {
             collection.Add(Script.From(reader.GetString(0)));
             return collection;
-        }
-
-        IEnumerable<Script> ComposeScriptsWithDroptAllSchemaObjects()
-        {
-            var container = ScriptFinderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(GetType().Assembly.GetName().Name, ScriptType.Schema).
-                GetContainer();
-
-            return ScriptLoaderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(GetType().Assembly.GetName().Name, container).
-                GetScripts("_DATABASE_NAME_",_databaseName);
         }
             
         void ActivateReferentialIntegrity()

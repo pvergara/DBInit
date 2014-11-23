@@ -47,6 +47,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
             Assert.That("sakila", Is.EqualTo(databaseName));
         }
 
+
         [Test]
         public void GetTables()
         {
@@ -91,7 +92,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 Assert.That(tables, Has.Count.EqualTo(SakilaDbOM.TablesCounter));
             }
         }
-
+            
 
         [Test]
         public void GetViews()
@@ -130,13 +131,104 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
             for (var i = 0; i < 5; i++)
             {
                 //Act
-                var tables = _schemaInfo.GetViews();
+                var views = _schemaInfo.GetViews();
 
                 //Assert
-                Assert.That(SakilaDbOM.ViewNames, Is.SubsetOf(tables));
-                Assert.That(tables, Has.Count.EqualTo(SakilaDbOM.ViewsCounter));
+                Assert.That(SakilaDbOM.ViewNames, Is.SubsetOf(views));
+                Assert.That(views, Has.Count.EqualTo(SakilaDbOM.ViewsCounter));
             }
         }
 
+
+        [Test]
+        public void GetStoredProcedures()
+        {
+            //Act
+            var storedProcedures = _schemaInfo.GetStoredProcedures();
+
+            //Assert
+            Assert.That(SakilaDbOM.SPsNames, Is.SubsetOf(storedProcedures));
+            Assert.That(storedProcedures, Has.Count.EqualTo(SakilaDbOM.SPsCounter));
+        }
+
+        [Test]
+        public void GetStoredProceduresAccessToDatabaseOnlyOnce()
+        {
+            //Arrange
+
+            //Act
+            _schemaInfoWithHelperMocked.GetStoredProcedures();
+            _schemaInfoWithHelperMocked.GetStoredProcedures();
+
+            //Assert
+            _helperMock.Verify(m => 
+                m.ExecuteAndProcess<string>(
+                    It.IsAny<Script>(), 
+                    It.IsAny<ICollection<string>>(), 
+                    It.IsAny<Func<IDataReader,ICollection<string>,ICollection<string>>>()
+                ), 
+                Times.Once
+            );
+        }
+
+        [Test]
+        public void GetStoredProceduresIsIdempotent()
+        {
+            for (var i = 0; i < 5; i++)
+            {
+                //Act
+                var storedProcedures = _schemaInfo.GetStoredProcedures();
+
+                //Assert
+                Assert.That(SakilaDbOM.SPsNames, Is.SubsetOf(storedProcedures));
+                Assert.That(storedProcedures, Has.Count.EqualTo(SakilaDbOM.SPsCounter));
+            }
+        }
+
+
+        [Test]
+        public void GetFunctions()
+        {
+            //Act
+            var functions = _schemaInfo.GetFunctions();
+
+            //Assert
+            Assert.That(SakilaDbOM.FunctionNames, Is.SubsetOf(functions));
+            Assert.That(functions, Has.Count.EqualTo(SakilaDbOM.FunctionsCounter));
+        }
+
+        [Test]
+        public void GetFunctionsProceduresAccessToDatabaseOnlyOnce()
+        {
+            //Arrange
+
+            //Act
+            _schemaInfoWithHelperMocked.GetFunctions();
+            _schemaInfoWithHelperMocked.GetFunctions();
+
+            //Assert
+            _helperMock.Verify(m => 
+                m.ExecuteAndProcess<string>(
+                    It.IsAny<Script>(), 
+                    It.IsAny<ICollection<string>>(), 
+                    It.IsAny<Func<IDataReader,ICollection<string>,ICollection<string>>>()
+                ), 
+                Times.Once
+            );
+        }
+
+        [Test]
+        public void GetFunctionsProceduresIsIdempotent()
+        {
+            for (var i = 0; i < 5; i++)
+            {
+                //Act
+                var functions = _schemaInfo.GetFunctions();
+
+                //Assert
+                Assert.That(SakilaDbOM.FunctionNames, Is.SubsetOf(functions));
+                Assert.That(functions, Has.Count.EqualTo(SakilaDbOM.FunctionsCounter));
+            }
+        }
     }
 }
