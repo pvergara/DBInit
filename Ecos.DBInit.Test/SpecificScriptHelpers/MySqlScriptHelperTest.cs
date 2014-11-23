@@ -16,7 +16,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
         private readonly IEnumerable<String> _someTablesAndViewOfSakilaDB;
 
         public MySqlScriptHelperTest(){
-            _connectionString = ConfigurationManager.ConnectionStrings["sakila"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["sakilaConStr"].ConnectionString;
             _someTablesAndViewOfSakilaDB = new[]{ "actor", "address", "category", "film_category", "actor_info" };
         }
 

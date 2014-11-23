@@ -15,16 +15,16 @@ namespace Ecos.DBInit.Test
         readonly string _queryToKnowNumberOfRowsOfAddressTable;
         readonly string _queryToKnowNumberOfTablesAndViews;
         readonly string _queryToKnowNumberOfStoredProceduresAndFunctions;
-        readonly string _dbName = "sakila";
+        readonly string _dbName;
         readonly string _connectionString;
         readonly MySqlScriptHelper _helper;
         readonly Ecos.DBInit.Core.IDBInit _dbInit;
 
         public DBInitTest()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["sakila"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["sakilaConStr"].ConnectionString;
             _helper = new MySqlScriptHelper(_connectionString);
-            _dbName = new MySqlSchemaInfo(_connectionString).DatabaseName;
+            _dbName = new MySqlSchemaInfo(_connectionString,_helper).DatabaseName;
             _queryToKnowNumberOfRowsOfActorsTable = "SELECT count(*) FROM " + _dbName + ".actor;";
             _queryToKnowNumberOfRowsOfAddressTable = "SELECT count(*) FROM " + _dbName + ".address;";
 

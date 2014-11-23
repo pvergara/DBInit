@@ -19,10 +19,10 @@ namespace Ecos.DBInit.MySql
         public MySqlDBInit(string connectionString,string assemblyName){
             _assemblyName = assemblyName;
             //TODO: WHAT ABOUT THE INJECTION!!!!
-            _schemaInfo = new MySqlSchemaInfo(connectionString);
-            _databaseName = _schemaInfo.DatabaseName;
-            //TODO: WHAT ABOUT THE INJECTION!!!!
             _helper = new MySqlScriptHelper(connectionString);
+            //TODO: WHAT ABOUT THE INJECTION!!!!
+            _schemaInfo = new MySqlSchemaInfo(connectionString,_helper);
+            _databaseName = _schemaInfo.DatabaseName;
         }
 
         public void InitData()

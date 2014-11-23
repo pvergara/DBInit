@@ -38,6 +38,7 @@
     <Compile Include="ScriptHelpers\ScriptFinderFluentFactory.cs" />
     <Compile Include="ScriptHelpers\ScriptLoaderFluentFactory.cs" />
     <Compile Include="ScriptHelpers\ScriptLoaderOnEmbeddedResource.cs" />
+    <Compile Include="ScriptHelpers\IScriptExec.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

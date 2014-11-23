@@ -3,11 +3,12 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
+using Ecos.DBInit.Core.ScriptHelpers;
 
 namespace Ecos.DBInit.MySql.ScriptHelpers
 {
 
-    public class MySqlScriptHelper:IDisposable
+    public class MySqlScriptHelper:IScriptExec
     {
         readonly MySqlConnection _connection;
 
