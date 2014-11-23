@@ -17,6 +17,16 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
         ICollection<string> _tables;
         ICollection<string> _views;
 
+        private static string TablesScript
+        {
+            get { return "SELECT table_name FROM information_schema.tables WHERE table_schema = '{0}' AND TABLE_TYPE = 'BASE TABLE';";}
+        }
+
+        private static string ViewsScript
+        {
+            get { return "SELECT table_name FROM information_schema.tables WHERE table_schema = '{0}' AND TABLE_TYPE = 'VIEW';";}
+        }
+
         public MySqlSchemaInfo(string connectionString,IScriptExec exec)
         {
             _connection = new MySqlConnection(connectionString);
@@ -39,27 +49,19 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
             return collection;
         }
 
-        Script ComposeGetTablesScript()
+        private Script ComposeScript(string script)
         {
-            var str = string.Format("SELECT table_name FROM information_schema.tables WHERE table_schema = '{0}' AND TABLE_TYPE = 'BASE TABLE';", DatabaseName);
-            var script = Script.From(str);
-            return script;
+            var str = string.Format(script, DatabaseName);
+            return Script.From(str);
         }
 
-        Script ComposeGetViewsScript()
-        {
-            var str = string.Format("SELECT table_name FROM information_schema.tables WHERE table_schema = '{0}' AND TABLE_TYPE = 'VIEW';", DatabaseName);
-            var script = Script.From(str);
-            return script;
-        }
-
-        ICollection<string> SetOnlyOnceTheCollectionByUsingFunction(ICollection<string> collectionIn,Func<Script> function)
+        private ICollection<string> SetOnlyOnceTheCollectionByUsingFunction(ICollection<string> collectionIn,Func<string,Script> function,string script)
         {
             if (!IsSetted(collectionIn))
             {
                 collectionIn = Init();
-                var script = function();
-                _exec.ExecuteAndProcess<string>(script, collectionIn, ReturnFirstFieldAsString);
+                var composedScipt = function(script);
+                _exec.ExecuteAndProcess<string>(composedScipt, collectionIn, ReturnFirstFieldAsString);
             }
             return collectionIn;
         }
@@ -71,13 +73,13 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
 
         public IEnumerable<string> GetTables()
         {
-            _tables = SetOnlyOnceTheCollectionByUsingFunction(_tables, ComposeGetTablesScript);
+            _tables = SetOnlyOnceTheCollectionByUsingFunction(_tables, ComposeScript,TablesScript);
             return _tables;
         }
 
         public IEnumerable<string> GetViews()
         {
-            _views = SetOnlyOnceTheCollectionByUsingFunction(_views,ComposeGetViewsScript);
+            _views = SetOnlyOnceTheCollectionByUsingFunction(_views,ComposeScript,ViewsScript);
             return _views;
         }
             

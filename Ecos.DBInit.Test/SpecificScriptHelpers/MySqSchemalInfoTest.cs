@@ -32,6 +32,11 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
             _schemaInfoWithHelperMocked = new MySqlSchemaInfo(_connectionString, _helperMock.Object);
         }
 
+        [TestFixtureTearDown]
+        public void RunAtTheEndOfAllFixtureTests(){
+            _schemaInfo.Dispose();
+        }
+
         [Test]
         public void DatabaseName()
         {
