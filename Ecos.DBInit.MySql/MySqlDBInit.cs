@@ -10,11 +10,10 @@ namespace Ecos.DBInit.MySql
 {
     public class MySqlDBInit:IDBInit
 	{
-        readonly string _databaseName;
-        readonly string _assemblyName;
-        readonly List<Script> _scripts = new List<Script>();
-        readonly MySqlScriptHelper _helper;
-        readonly MySqlSchemaInfo _schemaInfo;
+        private readonly string _assemblyName;
+        private readonly List<Script> _scripts = new List<Script>();
+        private readonly MySqlScriptHelper _helper;
+        private readonly MySqlSchemaInfo _schemaInfo;
 
         public MySqlDBInit(string connectionString,string assemblyName){
             _assemblyName = assemblyName;
@@ -22,7 +21,6 @@ namespace Ecos.DBInit.MySql
             _helper = new MySqlScriptHelper(connectionString);
             //TODO: WHAT ABOUT THE INJECTION!!!!
             _schemaInfo = new MySqlSchemaInfo(connectionString,_helper);
-            _databaseName = _schemaInfo.DatabaseName;
         }
 
         public void InitData()
@@ -39,13 +37,13 @@ namespace Ecos.DBInit.MySql
             ExecuteFromUoW();
         }
 
-        void CleanData()
+        private void CleanData()
         {
             DeactivateReferentialIntegrity();
             CleanEachTable();
         }
 
-        void CleanEachTable()
+        private void CleanEachTable()
         {
             var scripts = new List<Script>();
 
@@ -54,20 +52,15 @@ namespace Ecos.DBInit.MySql
             AddToUoW(scripts);
         }
 
-        IEnumerable<Script> ComposeScriptsDeleteEachTable()
+        private IEnumerable<Script> ComposeScriptsDeleteEachTable()
         {
-            return GetEachTableName().
+            return _schemaInfo.GetTables().
                 Select(tableName => 
                     Script.From(string.Format("DELETE FROM {0};", tableName))
                 );
         }
-
-        IEnumerable<string> GetEachTableName()
-        {
-            return _schemaInfo.GetTables();
-        }
-
-        static Dictionary<int, Script> FromCollectionToDictionary(IEnumerable<Script> collection)
+            
+        private static Dictionary<int, Script> FromCollectionToDictionary(IEnumerable<Script> collection)
         {
             return collection.
                 Select((element, index) => 
@@ -78,18 +71,18 @@ namespace Ecos.DBInit.MySql
                 ToDictionary(keySelector => keySelector.index, valueSelector => valueSelector.element);
         }
             
-        ICollection<string> AddFirstFieldIntoStringCollectionField(IDataRecord reader,int index,ICollection<string> tableNames){
+        private ICollection<string> AddFirstFieldIntoStringCollectionField(IDataRecord reader,int index,ICollection<string> tableNames){
             tableNames.Add(reader.GetString(0));
             return tableNames;
         }
 
-        void AddData()
+        private void AddData()
         {
             LoadDataScripts();
             ActivateReferentialIntegrity();
         }
 
-        void LoadDataScripts()
+        private void LoadDataScripts()
         {
             var container = 
                 ScriptFinderFluentFactory.
@@ -118,14 +111,14 @@ namespace Ecos.DBInit.MySql
             ActivateReferentialIntegrity();
         }
 
-        void DeactivateReferentialIntegrity()
+        private void DeactivateReferentialIntegrity()
         {
             var scripts = new []{ Script.From("SET @@foreign_key_checks = 0;") };
 
             AddToUoW(scripts);
         }
 
-        void DropDataBaseObjects()
+        private void DropDataBaseObjects()
         {
             var scripts = new List<Script>();
 
@@ -134,7 +127,7 @@ namespace Ecos.DBInit.MySql
             AddToUoW(scripts);
         }
                  
-        IEnumerable<Script> GetDropAllSchemaObjectsScripts()
+        private IEnumerable<Script> GetDropAllSchemaObjectsScripts()
         {
             var dropAllObjectsScript = new List<Script>();
 
@@ -146,7 +139,7 @@ namespace Ecos.DBInit.MySql
             return dropAllObjectsScript;
         }
 
-        IEnumerable<Script> ComposeScriptsWithDropUsing(string typeOfObject, IEnumerable<string> objectNames)
+        private IEnumerable<Script> ComposeScriptsWithDropUsing(string typeOfObject, IEnumerable<string> objectNames)
         {
             return objectNames.
                 Select(objectName => 
@@ -155,20 +148,20 @@ namespace Ecos.DBInit.MySql
 
         }
 
-        static ICollection<Script> AddFirstFieldIntoCollection(IDataRecord reader, int index,ICollection<Script> collection)
+        private static ICollection<Script> AddFirstFieldIntoCollection(IDataRecord reader, int index,ICollection<Script> collection)
         {
             collection.Add(Script.From(reader.GetString(0)));
             return collection;
         }
             
-        void ActivateReferentialIntegrity()
+        private void ActivateReferentialIntegrity()
         {
             var scripts = new []{ Script.From("SET @@foreign_key_checks = 1;") };
 
             AddToUoW(scripts);
         }
 
-        void CreateDataBaseObjects()
+        private void CreateDataBaseObjects()
         {
             var container = 
                 ScriptFinderFluentFactory.
@@ -185,12 +178,12 @@ namespace Ecos.DBInit.MySql
             AddToUoW(scripts);
         }
 
-        void AddToUoW(IEnumerable<Script> scripts)
+        private void AddToUoW(IEnumerable<Script> scripts)
         {
             _scripts.AddRange(scripts);
         }
 
-        void ExecuteFromUoW()
+        private void ExecuteFromUoW()
         {
             _helper.Execute(_scripts);
             _scripts.Clear();
