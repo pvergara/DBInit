@@ -7,6 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Ecos.DBInit.Samples.SakilaDataBase</RootNamespace>
     <AssemblyName>Ecos.DBInit.Samples.SakilaDataBase</AssemblyName>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
