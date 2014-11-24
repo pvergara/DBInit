@@ -13,7 +13,7 @@ How to start
 ======
 
 You must have database created (e.g. 'sakila'). You can use the scripts included on the sakila-db folder or create the database from scratch.
-If the database is empty you must to run the test that has this piece of code (at the moment the test calls "WhenIUseInitSchemaAllTheTablesWillBeEmpty"):
+If the database is empty you must to run the test that has this piece of code (at the moment the test is called "WhenIUseInitSchemaAllTheTablesWillBeEmpty"):
 
             //Act
             _dbInit.InitSchema();
