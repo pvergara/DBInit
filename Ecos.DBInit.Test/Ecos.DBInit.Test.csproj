@@ -64,6 +64,10 @@
       <Project>{D20E96B6-811C-470C-B989-38673DF2F474}</Project>
       <Name>Ecos.DBInit.Bootstrap</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.Samples.SakilaDataBase\Ecos.DBInit.Samples.SakilaDataBase.csproj">
+      <Project>{f5de2173-6dff-4238-8539-1a57f92492ba}</Project>
+      <Name>Ecos.DBInit.Samples.SakilaDataBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Ecos.DBInit.Samples.SakilaDataBase\app.config">
