@@ -21,7 +21,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
 
         public MySqlSchemaInfoTest()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["sakilaConStr"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
             _schemaInfo = new MySqlSchemaInfo(_connectionString, new MySqlScriptHelper(_connectionString));
         }
 

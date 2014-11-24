@@ -5,6 +5,10 @@ namespace Ecos.DBInit.Test.ObjectMothers
 {
     public static class SakilaDbOM
     {
+        public static string ConnectionStringName{
+            get { return "sakilaConStr";}
+        }
+
         public static string SampleProjectAssemblyName{
             get { return "Ecos.DBInit.Samples.SakilaDataBase";}
         }

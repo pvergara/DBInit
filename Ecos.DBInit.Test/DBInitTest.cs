@@ -23,7 +23,7 @@ namespace Ecos.DBInit.Test
 
         public DBInitTest()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["sakilaConStr"].ConnectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
             _helper = new MySqlScriptHelper(_connectionString);
             _dbName = new MySqlSchemaInfo(_connectionString,_helper).DatabaseName;
             _queryToKnowNumberOfRowsOfActorsTable = "SELECT count(*) FROM " + _dbName + ".actor;";
