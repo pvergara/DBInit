@@ -36,14 +36,14 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
         [Test]
         public void HowToUseExecuteAndProcessASingleQuery()
         {
-            using (var helper = new MySqlScriptHelper(_connectionString))
+            using (var scriptExec = new MySqlScriptExec(_connectionString))
             {
                 //Arrange
                 var query = Script.From("SHOW TABLES;");
 
                 //Act
                 ICollection<String> results = new List<String>();
-                helper.ExecuteAndProcess(query,results, TransformTheReaderAndReturnString);
+                scriptExec.ExecuteAndProcess(query,results, TransformTheReaderAndReturnString);
 
                 //Asserts
                 Assert.That(results.Count, Is.EqualTo(SakilaDbOM.TablesCounter+SakilaDbOM.ViewsCounter));
@@ -54,7 +54,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
         [Test]
         public void HowToUseExecuteAndProcessQueriesUsingSomeIndexToIdentifyThem()
         {
-            using (var helper = new MySqlScriptHelper(_connectionString))
+            using (var scriptExec = new MySqlScriptExec(_connectionString))
             {
                 //Arrange
                 IDictionary<int,Script> indexedQueries = new Dictionary<int,Script>();
@@ -66,7 +66,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 indexedQueries.Add(secondQueryIndex, Script.From("SELECT specific_name FROM information_schema.routines WHERE routine_schema = 'sakila';"));
 
                 //Act
-                helper.ExecuteAndProcess<int,String>(indexedQueries, indexedResults,ProcessIndexedQueriesOnIndexedResults);
+                scriptExec.ExecuteAndProcess<int,String>(indexedQueries, indexedResults,ProcessIndexedQueriesOnIndexedResults);
 
                 //Asserts
                 Assert.That(indexedResults[firsQueryIndex].Count, Is.EqualTo(SakilaDbOM.TablesCounter+SakilaDbOM.ViewsCounter));
@@ -79,10 +79,10 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
 
         [Test]
         public void HowToUseExecuteScalar(){
-            using (var helper = new MySqlScriptHelper(_connectionString))
+            using (var scriptExec = new MySqlScriptExec(_connectionString))
             {
                 //Act
-                var actorsCount = helper.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
+                var actorsCount = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
 
                 //Assert
                 Assert.That(actorsCount,Is.GreaterThanOrEqualTo(0));
@@ -91,10 +91,10 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
 
         [Test]
         public void HowToUseExecute(){
-            using (var helper = new MySqlScriptHelper(_connectionString))
+            using (var scriptExec = new MySqlScriptExec(_connectionString))
             {
                 //Act
-                helper.Execute(new[]{
+                scriptExec.Execute(new[]{
                     Script.From("DELETE FROM film_actor;"),
                     Script.From("DELETE FROM actor;"),
                     Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Kevin','Spacey');"),
@@ -104,7 +104,7 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
                 });
 
                 //Pre-Assert
-                var actorCounter = helper.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
+                var actorCounter = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
                 
                 //Assert
                 Assert.That(actorCounter,Is.EqualTo(4));

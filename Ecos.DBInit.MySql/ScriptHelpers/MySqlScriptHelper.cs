@@ -2,17 +2,17 @@
 using System.Data;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
-using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Core.ScriptHelpers;
+using Ecos.DBInit.Core.Model;
 
 namespace Ecos.DBInit.MySql.ScriptHelpers
 {
 
-    public class MySqlScriptHelper:IScriptExec
+    public class MySqlScriptExec:IScriptExec
     {
         readonly MySqlConnection _connection;
 
-        public MySqlScriptHelper(string connectionString)
+        public MySqlScriptExec(string connectionString)
         {
             _connection = new MySqlConnection(connectionString);
 

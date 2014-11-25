@@ -18,29 +18,26 @@ namespace Ecos.DBInit.Test
         readonly string _queryToKnowNumberOfStoredProceduresAndFunctions;
         readonly string _dbName;
         readonly string _connectionString;
-        readonly MySqlScriptHelper _helper;
+        readonly MySqlScriptExec _scriptExec;
         readonly Ecos.DBInit.Core.IDBInit _dbInit;
 
         public DBInitTest()
         {
             _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
-            _helper = new MySqlScriptHelper(_connectionString);
-            _dbName = new MySqlSchemaInfo(_connectionString,_helper).DatabaseName;
+            _scriptExec = new MySqlScriptExec(_connectionString);
+            _dbName = new MySqlSchemaInfo(_connectionString,_scriptExec).DatabaseName;
             _queryToKnowNumberOfRowsOfActorsTable = "SELECT count(*) FROM " + _dbName + ".actor;";
             _queryToKnowNumberOfRowsOfAddressTable = "SELECT count(*) FROM " + _dbName + ".address;";
 
             _queryToKnowNumberOfTablesAndViews = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '" + _dbName + "';";
             _queryToKnowNumberOfStoredProceduresAndFunctions = "SELECT count(*) FROM information_schema.routines WHERE routine_schema = '" + _dbName + "';";
 
-            _dbInit = DBInitFactory.
-                From().
-                InitWith(_connectionString, _assemblyName).
-                GetDBInit();
+            _dbInit = new Bootstrap.DBInit(_connectionString,_assemblyName);
         }
 
         private long ExecScalarByUsing(string sqlCommand)
         {
-            return _helper.ExecuteScalar<long>(Script.From(sqlCommand));            
+            return _scriptExec.ExecuteScalar<long>(Script.From(sqlCommand));            
         }
 
         [Test]

@@ -39,6 +39,11 @@
     <Compile Include="ScriptHelpers\ScriptLoaderFluentFactory.cs" />
     <Compile Include="ScriptHelpers\ScriptLoaderOnEmbeddedResource.cs" />
     <Compile Include="ScriptHelpers\IScriptExec.cs" />
+    <Compile Include="IDBOperator.cs" />
+    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="ISchemaOperator.cs" />
+    <Compile Include="IDataOperator.cs" />
+    <Compile Include="ISchemaInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

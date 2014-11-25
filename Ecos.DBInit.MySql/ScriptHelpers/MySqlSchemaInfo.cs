@@ -4,10 +4,11 @@ using Ecos.DBInit.Core.Model;
 using System.Data;
 using System;
 using Ecos.DBInit.Core.ScriptHelpers;
+using Ecos.DBInit.Core;
 
 namespace Ecos.DBInit.MySql.ScriptHelpers
 {
-    public class MySqlSchemaInfo:IDisposable
+    public class MySqlSchemaInfo:ISchemaInfo,IDisposable
     {
         const int FirstField = 0;
 
