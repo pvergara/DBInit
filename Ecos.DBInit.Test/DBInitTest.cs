@@ -46,6 +46,7 @@ namespace Ecos.DBInit.Test
 
             //Database Engine independent
             var dbOperator = new DBOperator(schemaOperator, dataOperator);
+
             _dbInit = new Bootstrap.DBInit(unitOfWork, dbOperator);
         }
 

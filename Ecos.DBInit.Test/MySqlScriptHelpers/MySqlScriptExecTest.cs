@@ -8,7 +8,7 @@ using System.Configuration;
 using Ecos.DBInit.Test.ObjectMothers;
 using System.Linq;
 
-namespace Ecos.DBInit.Test.SpecificScriptHelpers
+namespace Ecos.DBInit.Test.MySqlScriptHelpers
 {
     [TestFixture]
     public class MySqlScriptExecTest

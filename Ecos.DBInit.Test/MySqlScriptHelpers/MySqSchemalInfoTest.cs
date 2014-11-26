@@ -9,7 +9,7 @@ using System.Data;
 using System;
 using Ecos.DBInit.Test.ObjectMothers;
 
-namespace Ecos.DBInit.Test.SpecificScriptHelpers
+namespace Ecos.DBInit.Test.MySqlScriptHelpers
 {
     [TestFixture]
     public class MySqlSchemaInfoTest
