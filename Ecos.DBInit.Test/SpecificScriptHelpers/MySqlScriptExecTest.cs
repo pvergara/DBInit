@@ -3,7 +3,6 @@ using Ecos.DBInit.MySql.ScriptHelpers;
 using System;
 using System.Data;
 using System.Collections.Generic;
-using Constraints = NUnit.Framework.Constraints;
 using Ecos.DBInit.Core.Model;
 using System.Configuration;
 using Ecos.DBInit.Test.ObjectMothers;
@@ -12,12 +11,12 @@ using System.Linq;
 namespace Ecos.DBInit.Test.SpecificScriptHelpers
 {
     [TestFixture]
-    public class MySqlScriptHelperTest
+    public class MySqlScriptExecTest
     {
         private readonly string _connectionString;
         private readonly IEnumerable<String> _someTablesAndViewOfSakilaDB;
 
-        public MySqlScriptHelperTest(){
+        public MySqlScriptExecTest(){
             _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
             _someTablesAndViewOfSakilaDB = SakilaDbOM.SomeTableNames;
         }
@@ -82,10 +81,10 @@ namespace Ecos.DBInit.Test.SpecificScriptHelpers
             using (var scriptExec = new MySqlScriptExec(_connectionString))
             {
                 //Act
-                var actorsCount = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
+                var actorsCount = scriptExec.ExecuteScalar<long>(Script.From("SELECT count(*) FROM information_schema.tables WHERE table_schema = 'sakila' AND TABLE_TYPE = 'BASE TABLE';"));
 
                 //Assert
-                Assert.That(actorsCount,Is.GreaterThanOrEqualTo(0));
+                Assert.That(actorsCount,Is.EqualTo(SakilaDbOM.TablesCounter));
             }
         }
 

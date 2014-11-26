@@ -45,9 +45,9 @@
     <Compile Include="DBInitTest.cs" />
     <Compile Include="Helpers\ScriptFinderOnEmbeddedResourceTest.cs" />
     <Compile Include="Helpers\ScriptLoaderOnEmbbededResourceTest.cs" />
-    <Compile Include="SpecificScriptHelpers\MySqlScriptHelperTest.cs" />
     <Compile Include="SpecificScriptHelpers\MySqSchemalInfoTest.cs" />
     <Compile Include="ObjectMothers\SakilaDbOM.cs" />
+    <Compile Include="SpecificScriptHelpers\MySqlScriptExecTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
