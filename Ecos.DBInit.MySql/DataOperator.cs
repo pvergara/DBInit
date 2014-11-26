@@ -41,13 +41,13 @@ namespace Ecos.DBInit.MySql
             var container = 
                 ScriptFinderFluentFactory.
                     FromEmbeddedResource.
-                    InitWith(_assemblyName, ScriptType.Data).
+                        InitWith(_assemblyName, ScriptType.Data).
                     GetContainer();
 
             var scripts = 
                 ScriptLoaderFluentFactory.
                     FromEmbeddedResource.
-                    InitWith(_assemblyName, container).
+                        InitWith(_assemblyName, container).
                     GetScripts();
 
             _unitOfWork.Add(scripts);

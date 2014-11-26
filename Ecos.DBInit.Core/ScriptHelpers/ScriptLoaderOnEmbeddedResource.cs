@@ -20,11 +20,6 @@ namespace Ecos.DBInit.Core.ScriptHelpers
 
         public IEnumerable<Script> GetScripts()
         {
-            return GetScripts("", "");
-        }
-
-        public IEnumerable<Script> GetScripts(string oldValue,string newValue)
-        {
             var assembly = Assembly.ReflectionOnlyLoad(_assemblyName);
             var resourcesName = assembly.GetManifestResourceNames().Where(s=>s.Contains(_container.Path));
             ICollection<Script> scripts = new List<Script>();
@@ -32,14 +27,13 @@ namespace Ecos.DBInit.Core.ScriptHelpers
             {
                 var stream = assembly.GetManifestResourceStream(resourceName);
                 var text = new StreamReader(stream).ReadToEnd();
-                if (!String.IsNullOrEmpty(oldValue) && !String.IsNullOrEmpty(newValue))
-                    text = text.Replace(oldValue, newValue);
                 var script = Script.From(text);
                 scripts.Add(script);
             }
 
             return scripts;
         }
+
     }
 }
 
