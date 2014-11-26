@@ -2,22 +2,20 @@
 using Ecos.DBInit.Core.Model;
 using System.Collections.Generic;
 using System.Linq;
-using Ecos.DBInit.Core.ScriptHelpers;
 
 namespace Ecos.DBInit.MySql
 {
     public class SchemaOperator : ISchemaOperator
     {
-        private readonly string _assemblyName;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISchemaInfo _schemaInfo;
+        private readonly IScriptLoader _scriptLoader;
 
-
-        public SchemaOperator(string assemblyName,IUnitOfWork unitOfWork,ISchemaInfo schemaInfo)
+        public SchemaOperator(IUnitOfWork unitOfWork,ISchemaInfo schemaInfo,IScriptLoader scriptLoader)
         {
-            _assemblyName = assemblyName;
             _unitOfWork = unitOfWork;
             _schemaInfo = schemaInfo;
+            _scriptLoader = scriptLoader;
         }
 
         public void ActivateReferentialIntegrity()
@@ -66,17 +64,7 @@ namespace Ecos.DBInit.MySql
 
         public void CreateDataBaseObjects()
         {
-            var container = 
-                ScriptFinderFluentFactory.
-                FromEmbeddedResource.
-                InitWith(_assemblyName, ScriptType.Schema).
-                GetContainer();
-
-            var scripts = 
-                ScriptLoaderFluentFactory.
-                FromEmbeddedResource.
-                InitWith(_assemblyName, container).
-                GetScripts();
+            var scripts = _scriptLoader.GetScripts();
 
             _unitOfWork.Add(scripts);
         }

@@ -44,6 +44,7 @@
     <Compile Include="Interfaces\ISchemaOperator.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Interfaces\IScriptExec.cs" />
+    <Compile Include="Interfaces\IScripLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

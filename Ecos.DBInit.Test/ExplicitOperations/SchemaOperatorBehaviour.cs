@@ -2,7 +2,6 @@
 using Ecos.DBInit.Core.Interfaces;
 using Moq;
 using Ecos.DBInit.MySql;
-using Ecos.DBInit.Test.ObjectMothers;
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
 
@@ -14,13 +13,15 @@ namespace Ecos.DBInit.Test.ExplicitOperations
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<ISchemaInfo> _schemaInfoMock;
         private ISchemaOperator _schemaOperator;
+        private Mock<IScriptLoader> _scriptLoaderMock;
 
         [SetUp]
         public void BeforeEachTest()
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _schemaInfoMock = new Mock<ISchemaInfo>();
-            _schemaOperator = new SchemaOperator(SakilaDbOM.SampleProjectAssemblyName, _unitOfWorkMock.Object, _schemaInfoMock.Object);
+            _scriptLoaderMock = new Mock<IScriptLoader>();
+            _schemaOperator = new SchemaOperator(_unitOfWorkMock.Object, _schemaInfoMock.Object,_scriptLoaderMock.Object);
         }
 
         [Test]
@@ -69,6 +70,15 @@ namespace Ecos.DBInit.Test.ExplicitOperations
 
             //Assert
             _unitOfWorkMock.Verify(m => m.Add(It.IsAny<IEnumerable<Script>>()));
+        }
+
+        [Test]
+        public void CreateDataBaseObjectsAskForTheScriptNeededToRecreateTheSchemaByUsingIScriptLoader(){
+            //Act
+            _schemaOperator.CreateDataBaseObjects();
+
+            //Assert
+            _scriptLoaderMock.Verify(m => m.GetScripts());
         }
     }
 }

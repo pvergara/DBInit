@@ -4,10 +4,11 @@ using Ecos.DBInit.Core.Model;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using Ecos.DBInit.Core.Interfaces;
 
 namespace Ecos.DBInit.Core.ScriptHelpers
 {
-    public class ScriptLoaderOnEmbeddedResource
+    public class ScriptLoaderOnEmbeddedResource:IScriptLoader
     {
         private readonly string _assemblyName;
         private readonly Container _container;

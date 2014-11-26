@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
 using System.Linq;
-using Ecos.DBInit.Core.ScriptHelpers;
 
 namespace Ecos.DBInit.MySql
 {
@@ -10,13 +9,13 @@ namespace Ecos.DBInit.MySql
     {
         readonly ISchemaInfo _schemaInfo;
         readonly IUnitOfWork _unitOfWork;
-        readonly string _assemblyName;
+        readonly IScriptLoader _loader;
 
-        public DataOperator(string assemblyName, IUnitOfWork unitOfWork, ISchemaInfo schemaInfo)
+        public DataOperator(IUnitOfWork unitOfWork, ISchemaInfo schemaInfo,IScriptLoader loader)
         {
             _unitOfWork = unitOfWork;
             _schemaInfo = schemaInfo;
-            _assemblyName = assemblyName;
+            _loader = loader;
         }
 
         public void CleanEachTable()
@@ -38,17 +37,7 @@ namespace Ecos.DBInit.MySql
 
         public void LoadDataScripts()
         {
-            var container = 
-                ScriptFinderFluentFactory.
-                    FromEmbeddedResource.
-                        InitWith(_assemblyName, ScriptType.Data).
-                    GetContainer();
-
-            var scripts = 
-                ScriptLoaderFluentFactory.
-                    FromEmbeddedResource.
-                        InitWith(_assemblyName, container).
-                    GetScripts();
+            var scripts = _loader.GetScripts();
 
             _unitOfWork.Add(scripts);
         }

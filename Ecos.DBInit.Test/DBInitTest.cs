@@ -6,6 +6,7 @@ using Ecos.DBInit.Test.ObjectMothers;
 using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Bootstrap;
 using Ecos.DBInit.MySql;
+using Ecos.DBInit.Core.ScriptHelpers;
 
 namespace Ecos.DBInit.Test
 {
@@ -41,8 +42,31 @@ namespace Ecos.DBInit.Test
 
             //Depends on DB Engine
             var schemaInfo = new MySqlSchemaInfo(_connectionString, scriptExec);
-            var schemaOperator = new SchemaOperator(_assemblyName, unitOfWork, schemaInfo);
-            var dataOperator = new DataOperator(_assemblyName, unitOfWork, schemaInfo);
+            var schemaContainer = 
+                ScriptFinderFluentFactory.
+                FromEmbeddedResource.
+                    InitWith(_assemblyName, ScriptType.Schema).
+                GetContainer();
+
+            IScriptLoader schemaScriptLoader = 
+                ScriptLoaderFluentFactory.
+                    FromEmbeddedResource.
+                InitWith(_assemblyName, schemaContainer);
+
+            var schemaOperator = new SchemaOperator(unitOfWork, schemaInfo,schemaScriptLoader);
+
+            var dataContainer = 
+                ScriptFinderFluentFactory.
+                FromEmbeddedResource.
+                InitWith(_assemblyName, ScriptType.Data).
+                GetContainer();
+
+            IScriptLoader dataScriptsLoader = 
+                ScriptLoaderFluentFactory.
+                FromEmbeddedResource.
+                InitWith(_assemblyName, dataContainer);
+
+            var dataOperator = new DataOperator(unitOfWork, schemaInfo,dataScriptsLoader);
 
             //Database Engine independent
             var dbOperator = new DBOperator(schemaOperator, dataOperator);
