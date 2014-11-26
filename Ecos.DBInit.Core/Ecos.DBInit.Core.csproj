@@ -29,7 +29,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IDBInit.cs" />
     <Compile Include="Model\Container.cs" />
     <Compile Include="Model\Script.cs" />
     <Compile Include="Model\ScriptType.cs" />
@@ -39,11 +38,12 @@
     <Compile Include="ScriptHelpers\ScriptLoaderFluentFactory.cs" />
     <Compile Include="ScriptHelpers\ScriptLoaderOnEmbeddedResource.cs" />
     <Compile Include="ScriptHelpers\IScriptExec.cs" />
-    <Compile Include="IDBOperator.cs" />
-    <Compile Include="IUnitOfWork.cs" />
-    <Compile Include="ISchemaOperator.cs" />
-    <Compile Include="IDataOperator.cs" />
-    <Compile Include="ISchemaInfo.cs" />
+    <Compile Include="Interfaces\IDataOperator.cs" />
+    <Compile Include="Interfaces\IDBInit.cs" />
+    <Compile Include="Interfaces\IDBOperator.cs" />
+    <Compile Include="Interfaces\ISchemaInfo.cs" />
+    <Compile Include="Interfaces\ISchemaOperator.cs" />
+    <Compile Include="Interfaces\IUnitOfWork.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -56,5 +56,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 </Project>

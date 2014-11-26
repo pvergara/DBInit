@@ -4,7 +4,7 @@ using Ecos.DBInit.Core.Model;
 using System.Data;
 using System;
 using Ecos.DBInit.Core.ScriptHelpers;
-using Ecos.DBInit.Core;
+using Ecos.DBInit.Core.Interfaces;
 
 namespace Ecos.DBInit.MySql.ScriptHelpers
 {

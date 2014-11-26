@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 using Ecos.DBInit.Core.Model;
-using Ecos.DBInit.Bootstrap;
 using Ecos.DBInit.MySql.ScriptHelpers;
 using System.Configuration;
 using Ecos.DBInit.Test.ObjectMothers;
+using Ecos.DBInit.Core.Interfaces;
 
 namespace Ecos.DBInit.Test
 {
@@ -19,7 +19,7 @@ namespace Ecos.DBInit.Test
         readonly string _dbName;
         readonly string _connectionString;
         readonly MySqlScriptExec _scriptExec;
-        readonly Ecos.DBInit.Core.IDBInit _dbInit;
+        readonly IDBInit _dbInit;
 
         public DBInitTest()
         {

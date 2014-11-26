@@ -1,4 +1,4 @@
-﻿using Ecos.DBInit.Core;
+﻿using Ecos.DBInit.Core.Interfaces;
 
 namespace Ecos.DBInit.Bootstrap
 {

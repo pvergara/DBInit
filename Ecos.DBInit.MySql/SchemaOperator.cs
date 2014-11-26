@@ -1,4 +1,4 @@
-﻿using Ecos.DBInit.Core;
+﻿using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Model;
 using System.Collections.Generic;
 using System.Linq;
