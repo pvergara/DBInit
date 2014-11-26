@@ -4,6 +4,8 @@ using Ecos.DBInit.MySql.ScriptHelpers;
 using System.Configuration;
 using Ecos.DBInit.Test.ObjectMothers;
 using Ecos.DBInit.Core.Interfaces;
+using Ecos.DBInit.Bootstrap;
+using Ecos.DBInit.MySql;
 
 namespace Ecos.DBInit.Test
 {
@@ -32,7 +34,19 @@ namespace Ecos.DBInit.Test
             _queryToKnowNumberOfTablesAndViews = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '" + _dbName + "';";
             _queryToKnowNumberOfStoredProceduresAndFunctions = "SELECT count(*) FROM information_schema.routines WHERE routine_schema = '" + _dbName + "';";
 
-            _dbInit = new Bootstrap.DBInit(_connectionString,_assemblyName);
+            var scriptExec = ScriptExecFactory.From().InitWith(_connectionString).GetScriptExec();
+
+            //TODO: SINGLETON!!!!
+            var unitOfWork = new UnitOfWorkOnCollection(scriptExec);
+
+            //Depends on DB Engine
+            var schemaInfo = new MySqlSchemaInfo(_connectionString, scriptExec);
+            var schemaOperator = new SchemaOperator(_assemblyName, unitOfWork, schemaInfo);
+            var dataOperator = new DataOperator(_assemblyName, unitOfWork, schemaInfo);
+
+            //Database Engine independent
+            var dbOperator = new DBOperator(schemaOperator, dataOperator);
+            _dbInit = new Bootstrap.DBInit(unitOfWork, dbOperator);
         }
 
         private long ExecScalarByUsing(string sqlCommand)

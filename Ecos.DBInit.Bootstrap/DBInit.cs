@@ -1,7 +1,4 @@
-﻿using Ecos.DBInit.Bootstrap;
-using Ecos.DBInit.MySql;
-using Ecos.DBInit.MySql.ScriptHelpers;
-using Ecos.DBInit.Core.Interfaces;
+﻿using Ecos.DBInit.Core.Interfaces;
 
 namespace Ecos.DBInit.Bootstrap
 {
@@ -10,18 +7,10 @@ namespace Ecos.DBInit.Bootstrap
         private readonly IDBOperator _operator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DBInit(string connectionString, string assemblyName)
+        public DBInit(IUnitOfWork unitOfWork,IDBOperator oper)
         {
-            //TODO: SINGLETON!!!!
-            var scriptExec = ScriptExecFactory.From().InitWith(connectionString).GetScriptExec();
-
-            //TODO: SINGLETON!!!!
-            _unitOfWork = new UnitOfWorkOnCollection(scriptExec);
-            //SPECIFIC
-            var mySqlSchemaInfo = new MySqlSchemaInfo(connectionString, scriptExec);
-            var schemaOperator = new SchemaOperator(assemblyName, _unitOfWork, mySqlSchemaInfo);
-            var dataOperator = new DataOperator(assemblyName, _unitOfWork, mySqlSchemaInfo);
-            _operator = new DBOperator(schemaOperator, dataOperator);
+            _unitOfWork = unitOfWork;
+            _operator = oper;
         }
 
         public void InitSchema()
