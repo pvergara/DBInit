@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Data;
 
-namespace Ecos.DBInit.Core.ScriptHelpers
+namespace Ecos.DBInit.Core.Interfaces
 {
 
     public interface IScriptExec:IDisposable

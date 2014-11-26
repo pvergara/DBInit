@@ -37,13 +37,13 @@
     <Compile Include="ScriptHelpers\ScriptFinderFluentFactory.cs" />
     <Compile Include="ScriptHelpers\ScriptLoaderFluentFactory.cs" />
     <Compile Include="ScriptHelpers\ScriptLoaderOnEmbeddedResource.cs" />
-    <Compile Include="ScriptHelpers\IScriptExec.cs" />
     <Compile Include="Interfaces\IDataOperator.cs" />
     <Compile Include="Interfaces\IDBInit.cs" />
     <Compile Include="Interfaces\IDBOperator.cs" />
     <Compile Include="Interfaces\ISchemaInfo.cs" />
     <Compile Include="Interfaces\ISchemaOperator.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Interfaces\IScriptExec.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

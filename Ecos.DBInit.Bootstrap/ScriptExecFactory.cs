@@ -1,5 +1,5 @@
 ﻿using Ecos.DBInit.MySql.ScriptHelpers;
-using Ecos.DBInit.Core.ScriptHelpers;
+using Ecos.DBInit.Core.Interfaces;
 
 namespace Ecos.DBInit.Bootstrap
 {

@@ -2,7 +2,7 @@
 using Ecos.DBInit.MySql.ScriptHelpers;
 using System.Configuration;
 using System.Collections.Generic;
-using Ecos.DBInit.Core.ScriptHelpers;
+using Ecos.DBInit.Core.Interfaces;
 using Moq;
 using Ecos.DBInit.Core.Model;
 using System.Data;

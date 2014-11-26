@@ -1,5 +1,4 @@
 ﻿using Ecos.DBInit.Bootstrap;
-using Ecos.DBInit.Core;
 using Ecos.DBInit.MySql;
 using Ecos.DBInit.MySql.ScriptHelpers;
 using Ecos.DBInit.Core.Interfaces;
@@ -11,7 +10,8 @@ namespace Ecos.DBInit.Bootstrap
         private readonly IDBOperator _operator;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DBInit(string connectionString,string assemblyName){
+        public DBInit(string connectionString, string assemblyName)
+        {
             //TODO: SINGLETON!!!!
             var scriptExec = ScriptExecFactory.From().InitWith(connectionString).GetScriptExec();
 
