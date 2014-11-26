@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
-using Ecos.DBInit.Core.ScriptHelpers;
+using Ecos.DBInit.Core.Interfaces;
 
-namespace Ecos.DBInit.Core.Interfaces
+namespace Ecos.DBInit.Bootstrap
 {
     public class UnitOfWorkOnCollection: IUnitOfWork
     {
