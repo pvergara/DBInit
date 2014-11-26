@@ -50,21 +50,21 @@ namespace Ecos.DBInit.Test
 
             IScriptLoader schemaScriptLoader = 
                 ScriptLoaderFluentFactory.
-                    FromEmbeddedResource.
-                InitWith(_assemblyName, schemaContainer);
+                FromEmbeddedResource.
+                    InitWith(_assemblyName, schemaContainer);
 
             var schemaOperator = new SchemaOperator(unitOfWork, schemaInfo,schemaScriptLoader);
 
             var dataContainer = 
                 ScriptFinderFluentFactory.
                 FromEmbeddedResource.
-                InitWith(_assemblyName, ScriptType.Data).
+                    InitWith(_assemblyName, ScriptType.Data).
                 GetContainer();
 
             IScriptLoader dataScriptsLoader = 
                 ScriptLoaderFluentFactory.
                 FromEmbeddedResource.
-                InitWith(_assemblyName, dataContainer);
+                    InitWith(_assemblyName, dataContainer);
 
             var dataOperator = new DataOperator(unitOfWork, schemaInfo,dataScriptsLoader);
 
