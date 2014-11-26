@@ -48,6 +48,8 @@
     <Compile Include="ObjectMothers\SakilaDbOM.cs" />
     <Compile Include="MySqlScriptHelpers\MySqSchemalInfoTest.cs" />
     <Compile Include="MySqlScriptHelpers\MySqlScriptExecTest.cs" />
+    <Compile Include="ExplicitOperations\SchemaOperatorBehaviour.cs" />
+    <Compile Include="ExplicitOperations\DataOperatorBehaviour.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -78,4 +80,7 @@
     </None>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ExplicitOperations\" />
+  </ItemGroup>
 </Project>
