@@ -32,7 +32,7 @@
     <Compile Include="ScriptHelpers\MySqlScriptHelper.cs" />
     <Compile Include="ScriptHelpers\MySqlSchemaInfo.cs" />
     <Compile Include="SchemaOperator.cs" />
-    <Compile Include="DataOperator.cs" />
+    <Compile Include="SpecificDBOperator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

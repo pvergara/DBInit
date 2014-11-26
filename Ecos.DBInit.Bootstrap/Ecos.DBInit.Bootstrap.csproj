@@ -33,6 +33,7 @@
     <Compile Include="DBInit.cs" />
     <Compile Include="DBOperator.cs" />
     <Compile Include="UnitOfWorkOnCollection.cs" />
+    <Compile Include="DataOperator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

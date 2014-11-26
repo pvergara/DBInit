@@ -50,6 +50,7 @@
     <Compile Include="MySqlScriptHelpers\MySqlScriptExecTest.cs" />
     <Compile Include="ExplicitOperations\SchemaOperatorBehaviour.cs" />
     <Compile Include="ExplicitOperations\DataOperatorBehaviour.cs" />
+    <Compile Include="MySqlOperator\MySqlSpecificDBOperatorTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -82,5 +83,6 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="ExplicitOperations\" />
+    <Folder Include="MySqlOperator\" />
   </ItemGroup>
 </Project>

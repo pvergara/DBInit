@@ -4,6 +4,7 @@ using Moq;
 using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Model;
 using System.Collections.Generic;
+using Ecos.DBInit.Core;
 
 namespace Ecos.DBInit.Test.ExplicitOperations
 {
@@ -14,6 +15,7 @@ namespace Ecos.DBInit.Test.ExplicitOperations
         private Mock<ISchemaInfo> _schemaInfoMock;
         private IDataOperator _dataOperator;
         private Mock<IScriptLoader> _scriptLoaderMock;
+        private Mock<ISpecificDBOperator> _specificDBOperatorMock;
 
         [SetUp]
         public void BeforeEachTest()
@@ -21,7 +23,8 @@ namespace Ecos.DBInit.Test.ExplicitOperations
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _schemaInfoMock = new Mock<ISchemaInfo>();
             _scriptLoaderMock = new Mock<IScriptLoader>();
-            _dataOperator = new DataOperator( _unitOfWorkMock.Object, _schemaInfoMock.Object, _scriptLoaderMock.Object);
+            _specificDBOperatorMock = new Mock<ISpecificDBOperator>();
+            _dataOperator = new DataOperator(_unitOfWorkMock.Object, _schemaInfoMock.Object, _scriptLoaderMock.Object,_specificDBOperatorMock.Object);
         }
 
         [Test]
@@ -32,6 +35,20 @@ namespace Ecos.DBInit.Test.ExplicitOperations
 
             //Assert
             _schemaInfoMock.Verify(m => m.GetTables());
+        }
+
+        [Test]
+        public void CleanEachTableDelegatesTheSpecificCompositionOfTheDeletingEachDataByUsingISpecificDBOperator()
+        {
+            //Arrange
+            var tables = new[]{"table1","table2","table3"};
+            _schemaInfoMock.Setup(m => m.GetTables()).Returns(tables);
+
+            //Act
+            _dataOperator.CleanEachTable();
+
+            //Assert
+            _specificDBOperatorMock.Verify(m => m.ComposeScriptsDelete(tables));
         }
 
         [Test]

@@ -1,21 +1,22 @@
 ﻿using Ecos.DBInit.Core.Interfaces;
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
-using System.Linq;
 
-namespace Ecos.DBInit.MySql
+namespace Ecos.DBInit.Core
 {
     public class DataOperator:IDataOperator
     {
         readonly ISchemaInfo _schemaInfo;
         readonly IUnitOfWork _unitOfWork;
         readonly IScriptLoader _loader;
+        readonly ISpecificDBOperator _specificDBOperator;
 
-        public DataOperator(IUnitOfWork unitOfWork, ISchemaInfo schemaInfo,IScriptLoader loader)
+        public DataOperator(IUnitOfWork unitOfWork, ISchemaInfo schemaInfo,IScriptLoader loader,ISpecificDBOperator specificDBOperator)
         {
             _unitOfWork = unitOfWork;
             _schemaInfo = schemaInfo;
             _loader = loader;
+            _specificDBOperator = specificDBOperator;
         }
 
         public void CleanEachTable()
@@ -29,10 +30,7 @@ namespace Ecos.DBInit.MySql
 
         private IEnumerable<Script> ComposeScriptsDeleteEachTable()
         {
-            return _schemaInfo.GetTables().
-                Select(tableName => 
-                    Script.From(string.Format("DELETE FROM {0};", tableName))
-            );
+            return _specificDBOperator.ComposeScriptsDelete(_schemaInfo.GetTables());
         }
 
         public void LoadDataScripts()

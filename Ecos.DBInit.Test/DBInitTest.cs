@@ -7,6 +7,7 @@ using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Bootstrap;
 using Ecos.DBInit.MySql;
 using Ecos.DBInit.Core.ScriptHelpers;
+using Ecos.DBInit.Core;
 
 namespace Ecos.DBInit.Test
 {
@@ -66,7 +67,8 @@ namespace Ecos.DBInit.Test
                 FromEmbeddedResource.
                     InitWith(_assemblyName, dataContainer);
 
-            var dataOperator = new DataOperator(unitOfWork, schemaInfo,dataScriptsLoader);
+            ISpecificDBOperator mysqlDBOperator = new SpecificDBOperator();
+            var dataOperator = new DataOperator(unitOfWork, schemaInfo,dataScriptsLoader,mysqlDBOperator);
 
             //Database Engine independent
             var dbOperator = new DBOperator(schemaOperator, dataOperator);
