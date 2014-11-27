@@ -42,7 +42,10 @@ namespace Ecos.DBInit.Test
             var unitOfWork = new UnitOfWorkOnCollection(scriptExec);
 
             //Depends on DB Engine
+            ISpecificDBOperator mysqlDBOperator = new SpecificDBOperator();
             var schemaInfo = new MySqlSchemaInfo(_connectionString, scriptExec);
+
+            //Depends on "the user"
             var schemaContainer = 
                 ScriptFinderFluentFactory.
                 FromEmbeddedResource.
@@ -53,9 +56,7 @@ namespace Ecos.DBInit.Test
                 ScriptLoaderFluentFactory.
                 FromEmbeddedResource.
                     InitWith(_assemblyName, schemaContainer);
-
-            var schemaOperator = new SchemaOperator(unitOfWork, schemaInfo,schemaScriptLoader);
-
+                
             var dataContainer = 
                 ScriptFinderFluentFactory.
                 FromEmbeddedResource.
@@ -67,10 +68,9 @@ namespace Ecos.DBInit.Test
                 FromEmbeddedResource.
                     InitWith(_assemblyName, dataContainer);
 
-            ISpecificDBOperator mysqlDBOperator = new SpecificDBOperator();
-            var dataOperator = new DataOperator(unitOfWork, schemaInfo,dataScriptsLoader,mysqlDBOperator);
-
             //Database Engine independent
+            var schemaOperator = new SchemaOperator(unitOfWork, schemaInfo,schemaScriptLoader,mysqlDBOperator);
+            var dataOperator = new DataOperator(unitOfWork, schemaInfo,dataScriptsLoader,mysqlDBOperator);
             var dbOperator = new DBOperator(schemaOperator, dataOperator);
 
             _dbInit = new Bootstrap.DBInit(unitOfWork, dbOperator);

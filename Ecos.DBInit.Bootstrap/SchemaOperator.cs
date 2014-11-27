@@ -1,33 +1,34 @@
 ﻿using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Model;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Ecos.DBInit.MySql
+namespace Ecos.DBInit.Bootstrap
 {
     public class SchemaOperator : ISchemaOperator
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISchemaInfo _schemaInfo;
         private readonly IScriptLoader _scriptLoader;
+        private readonly ISpecificDBOperator _specificDBOperator;
 
-        public SchemaOperator(IUnitOfWork unitOfWork,ISchemaInfo schemaInfo,IScriptLoader scriptLoader)
+        public SchemaOperator(IUnitOfWork unitOfWork,ISchemaInfo schemaInfo,IScriptLoader scriptLoader,ISpecificDBOperator specificDBOperator)
         {
             _unitOfWork = unitOfWork;
             _schemaInfo = schemaInfo;
             _scriptLoader = scriptLoader;
+            _specificDBOperator = specificDBOperator;
         }
 
         public void ActivateReferentialIntegrity()
         {
-            var scripts = new []{ Script.From("SET @@foreign_key_checks = 1;") };
+            var scripts = new []{ _specificDBOperator.ComposeActivateReferentialIntegrity() };
 
             _unitOfWork.Add(scripts);
         }
 
         public void DeactivateReferentialIntegrity()
         {
-            var scripts = new []{ Script.From("SET @@foreign_key_checks = 0;") };
+            var scripts = new []{ _specificDBOperator.ComposeDeactivateReferentialIntegrity() };
             _unitOfWork.Add(scripts);
         }
 
@@ -45,22 +46,14 @@ namespace Ecos.DBInit.MySql
         {
             var dropAllObjectsScript = new List<Script>();
 
-            dropAllObjectsScript.AddRange(ComposeScriptsWithDropUsing("TABLE", _schemaInfo.GetTables()));
-            dropAllObjectsScript.AddRange(ComposeScriptsWithDropUsing("VIEW", _schemaInfo.GetViews()));
-            dropAllObjectsScript.AddRange(ComposeScriptsWithDropUsing("PROCEDURE", _schemaInfo.GetStoredProcedures()));
-            dropAllObjectsScript.AddRange(ComposeScriptsWithDropUsing("FUNCTION", _schemaInfo.GetFunctions()));
+            dropAllObjectsScript.AddRange(_specificDBOperator.ComposeScriptsDropTables(_schemaInfo.GetTables()));
+            dropAllObjectsScript.AddRange(_specificDBOperator.ComposeScriptsDropViews(_schemaInfo.GetViews()));
+            dropAllObjectsScript.AddRange(_specificDBOperator.ComposeScriptsDropStoredProcedures(_schemaInfo.GetStoredProcedures()));
+            dropAllObjectsScript.AddRange(_specificDBOperator.ComposeScriptsDropFunctions(_schemaInfo.GetFunctions()));
 
             return dropAllObjectsScript;
         }
-
-        private static IEnumerable<Script> ComposeScriptsWithDropUsing(string typeOfObject, IEnumerable<string> objectNames)
-        {
-            return objectNames.
-                    Select(objectName => 
-                        Script.From(string.Format("DROP {0} IF EXISTS {1};", typeOfObject, objectName))
-            );
-
-        }
+            
 
         public void CreateDataBaseObjects()
         {

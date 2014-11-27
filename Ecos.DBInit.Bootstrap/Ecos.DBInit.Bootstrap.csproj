@@ -34,6 +34,7 @@
     <Compile Include="DBOperator.cs" />
     <Compile Include="UnitOfWorkOnCollection.cs" />
     <Compile Include="DataOperator.cs" />
+    <Compile Include="SchemaOperator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

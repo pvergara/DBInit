@@ -1,9 +1,9 @@
 ﻿using NUnit.Framework;
 using Ecos.DBInit.Core.Interfaces;
 using Moq;
-using Ecos.DBInit.MySql;
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
+using Ecos.DBInit.Bootstrap;
 
 namespace Ecos.DBInit.Test.ExplicitOperations
 {
@@ -14,6 +14,7 @@ namespace Ecos.DBInit.Test.ExplicitOperations
         private Mock<ISchemaInfo> _schemaInfoMock;
         private ISchemaOperator _schemaOperator;
         private Mock<IScriptLoader> _scriptLoaderMock;
+        private Mock<ISpecificDBOperator> _specificDBOperatorMock;
 
         [SetUp]
         public void BeforeEachTest()
@@ -21,7 +22,8 @@ namespace Ecos.DBInit.Test.ExplicitOperations
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _schemaInfoMock = new Mock<ISchemaInfo>();
             _scriptLoaderMock = new Mock<IScriptLoader>();
-            _schemaOperator = new SchemaOperator(_unitOfWorkMock.Object, _schemaInfoMock.Object,_scriptLoaderMock.Object);
+            _specificDBOperatorMock = new Mock<ISpecificDBOperator>();
+            _schemaOperator = new SchemaOperator(_unitOfWorkMock.Object, _schemaInfoMock.Object,_scriptLoaderMock.Object,_specificDBOperatorMock.Object);
         }
 
         [Test]
@@ -34,12 +36,30 @@ namespace Ecos.DBInit.Test.ExplicitOperations
         }
 
         [Test]
+        public void ActivateReferentialIntegrityDelegatesTheSpecificCompositionOfTheScriptToISpecificDBOperator(){
+            //Act
+            _schemaOperator.ActivateReferentialIntegrity();
+
+            //Assert
+            _specificDBOperatorMock.Verify(m => m.ComposeActivateReferentialIntegrity());
+        }
+
+        [Test]
         public void DeactivateReferentialIntegrityAddsTheResultedScriptsToTheUnitOfWork(){
             //Act
             _schemaOperator.DeactivateReferentialIntegrity();
 
             //Assert
             _unitOfWorkMock.Verify(m => m.Add(It.IsAny<IEnumerable<Script>>()));
+        }
+
+        [Test]
+        public void DeactivateReferentialIntegrityDelegatesTheSpecificCompositionOfTheScriptToISpecificDBOperator(){
+            //Act
+            _schemaOperator.DeactivateReferentialIntegrity();
+
+            //Assert
+            _specificDBOperatorMock.Verify(m => m.ComposeDeactivateReferentialIntegrity());
         }
 
         [Test]
@@ -50,8 +70,30 @@ namespace Ecos.DBInit.Test.ExplicitOperations
             //Assert
             _schemaInfoMock.Verify(m => m.GetTables());
             _schemaInfoMock.Verify(m => m.GetViews());
-            _schemaInfoMock.Verify(m => m.GetFunctions());
             _schemaInfoMock.Verify(m => m.GetStoredProcedures());
+            _schemaInfoMock.Verify(m => m.GetFunctions());
+        }
+
+        [Test]
+        public void DropDataBaseObjectsDelegatesTheSpecificCompositionOfTheScriptToISpecificDBOperator(){
+            //Arrange
+            var tableNames = new[]{ "t1", "t2", "t3", "t4", "t5" };
+            _schemaInfoMock.Setup(mn => mn.GetTables()).Returns(tableNames);
+            var viewNames = new[]{ "v1", "v2", "v3" };
+            _schemaInfoMock.Setup(mn => mn.GetViews()).Returns(viewNames);
+            var storedProcedureNames = new[]{ "sp1", "sp2" };
+            _schemaInfoMock.Setup(mn => mn.GetStoredProcedures()).Returns(storedProcedureNames);
+            var functionNames = new[]{ "f1", "f2", "f3", "f4" };
+            _schemaInfoMock.Setup(mn => mn.GetFunctions()).Returns(functionNames);
+
+            //Act
+            _schemaOperator.DropDataBaseObjects();
+
+            //Assert
+            _specificDBOperatorMock.Verify(m => m.ComposeScriptsDropTables(tableNames));
+            _specificDBOperatorMock.Verify(m => m.ComposeScriptsDropViews(viewNames));
+            _specificDBOperatorMock.Verify(m => m.ComposeScriptsDropStoredProcedures(storedProcedureNames));
+            _specificDBOperatorMock.Verify(m => m.ComposeScriptsDropFunctions(functionNames));
         }
 
         [Test]

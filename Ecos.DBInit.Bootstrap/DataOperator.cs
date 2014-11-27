@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
 
-namespace Ecos.DBInit.Core
+namespace Ecos.DBInit.Bootstrap
 {
     public class DataOperator:IDataOperator
     {

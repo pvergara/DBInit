@@ -1,10 +1,9 @@
 ﻿using NUnit.Framework;
-using Ecos.DBInit.MySql;
 using Moq;
 using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Model;
 using System.Collections.Generic;
-using Ecos.DBInit.Core;
+using Ecos.DBInit.Bootstrap;
 
 namespace Ecos.DBInit.Test.ExplicitOperations
 {
