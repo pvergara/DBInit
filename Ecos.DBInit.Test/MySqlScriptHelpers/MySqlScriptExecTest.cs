@@ -16,17 +16,19 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         private readonly string _connectionString;
         private readonly IEnumerable<String> _someTablesAndViewOfSakilaDB;
 
-        public MySqlScriptExecTest(){
+        public MySqlScriptExecTest()
+        {
             _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
             _someTablesAndViewOfSakilaDB = SakilaDbOM.SomeTableNames;
         }
 
-        private static ICollection<string> ProcessIndexedQueriesOnIndexedResults(IDataRecord reader, int index,ICollection<string> collectionForThisIndex){
+        private static ICollection<string> ProcessIndexedQueriesOnIndexedResults(IDataRecord reader, int index, ICollection<string> collectionForThisIndex)
+        {
             collectionForThisIndex.Add(reader.GetString(0));
             return collectionForThisIndex;
         }
 
-        private static ICollection<string> TransformTheReaderAndReturnString(IDataRecord reader,ICollection<string> collection)
+        private static ICollection<string> TransformTheReaderAndReturnString(IDataRecord reader, ICollection<string> collection)
         {
             collection.Add(reader.GetString(0));
             return collection;
@@ -42,10 +44,10 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
 
                 //Act
                 ICollection<String> results = new List<String>();
-                scriptExec.ExecuteAndProcess(query,results, TransformTheReaderAndReturnString);
+                scriptExec.ExecuteAndProcess(query, results, TransformTheReaderAndReturnString);
 
                 //Asserts
-                Assert.That(results.Count, Is.EqualTo(SakilaDbOM.TablesCounter+SakilaDbOM.ViewsCounter));
+                Assert.That(results.Count, Is.EqualTo(SakilaDbOM.TablesCounter + SakilaDbOM.ViewsCounter));
                 Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(results));
             }
         }
@@ -65,48 +67,92 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
                 indexedQueries.Add(secondQueryIndex, Script.From("SELECT specific_name FROM information_schema.routines WHERE routine_schema = 'sakila';"));
 
                 //Act
-                scriptExec.ExecuteAndProcess<int,String>(indexedQueries, indexedResults,ProcessIndexedQueriesOnIndexedResults);
+                scriptExec.ExecuteAndProcess<int,String>(indexedQueries, indexedResults, ProcessIndexedQueriesOnIndexedResults);
 
                 //Asserts
-                Assert.That(indexedResults[firsQueryIndex].Count, Is.EqualTo(SakilaDbOM.TablesCounter+SakilaDbOM.ViewsCounter));
+                Assert.That(indexedResults[firsQueryIndex].Count, Is.EqualTo(SakilaDbOM.TablesCounter + SakilaDbOM.ViewsCounter));
                 Assert.That(_someTablesAndViewOfSakilaDB, Is.SubsetOf(indexedResults[firsQueryIndex]));
 
-                Assert.That(indexedResults[secondQueryIndex].Count, Is.EqualTo(SakilaDbOM.SPsCounter+SakilaDbOM.FunctionsCounter));
+                Assert.That(indexedResults[secondQueryIndex].Count, Is.EqualTo(SakilaDbOM.SPsCounter + SakilaDbOM.FunctionsCounter));
                 Assert.That(new[]{ SakilaDbOM.FunctionNames.First(), SakilaDbOM.SPsNames.First() }, Is.SubsetOf(indexedResults[secondQueryIndex]));
             }
         }
 
         [Test]
-        public void HowToUseExecuteScalar(){
+        public void HowToUseExecuteScalar()
+        {
             using (var scriptExec = new MySqlScriptExec(_connectionString))
             {
                 //Act
                 var actorsCount = scriptExec.ExecuteScalar<long>(Script.From("SELECT count(*) FROM information_schema.tables WHERE table_schema = 'sakila' AND TABLE_TYPE = 'BASE TABLE';"));
 
                 //Assert
-                Assert.That(actorsCount,Is.EqualTo(SakilaDbOM.TablesCounter));
+                Assert.That(actorsCount, Is.EqualTo(SakilaDbOM.TablesCounter));
             }
         }
 
         [Test]
-        public void HowToUseExecute(){
+        public void HowToUseExecute()
+        {
             using (var scriptExec = new MySqlScriptExec(_connectionString))
             {
                 //Act
-                scriptExec.Execute(new[]{
-                    Script.From("DELETE FROM film_actor;"),
-                    Script.From("DELETE FROM actor;"),
-                    Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Kevin','Spacey');"),
-                    Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Carmelo','Gómez');"),
-                    Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Christopher','Lee');"),
-                    Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Bruce','Campbell');"),
-                });
+                scriptExec.Execute(new[]
+                    {
+                        Script.From("DELETE FROM film_actor;"),
+                        Script.From("DELETE FROM actor;"),
+                        Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Kevin','Spacey');"),
+                        Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Carmelo','Gómez');"),
+                        Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Christopher','Lee');"),
+                        Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Bruce','Campbell');"),
+                    });
 
                 //Pre-Assert
                 var actorCounter = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
-                
+
                 //Assert
-                Assert.That(actorCounter,Is.EqualTo(4));
+                Assert.That(actorCounter, Is.EqualTo(4));
+            }
+        }
+
+        [Test]
+        public void HowConnectionAndExecuteInsideTransactionWithCommitAndCloseWorks()
+        {
+            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            {
+                //Act
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DELETE FROM film_actor;"));
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DELETE FROM actor;"));
+                scriptExec.CommitAndClose();
+
+                //Pre-Assert
+                var actorCounter = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
+
+                //Assert
+                Assert.That(actorCounter, Is.EqualTo(0));
+            }
+        }
+
+        [Test]
+        public void HowConnectionAndExecuteInsideTransactionWithRollbackAndCloseWorks()
+        {
+            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            {
+                //Arrange
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DELETE FROM film_actor;"));
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DELETE FROM actor;"));
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Kevin','Spacey');"));
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Carmelo','Gómez');"));
+                scriptExec.CommitAndClose();
+                //Act
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Bruce','Campbell');"));
+                scriptExec.RollbackAndClose();
+
+                //Pre-Assert
+                var actorCounter = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
+
+                //Assert
+                Assert.That(actorCounter, Is.EqualTo(2));
             }
         }
             

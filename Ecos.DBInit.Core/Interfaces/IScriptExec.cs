@@ -12,6 +12,10 @@ namespace Ecos.DBInit.Core.Interfaces
         void ExecuteAndProcess<TKey,TValue>(IDictionary<TKey, Script> indexedQueries, IDictionary<TKey, ICollection<TValue>> indexedResults, Func<IDataReader,TKey,ICollection<TValue>,ICollection<TValue>> functionOnEachQueryToEachResult);
         T ExecuteScalar<T>(Script script);
         void Execute(IEnumerable<Script> scripts);
+
+        void TryConnectionAndExecuteInsideTransaction(Script scripts);
+        void CommitAndClose();
+        void RollbackAndClose();
 	}
 
 }
