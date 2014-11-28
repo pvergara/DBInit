@@ -51,6 +51,7 @@
     <Compile Include="ExplicitOperations\SchemaOperatorBehaviour.cs" />
     <Compile Include="ExplicitOperations\DataOperatorBehaviour.cs" />
     <Compile Include="MySqlOperator\MySqlSpecificDBOperatorTest.cs" />
+    <Compile Include="UnitOfWorkBehaviour.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
