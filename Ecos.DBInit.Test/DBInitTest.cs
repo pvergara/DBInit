@@ -39,7 +39,7 @@ namespace Ecos.DBInit.Test
             var scriptExec = ScriptExecFactory.From().InitWith(_connectionString).GetScriptExec();
 
             //TODO: SINGLETON!!!!
-            var unitOfWork = new UnitOfWorkOnCollection(scriptExec);
+            var unitOfWork = new UnitOfWorkCurrent(scriptExec);
 
             //Depends on DB Engine
             ISpecificDBOperator mysqlDBOperator = new SpecificDBOperator();

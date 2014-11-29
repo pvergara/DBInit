@@ -32,9 +32,9 @@
     <Compile Include="ScriptExecFactory.cs" />
     <Compile Include="DBInit.cs" />
     <Compile Include="DBOperator.cs" />
-    <Compile Include="UnitOfWorkOnCollection.cs" />
     <Compile Include="DataOperator.cs" />
     <Compile Include="SchemaOperator.cs" />
+    <Compile Include="UnitOfWorkCurrent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

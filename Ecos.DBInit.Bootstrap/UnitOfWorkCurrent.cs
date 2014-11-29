@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Core.Interfaces;
+using System;
 
 namespace Ecos.DBInit.Bootstrap
 {
@@ -22,8 +23,23 @@ namespace Ecos.DBInit.Bootstrap
 
         public void Flush()
         {
-            _specificExec.Execute(_scripts);
-            _scripts.Clear();
+            try{
+                AtomicExecution();
+            }catch(Exception e){
+                _specificExec.RollbackAndClose();
+                throw e;
+            }finally{
+                _scripts.Clear();
+            }
+        }
+
+        void AtomicExecution()
+        {
+            foreach (Script script in _scripts)
+            {
+                _specificExec.TryConnectionAndExecuteInsideTransaction(script);
+            }
+            _specificExec.CommitAndClose();
         }
 
         public void Dispose()

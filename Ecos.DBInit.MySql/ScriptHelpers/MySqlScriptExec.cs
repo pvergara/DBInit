@@ -124,29 +124,6 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
 
         }
 
-        public void Execute(IEnumerable<Script> scripts)
-        {
-            _connection.Open();
-            var transaction = _connection.BeginTransaction();
-            try
-            {
-                foreach (Script script in scripts)
-                {
-                    var command = new MySqlScript(_connection, script.Query);
-                    command.Execute();
-                }
-                transaction.Commit();
-            }
-            catch (Exception)
-            {
-                transaction.Rollback();
-            }
-            finally
-            {
-                _connection.Close();
-            }
-        }
-
         public void TryConnectionAndExecuteInsideTransaction(Script script)
         {
             if (!IsOpennedExecutionConnection())
@@ -178,4 +155,3 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
         }
     }
 }
-
