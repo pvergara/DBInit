@@ -10,12 +10,11 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
 
     public class MySqlScriptExec:IScriptExec
     {
-        readonly MySqlConnection _connection;
+        private readonly MySqlConnection _connection;
+        private readonly string _connectionString;
 
-        readonly string _connectionString;
-
-        static MySqlConnection _executionConnection;
-        static MySqlTransaction _transaction;
+        private static MySqlConnection _executionConnection;
+        private static MySqlTransaction _transaction;
 
         public MySqlScriptExec(string connectionString)
         {
@@ -31,6 +30,50 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
                 setOfCollection.Add(index, collection);
             }
             return setOfCollection;
+        }
+
+        private static MySqlConnection GetExecutionConnection()
+        {
+            return MySqlScriptExec._executionConnection;
+        }
+
+        private static bool IsOpennedExecutionConnection()
+        {
+            return MySqlScriptExec._executionConnection != null;
+        }
+
+        private void OpenExecutionConnection()
+        {
+            MySqlScriptExec._executionConnection = new MySqlConnection(_connectionString);
+            MySqlScriptExec._executionConnection.Open();
+        }
+
+        private static void BeginTransaction()
+        {
+            MySqlScriptExec._transaction = MySqlScriptExec._executionConnection.BeginTransaction();
+        }
+
+        private static void CommitTransaction()
+        {
+            MySqlScriptExec._transaction.Commit();
+        }
+
+        private static void RollbackTransaction()
+        {
+            MySqlScriptExec._transaction.Rollback();
+        }
+
+        private static void TryCloseExecutionConnection()
+        {
+            if (IsOpennedExecutionConnection())
+                CloseExecutionConnection();
+        }
+
+        private static void CloseExecutionConnection()
+        {
+            MySqlScriptExec._executionConnection.Close();
+            MySqlScriptExec._executionConnection.Dispose();
+            MySqlScriptExec._executionConnection = null;
         }
 
         public void ExecuteAndProcess<TValue>(Script script, ICollection<TValue> result, Func<IDataReader,ICollection<TValue>,ICollection<TValue>> function)
@@ -85,16 +128,21 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
         {
             _connection.Open();
             var transaction = _connection.BeginTransaction();
-            try {
+            try
+            {
                 foreach (Script script in scripts)
                 {
                     var command = new MySqlScript(_connection, script.Query);
                     command.Execute();
                 }
                 transaction.Commit();
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 transaction.Rollback();
-            } finally {
+            }
+            finally
+            {
                 _connection.Close();
             }
         }
@@ -111,60 +159,16 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
 
         }
 
-        static MySqlConnection GetExecutionConnection()
-        {
-            return MySqlScriptExec._executionConnection;
-        }
-
-        static bool IsOpennedExecutionConnection()
-        {
-            return MySqlScriptExec._executionConnection != null;
-        }
-
-        void OpenExecutionConnection()
-        {
-            MySqlScriptExec._executionConnection = new MySqlConnection(_connectionString);
-            MySqlScriptExec._executionConnection.Open();
-        }
-
-        static void BeginTransaction()
-        {
-            MySqlScriptExec._transaction =  MySqlScriptExec._executionConnection.BeginTransaction();
-        }
-
         public void CommitAndClose()
         {
             CommitTransaction();
             TryCloseExecutionConnection();
         }
 
-        static void CommitTransaction()
-        {
-            MySqlScriptExec._transaction.Commit();
-        }
-
         public void RollbackAndClose()
         {
             RollbackTransaction();
             TryCloseExecutionConnection();
-        }
-
-        void RollbackTransaction()
-        {
-            MySqlScriptExec._transaction.Rollback();
-        }
-
-        static void TryCloseExecutionConnection()
-        {
-            if (IsOpennedExecutionConnection())
-                CloseExecutionConnection();
-        }
-
-        static void CloseExecutionConnection()
-        {
-            MySqlScriptExec._executionConnection.Close();
-            MySqlScriptExec._executionConnection.Dispose();
-            MySqlScriptExec._executionConnection = null;
         }
 
         public void Dispose()

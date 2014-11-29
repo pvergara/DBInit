@@ -7,6 +7,7 @@ using Ecos.DBInit.Core.Model;
 using System.Configuration;
 using Ecos.DBInit.Test.ObjectMothers;
 using System.Linq;
+using Ecos.DBInit.Core.Interfaces;
 
 namespace Ecos.DBInit.Test.MySqlScriptHelpers
 {
@@ -32,6 +33,22 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         {
             collection.Add(reader.GetString(0));
             return collection;
+        }
+
+        private static void DeleteFilmActorAndActorTables(IScriptExec scriptExec)
+        {
+            scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DELETE FROM film_actor;"));
+            scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DELETE FROM actor;"));
+        }
+
+        private static void AddActor(IScriptExec scriptExec, IEnumerable<IList<string>> actors)
+        {
+            foreach (var actor in actors)
+            {
+                var scriptOnString = string.Format("INSERT INTO actor (first_name,last_name) VALUES ('{0}','{1}');", actor[0], actor[1]);
+                var script = Script.From(scriptOnString);
+                scriptExec.TryConnectionAndExecuteInsideTransaction(script);
+            }
         }
 
         [Test]
@@ -92,20 +109,19 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         }
 
         [Test]
-        public void HowToUseExecute()
+        public void How__TryConnectionAndExecuteInsideTransaction_With_CommitAndClose__Works()
         {
             using (var scriptExec = new MySqlScriptExec(_connectionString))
             {
+                //Arrange
+                DeleteFilmActorAndActorTables(scriptExec);
+
                 //Act
-                scriptExec.Execute(new[]
-                    {
-                        Script.From("DELETE FROM film_actor;"),
-                        Script.From("DELETE FROM actor;"),
-                        Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Kevin','Spacey');"),
-                        Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Carmelo','Gómez');"),
-                        Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Christopher','Lee');"),
-                        Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Bruce','Campbell');"),
-                    });
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Kevin','Spacey');"));
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Carmelo','Gómez');"));
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Christopher','Lee');"));
+                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Bruce','Campbell');"));
+                scriptExec.CommitAndClose();
 
                 //Pre-Assert
                 var actorCounter = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
@@ -116,34 +132,15 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         }
 
         [Test]
-        public void HowConnectionAndExecuteInsideTransactionWithCommitAndCloseWorks()
-        {
-            using (var scriptExec = new MySqlScriptExec(_connectionString))
-            {
-                //Act
-                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DELETE FROM film_actor;"));
-                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DELETE FROM actor;"));
-                scriptExec.CommitAndClose();
-
-                //Pre-Assert
-                var actorCounter = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
-
-                //Assert
-                Assert.That(actorCounter, Is.EqualTo(0));
-            }
-        }
-
-        [Test]
-        public void HowConnectionAndExecuteInsideTransactionWithRollbackAndCloseWorks()
+        public void HowConHow__TryConnectionAndExecuteInsideTransaction_With_RollbackAndClose__WorksnectionAndExecuteInsideTransactionWithRollbackAndCloseWorks()
         {
             using (var scriptExec = new MySqlScriptExec(_connectionString))
             {
                 //Arrange
-                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DELETE FROM film_actor;"));
-                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DELETE FROM actor;"));
-                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Kevin','Spacey');"));
-                scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Carmelo','Gómez');"));
+                DeleteFilmActorAndActorTables(scriptExec);
+                AddActor(scriptExec, new[]{ new string [2]{ "Kevin", "Spacey" }, new string [2]{ "Carmelo", "Gómez" } });
                 scriptExec.CommitAndClose();
+
                 //Act
                 scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("INSERT INTO actor (first_name,last_name) VALUES ('Bruce','Campbell');"));
                 scriptExec.RollbackAndClose();
@@ -154,6 +151,49 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
                 //Assert
                 Assert.That(actorCounter, Is.EqualTo(2));
             }
+        }
+
+        [Test]
+        public void TryConnectionAndExecuteInsideTransaction_WithoutExplicitCommit_WillRevertAllChangesOnDisposing_USINGVERSION()
+        {
+            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            {
+                //Arrange
+                DeleteFilmActorAndActorTables(scriptExec);
+                scriptExec.CommitAndClose();
+
+                //Act
+                AddActor(scriptExec, new[]{ new string [2]{ "Kevin", "Spacey" }, new string [2]{ "Carmelo", "Gómez" } });
+            }//"scriptExec.Dispose();" Alias
+
+            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            {
+                //Pre-Assert
+                var actorCounter = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
+
+                //Assert
+                Assert.That(actorCounter, Is.EqualTo(0));
+            }
+        }
+
+
+        [Test]
+        public void TryConnectionAndExecuteInsideTransaction_WithoutExplicitCommit_WillRevertAllChangesOnDisposing__EXPLICITVERSION()
+        {
+            var scriptExec = new MySqlScriptExec(_connectionString);
+            //Arrange
+            DeleteFilmActorAndActorTables(scriptExec);
+            scriptExec.CommitAndClose();
+
+            //Act
+            AddActor(scriptExec, new[]{ new string [2]{ "Kevin", "Spacey" }, new string [2]{ "Carmelo", "Gómez" } });
+            scriptExec.Dispose();
+
+            //Pre-Assert
+            var actorCounter = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
+
+            //Assert
+            Assert.That(actorCounter, Is.EqualTo(0));
         }
             
     }
