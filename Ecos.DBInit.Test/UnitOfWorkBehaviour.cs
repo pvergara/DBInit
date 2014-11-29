@@ -20,7 +20,7 @@ namespace Ecos.DBInit.Test
         public void BeforeEachTest()
         {
             _scriptExecMock = new Mock<IScriptExec>();
-            _uow = new UnitOfWorkOnCollection(_scriptExecMock.Object);
+            _uow = new UnitOfWorkCurrent(_scriptExecMock.Object);
         }
 
         [Test]

@@ -5,12 +5,12 @@ using System;
 
 namespace Ecos.DBInit.Bootstrap
 {
-    public class UnitOfWorkOnCollection: IUnitOfWork
+    public class UnitOfWorkCurrent: IUnitOfWork
     {
         private readonly List<Script> _scripts;
         private readonly IScriptExec _specificExec;
 
-        public UnitOfWorkOnCollection(IScriptExec helper)
+        public UnitOfWorkCurrent(IScriptExec helper)
         {
             _specificExec = helper;
             _scripts = new List<Script>();
