@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Core", "Ecos.DBInit.Core\Ecos.DBInit.Core.csproj", "{672AC957-B6EC-4999-9740-60ADDFEDEC8A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Test", "Ecos.DBInit.Test\Ecos.DBInit.Test.csproj", "{27920306-3C44-4998-818C-742A513DF986}"
@@ -9,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Samples.SakilaD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.MySql", "Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj", "{6655574E-35A1-47FC-94F5-E4C2623BA5D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Bootstrap", "Ecos.DBInit.Bootstrap\Ecos.DBInit.Bootstrap.csproj", "{D20E96B6-811C-470C-B989-38673DF2F474}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Core.Base", "Ecos.DBInit.Core.Base\Ecos.DBInit.Core.Base.csproj", "{D20E96B6-811C-470C-B989-38673DF2F474}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,31 +19,34 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{27920306-3C44-4998-818C-742A513DF986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27920306-3C44-4998-818C-742A513DF986}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27920306-3C44-4998-818C-742A513DF986}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27920306-3C44-4998-818C-742A513DF986}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D20E96B6-811C-470C-B989-38673DF2F474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D20E96B6-811C-470C-B989-38673DF2F474}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D20E96B6-811C-470C-B989-38673DF2F474}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D20E96B6-811C-470C-B989-38673DF2F474}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27920306-3C44-4998-818C-742A513DF986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27920306-3C44-4998-818C-742A513DF986}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27920306-3C44-4998-818C-742A513DF986}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27920306-3C44-4998-818C-742A513DF986}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5DE2173-6DFF-4238-8539-1A57F92492BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6655574E-35A1-47FC-94F5-E4C2623BA5D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D20E96B6-811C-470C-B989-38673DF2F474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D20E96B6-811C-470C-B989-38673DF2F474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D20E96B6-811C-470C-B989-38673DF2F474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D20E96B6-811C-470C-B989-38673DF2F474}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Ecos.DBInit.Core\Ecos.DBInit.Core.csproj
 		Policies = $0
-		$0.TextStylePolicy = $1
+		$0.TextStylePolicy = $37
 		$1.inheritsSet = VisualStudio
 		$1.inheritsScope = text/plain
 		$1.scope = text/x-csharp
@@ -73,7 +78,6 @@ Global
 		$2.inheritsSet = Mono
 		$2.inheritsScope = text/x-csharp
 		$2.scope = text/x-csharp
-		$0.TextStylePolicy = $3
 		$3.inheritsSet = null
 		$3.scope = application/sql
 		$0.StandardHeader = $4
@@ -81,21 +85,19 @@ Global
 		$4.IncludeInNewFiles = True
 		$0.NameConventionPolicy = $5
 		$5.Rules = $6
-		$6.NamingRule = $7
+		$6.NamingRule = $28
 		$7.Name = Namespaces
 		$7.AffectedEntity = Namespace
 		$7.VisibilityMask = VisibilityMask
 		$7.NamingStyle = PascalCase
 		$7.IncludeInstanceMembers = True
 		$7.IncludeStaticEntities = True
-		$6.NamingRule = $8
 		$8.Name = Types
 		$8.AffectedEntity = Class, Struct, Enum, Delegate
 		$8.VisibilityMask = Public
 		$8.NamingStyle = PascalCase
 		$8.IncludeInstanceMembers = True
 		$8.IncludeStaticEntities = True
-		$6.NamingRule = $9
 		$9.Name = Interfaces
 		$9.RequiredPrefixes = $10
 		$10.String = I
@@ -104,7 +106,6 @@ Global
 		$9.NamingStyle = PascalCase
 		$9.IncludeInstanceMembers = True
 		$9.IncludeStaticEntities = True
-		$6.NamingRule = $11
 		$11.Name = Attributes
 		$11.RequiredSuffixes = $12
 		$12.String = Attribute
@@ -113,7 +114,6 @@ Global
 		$11.NamingStyle = PascalCase
 		$11.IncludeInstanceMembers = True
 		$11.IncludeStaticEntities = True
-		$6.NamingRule = $13
 		$13.Name = Event Arguments
 		$13.RequiredSuffixes = $14
 		$14.String = EventArgs
@@ -122,7 +122,6 @@ Global
 		$13.NamingStyle = PascalCase
 		$13.IncludeInstanceMembers = True
 		$13.IncludeStaticEntities = True
-		$6.NamingRule = $15
 		$15.Name = Exceptions
 		$15.RequiredSuffixes = $16
 		$16.String = Exception
@@ -131,21 +130,18 @@ Global
 		$15.NamingStyle = PascalCase
 		$15.IncludeInstanceMembers = True
 		$15.IncludeStaticEntities = True
-		$6.NamingRule = $17
 		$17.Name = Methods
 		$17.AffectedEntity = Methods
 		$17.VisibilityMask = Protected, Public
 		$17.NamingStyle = PascalCase
 		$17.IncludeInstanceMembers = True
 		$17.IncludeStaticEntities = True
-		$6.NamingRule = $18
 		$18.Name = Static Readonly Fields
 		$18.AffectedEntity = ReadonlyField
 		$18.VisibilityMask = Protected, Public
 		$18.NamingStyle = PascalCase
 		$18.IncludeInstanceMembers = False
 		$18.IncludeStaticEntities = True
-		$6.NamingRule = $19
 		$19.Name = Fields
 		$19.RequiredPrefixes = $20
 		$20.String = _
@@ -154,7 +150,6 @@ Global
 		$19.NamingStyle = CamelCase
 		$19.IncludeInstanceMembers = True
 		$19.IncludeStaticEntities = True
-		$6.NamingRule = $21
 		$21.Name = ReadOnly Fields
 		$21.RequiredPrefixes = $22
 		$22.String = _
@@ -163,42 +158,36 @@ Global
 		$21.NamingStyle = CamelCase
 		$21.IncludeInstanceMembers = True
 		$21.IncludeStaticEntities = False
-		$6.NamingRule = $23
 		$23.Name = Constant Fields
 		$23.AffectedEntity = ConstantField
 		$23.VisibilityMask = Protected, Public
 		$23.NamingStyle = PascalCase
 		$23.IncludeInstanceMembers = True
 		$23.IncludeStaticEntities = True
-		$6.NamingRule = $24
 		$24.Name = Properties
 		$24.AffectedEntity = Property
 		$24.VisibilityMask = Protected, Public
 		$24.NamingStyle = PascalCase
 		$24.IncludeInstanceMembers = True
 		$24.IncludeStaticEntities = True
-		$6.NamingRule = $25
 		$25.Name = Events
 		$25.AffectedEntity = Event
 		$25.VisibilityMask = Protected, Public
 		$25.NamingStyle = PascalCase
 		$25.IncludeInstanceMembers = True
 		$25.IncludeStaticEntities = True
-		$6.NamingRule = $26
 		$26.Name = Enum Members
 		$26.AffectedEntity = EnumMember
 		$26.VisibilityMask = VisibilityMask
 		$26.NamingStyle = PascalCase
 		$26.IncludeInstanceMembers = True
 		$26.IncludeStaticEntities = True
-		$6.NamingRule = $27
 		$27.Name = Parameters
 		$27.AffectedEntity = Parameter
 		$27.VisibilityMask = VisibilityMask
 		$27.NamingStyle = CamelCase
 		$27.IncludeInstanceMembers = True
 		$27.IncludeStaticEntities = True
-		$6.NamingRule = $28
 		$28.Name = Type Parameters
 		$28.RequiredPrefixes = $29
 		$29.String = T
@@ -214,23 +203,19 @@ Global
 		$31.MessageStyle = $32
 		$32.LineAlign = 0
 		$31.inheritsSet = Mono
-		$0.TextStylePolicy = $33
 		$33.inheritsSet = VisualStudio
 		$33.inheritsScope = text/plain
 		$33.scope = text/plain
 		$0.DotNetNamingPolicy = $34
 		$34.DirectoryNamespaceAssociation = PrefixedFlat
 		$34.ResourceNamePolicy = FileName
-		$0.TextStylePolicy = $35
 		$35.inheritsSet = null
 		$35.scope = application/config+xml
-		$0.XmlFormattingPolicy = $36
+		$0.XmlFormattingPolicy = $38
 		$36.inheritsSet = null
 		$36.scope = application/config+xml
-		$0.TextStylePolicy = $37
 		$37.inheritsSet = null
 		$37.scope = application/xml
-		$0.XmlFormattingPolicy = $38
 		$38.inheritsSet = Mono
 		$38.inheritsScope = application/xml
 		$38.scope = application/xml

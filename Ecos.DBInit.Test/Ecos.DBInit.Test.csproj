@@ -37,9 +37,6 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>..\packages\MySql.Data.6.9.5\lib\net40\MySql.Data.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBInitTest.cs" />
@@ -63,9 +60,9 @@
       <Project>{F5DE2173-6DFF-4238-8539-1A57F92492BA}</Project>
       <Name>Ecos.DBInit.Samples.SakilaDataBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecos.DBInit.Bootstrap\Ecos.DBInit.Bootstrap.csproj">
+    <ProjectReference Include="..\Ecos.DBInit.Core.Base\Ecos.DBInit.Core.Base.csproj">
       <Project>{D20E96B6-811C-470C-B989-38673DF2F474}</Project>
-      <Name>Ecos.DBInit.Bootstrap</Name>
+      <Name>Ecos.DBInit.Core.Base</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj">
       <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
@@ -82,8 +79,5 @@
     </None>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="ExplicitOperations\" />
-    <Folder Include="MySqlOperator\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

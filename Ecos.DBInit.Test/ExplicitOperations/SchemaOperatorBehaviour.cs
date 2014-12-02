@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
+﻿using Ecos.DBInit.Core.Base;
+using NUnit.Framework;
 using Ecos.DBInit.Core.Interfaces;
 using Moq;
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
-using Ecos.DBInit.Bootstrap;
 
 namespace Ecos.DBInit.Test.ExplicitOperations
 {

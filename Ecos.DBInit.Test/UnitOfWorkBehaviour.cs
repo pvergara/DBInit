@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using Ecos.DBInit.Bootstrap;
+﻿using Ecos.DBInit.Core.Base;
+using NUnit.Framework;
 using Ecos.DBInit.Core.Interfaces;
 using Moq;
 using Ecos.DBInit.Core.Model;

@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D20E96B6-811C-470C-B989-38673DF2F474}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Ecos.DBInit.Bootstrap</RootNamespace>
-    <AssemblyName>Ecos.DBInit.Bootstrap</AssemblyName>
+    <RootNamespace>Ecos.DBInit.Core.Base</RootNamespace>
+    <AssemblyName>Ecos.DBInit.Core.Base</AssemblyName>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

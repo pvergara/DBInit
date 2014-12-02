@@ -1,13 +1,12 @@
-﻿using NUnit.Framework;
+﻿using Ecos.DBInit.Core.Base;
+using NUnit.Framework;
 using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.MySql.ScriptHelpers;
 using System.Configuration;
 using Ecos.DBInit.Test.ObjectMothers;
 using Ecos.DBInit.Core.Interfaces;
-using Ecos.DBInit.Bootstrap;
 using Ecos.DBInit.MySql;
 using Ecos.DBInit.Core.ScriptHelpers;
-using Ecos.DBInit.Core;
 
 namespace Ecos.DBInit.Test
 {
@@ -73,7 +72,7 @@ namespace Ecos.DBInit.Test
             var dataOperator = new DataOperator(unitOfWork, schemaInfo,dataScriptsLoader,mysqlDBOperator);
             var dbOperator = new DBOperator(schemaOperator, dataOperator);
 
-            _dbInit = new Bootstrap.DBInit(unitOfWork, dbOperator);
+            _dbInit = new Core.Base.DBInit(unitOfWork, dbOperator);
         }
 
         private long ExecScalarByUsing(string sqlCommand)

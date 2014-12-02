@@ -1,8 +1,8 @@
-﻿using Ecos.DBInit.Core.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Model;
 
-namespace Ecos.DBInit.Bootstrap
+namespace Ecos.DBInit.Core.Base
 {
     public class DataOperator:IDataOperator
     {

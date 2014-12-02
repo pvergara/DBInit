@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using Ecos.DBInit.Core.Model;
-using Ecos.DBInit.Core.Interfaces;
 using System;
+using System.Collections.Generic;
+using Ecos.DBInit.Core.Interfaces;
+using Ecos.DBInit.Core.Model;
 
-namespace Ecos.DBInit.Bootstrap
+namespace Ecos.DBInit.Core.Base
 {
     public class UnitOfWorkCurrent: IUnitOfWork
     {

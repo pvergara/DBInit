@@ -1,6 +1,6 @@
 ﻿using Ecos.DBInit.Core.Interfaces;
 
-namespace Ecos.DBInit.Bootstrap
+namespace Ecos.DBInit.Core.Base
 {
     public class DBInit: IDBInit
     {
