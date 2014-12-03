@@ -68,6 +68,10 @@
       <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
       <Name>Ecos.DBInit.MySql</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.Wire\Ecos.DBInit.Wire.csproj">
+      <Project>{FB585768-4EEF-460F-AEC7-5BFE3D63BCF1}</Project>
+      <Name>Ecos.DBInit.Wire</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Ecos.DBInit.Samples.SakilaDataBase\app.config">

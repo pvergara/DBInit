@@ -1,12 +1,10 @@
-﻿using Ecos.DBInit.Core.Base;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.MySql.ScriptHelpers;
 using System.Configuration;
 using Ecos.DBInit.Test.ObjectMothers;
 using Ecos.DBInit.Core.Interfaces;
-using Ecos.DBInit.MySql;
-using Ecos.DBInit.Core.ScriptHelpers;
+using Ecos.DBInit.Wire;
 
 namespace Ecos.DBInit.Test
 {
@@ -22,7 +20,8 @@ namespace Ecos.DBInit.Test
         readonly string _dbName;
         readonly string _connectionString;
         readonly MySqlScriptExec _scriptExec;
-        readonly IDBInit _dbInit;
+        IDBInit _dbInit;
+        ModuleLoader _moduleLoader;
 
         public DBInitTest()
         {
@@ -34,45 +33,9 @@ namespace Ecos.DBInit.Test
 
             _queryToKnowNumberOfTablesAndViews = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '" + _dbName + "';";
             _queryToKnowNumberOfStoredProceduresAndFunctions = "SELECT count(*) FROM information_schema.routines WHERE routine_schema = '" + _dbName + "';";
+            _moduleLoader = new ModuleLoader(_connectionString, _assemblyName, ProviderType.MySql);
+            _dbInit = _moduleLoader.GetDBInit();
 
-            var scriptExec = ScriptExecFactory.From().InitWith(_connectionString).GetScriptExec();
-
-            //TODO: SINGLETON!!!!
-            var unitOfWork = new UnitOfWorkCurrent(scriptExec);
-
-            //Depends on DB Engine
-            ISpecificDBOperator mysqlDBOperator = new SpecificDBOperator();
-            var schemaInfo = new MySqlSchemaInfo(_connectionString, scriptExec);
-
-            //Depends on "the user"
-            var schemaContainer = 
-                ScriptFinderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(_assemblyName, ScriptType.Schema).
-                GetContainer();
-
-            IScriptLoader schemaScriptLoader = 
-                ScriptLoaderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(_assemblyName, schemaContainer);
-                
-            var dataContainer = 
-                ScriptFinderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(_assemblyName, ScriptType.Data).
-                GetContainer();
-
-            IScriptLoader dataScriptsLoader = 
-                ScriptLoaderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(_assemblyName, dataContainer);
-
-            //Database Engine independent
-            var schemaOperator = new SchemaOperator(unitOfWork, schemaInfo,schemaScriptLoader,mysqlDBOperator);
-            var dataOperator = new DataOperator(unitOfWork, schemaInfo,dataScriptsLoader,mysqlDBOperator);
-            var dbOperator = new DBOperator(schemaOperator, dataOperator);
-
-            _dbInit = new Core.Base.DBInit(unitOfWork, dbOperator);
         }
 
         private long ExecScalarByUsing(string sqlCommand)

@@ -1,7 +1,7 @@
 ﻿using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.MySql.ScriptHelpers;
 
-namespace Ecos.DBInit.Core.Base
+namespace Ecos.DBInit.Wire
 {
     public class ScriptExecFactory
     {
