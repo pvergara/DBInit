@@ -10,7 +10,7 @@ namespace Ecos.DBInit.Wire
     {
         readonly StandardKernel _kernel;
 
-        public static string ConnectitionString { get; private set; }
+        public static string ConnectionString { get; private set; }
         public static string AssemblyName { get; private set; }
         public static ProviderType ProviderType { get; private set; }
 
@@ -20,7 +20,7 @@ namespace Ecos.DBInit.Wire
         public ModuleLoader(string connectionString, string assemblyName, ProviderType providerType)
         {
 
-            ConnectitionString = connectionString;
+            ConnectionString = connectionString;
             AssemblyName = assemblyName;
             ProviderType = providerType;
 
@@ -53,6 +53,16 @@ namespace Ecos.DBInit.Wire
         public IDBInit GetDBInit()
         {
             return _kernel.Get<IDBInit>();
+        }
+
+        public IScriptExec GetScriptExec()
+        {
+            return _kernel.Get<IScriptExec>();
+        }
+
+        public ISchemaInfo GetSchemaInfo()
+        {
+            return _kernel.Get<ISchemaInfo>();
         }
     }
 }

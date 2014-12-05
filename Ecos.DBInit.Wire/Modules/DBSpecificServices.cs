@@ -10,9 +10,9 @@ namespace Ecos.DBInit.Wire
         public override void Load()
         {
             var nameMySql = ProviderType.MySql.ToString();
-            Bind<IScriptExec>().To<MySqlScriptExec>().Named(nameMySql).WithConstructorArgument("connectionString",ModuleLoader.ConnectitionString);
+            Bind<IScriptExec>().To<MySqlScriptExec>().Named(nameMySql).WithConstructorArgument("connectionString",ModuleLoader.ConnectionString);
             Bind<ISpecificDBOperator>().To<MySql.SpecificDBOperator>().InSingletonScope().Named(nameMySql);
-            Bind<ISchemaInfo>().To<MySqlSchemaInfo>().InSingletonScope().Named(nameMySql).WithConstructorArgument("connectionString",ModuleLoader.ConnectitionString);
+            Bind<ISchemaInfo>().To<MySqlSchemaInfo>().InSingletonScope().Named(nameMySql).WithConstructorArgument("connectionString",ModuleLoader.ConnectionString);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using Ecos.DBInit.Core.Model;
-using Ecos.DBInit.MySql.ScriptHelpers;
 using System.Configuration;
 using Ecos.DBInit.Test.ObjectMothers;
 using Ecos.DBInit.Core.Interfaces;
@@ -19,22 +18,26 @@ namespace Ecos.DBInit.Test
         readonly string _queryToKnowNumberOfStoredProceduresAndFunctions;
         readonly string _dbName;
         readonly string _connectionString;
-        readonly MySqlScriptExec _scriptExec;
-        IDBInit _dbInit;
+        readonly IScriptExec _scriptExec;
+        readonly IDBInit _dbInit;
         ModuleLoader _moduleLoader;
 
         public DBInitTest()
         {
             _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
-            _scriptExec = new MySqlScriptExec(_connectionString);
-            _dbName = new MySqlSchemaInfo(_connectionString,_scriptExec).DatabaseName;
+
+            _moduleLoader = new ModuleLoader(_connectionString, _assemblyName, ProviderType.MySql);
+
+            _dbInit = _moduleLoader.GetDBInit();
+            _scriptExec = _moduleLoader.GetScriptExec();
+            _dbName = _moduleLoader.GetSchemaInfo().DatabaseName;
+
             _queryToKnowNumberOfRowsOfActorsTable = "SELECT count(*) FROM " + _dbName + ".actor;";
             _queryToKnowNumberOfRowsOfAddressTable = "SELECT count(*) FROM " + _dbName + ".address;";
 
             _queryToKnowNumberOfTablesAndViews = "SELECT count(*) FROM information_schema.tables WHERE table_schema = '" + _dbName + "';";
             _queryToKnowNumberOfStoredProceduresAndFunctions = "SELECT count(*) FROM information_schema.routines WHERE routine_schema = '" + _dbName + "';";
-            _moduleLoader = new ModuleLoader(_connectionString, _assemblyName, ProviderType.MySql);
-            _dbInit = _moduleLoader.GetDBInit();
+
 
         }
 
