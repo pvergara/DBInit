@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Ecos.DBInit.MySql
 {
-    public class SpecificDBOperator:ISpecificDBOperator
+    public class SpecificDBComposer:ISpecificDBComposer
     {
         public IEnumerable<Script> ComposeScriptsDelete(IEnumerable<string> tableNames)
         {

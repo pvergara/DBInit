@@ -45,7 +45,7 @@
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Interfaces\IScriptExec.cs" />
     <Compile Include="Interfaces\IScripLoader.cs" />
-    <Compile Include="Interfaces\ISpecificDBOperator.cs" />
+    <Compile Include="Interfaces\ISpecificDBComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

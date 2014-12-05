@@ -1,23 +1,22 @@
 ﻿using NUnit.Framework;
-using Ecos.DBInit.MySql.ScriptHelpers;
 using System;
-using System.Data;
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
-using System.Configuration;
-using Ecos.DBInit.Test.ObjectMothers;
 using System.Linq;
 using Ecos.DBInit.Core.Interfaces;
+using System.Configuration;
+using Ecos.DBInit.Test.ObjectMothers;
+using System.Data;
 
-namespace Ecos.DBInit.Test.MySqlScriptHelpers
+namespace Ecos.DBInit.MySql.Test.Integration
 {
     [TestFixture]
-    public class MySqlScriptExecTest
+    public class ScriptExecTest
     {
         private readonly string _connectionString;
         private readonly IEnumerable<String> _someTablesAndViewOfSakilaDB;
 
-        public MySqlScriptExecTest()
+        public ScriptExecTest()
         {
             _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
             _someTablesAndViewOfSakilaDB = SakilaDbOM.SomeTableNames;
@@ -54,7 +53,7 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         [Test]
         public void HowToUseExecuteAndProcessASingleQuery()
         {
-            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            using (var scriptExec = new ScriptExec(_connectionString))
             {
                 //Arrange
                 var query = Script.From("SHOW TABLES;");
@@ -72,7 +71,7 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         [Test]
         public void HowToUseExecuteAndProcessQueriesUsingSomeIndexToIdentifyThem()
         {
-            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            using (var scriptExec = new ScriptExec(_connectionString))
             {
                 //Arrange
                 IDictionary<int,Script> indexedQueries = new Dictionary<int,Script>();
@@ -98,7 +97,7 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         [Test]
         public void HowToUseExecuteScalar()
         {
-            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            using (var scriptExec = new ScriptExec(_connectionString))
             {
                 //Act
                 var actorsCount = scriptExec.ExecuteScalar<long>(Script.From("SELECT count(*) FROM information_schema.tables WHERE table_schema = 'sakila' AND TABLE_TYPE = 'BASE TABLE';"));
@@ -111,7 +110,7 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         [Test]
         public void How__TryConnectionAndExecuteInsideTransaction_With_CommitAndClose__Works()
         {
-            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            using (var scriptExec = new ScriptExec(_connectionString))
             {
                 //Arrange
                 DeleteFilmActorAndActorTables(scriptExec);
@@ -134,7 +133,7 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         [Test]
         public void HowConHow__TryConnectionAndExecuteInsideTransaction_With_RollbackAndClose__WorksnectionAndExecuteInsideTransactionWithRollbackAndCloseWorks()
         {
-            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            using (var scriptExec = new ScriptExec(_connectionString))
             {
                 //Arrange
                 DeleteFilmActorAndActorTables(scriptExec);
@@ -156,7 +155,7 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         [Test]
         public void TryConnectionAndExecuteInsideTransaction_WithoutExplicitCommit_WillRevertAllChangesOnDisposing_USINGVERSION()
         {
-            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            using (var scriptExec = new ScriptExec(_connectionString))
             {
                 //Arrange
                 DeleteFilmActorAndActorTables(scriptExec);
@@ -166,7 +165,7 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
                 AddActor(scriptExec, new[]{ new string [2]{ "Kevin", "Spacey" }, new string [2]{ "Carmelo", "Gómez" } });
             }//"scriptExec.Dispose();" Alias
 
-            using (var scriptExec = new MySqlScriptExec(_connectionString))
+            using (var scriptExec = new ScriptExec(_connectionString))
             {
                 //Pre-Assert
                 var actorCounter = scriptExec.ExecuteScalar<long>(Script.From("SELECT COUNT(*) FROM actor;"));
@@ -180,7 +179,7 @@ namespace Ecos.DBInit.Test.MySqlScriptHelpers
         [Test]
         public void TryConnectionAndExecuteInsideTransaction_WithoutExplicitCommit_WillRevertAllChangesOnDisposing__EXPLICITVERSION()
         {
-            var scriptExec = new MySqlScriptExec(_connectionString);
+            var scriptExec = new ScriptExec(_connectionString);
             //Arrange
             DeleteFilmActorAndActorTables(scriptExec);
             scriptExec.CommitAndClose();

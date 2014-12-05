@@ -39,16 +39,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBInitTest.cs" />
-    <Compile Include="Helpers\ScriptFinderOnEmbeddedResourceTest.cs" />
-    <Compile Include="Helpers\ScriptLoaderOnEmbbededResourceTest.cs" />
     <Compile Include="ObjectMothers\SakilaDbOM.cs" />
-    <Compile Include="MySqlScriptHelpers\MySqSchemalInfoTest.cs" />
-    <Compile Include="MySqlScriptHelpers\MySqlScriptExecTest.cs" />
-    <Compile Include="ExplicitOperations\SchemaOperatorBehaviour.cs" />
-    <Compile Include="ExplicitOperations\DataOperatorBehaviour.cs" />
-    <Compile Include="MySqlOperator\MySqlSpecificDBOperatorTest.cs" />
-    <Compile Include="UnitOfWorkBehaviour.cs" />
+    <Compile Include="Unit\DataOperatorBehaviour.cs" />
+    <Compile Include="Unit\SchemaOperatorBehaviour.cs" />
+    <Compile Include="Integration\ScriptFinderOnEmbeddedResourceTest.cs" />
+    <Compile Include="Integration\ScriptLoaderOnEmbbededResourceTest.cs" />
+    <Compile Include="Unit\UnitOfWorkBehaviour.cs" />
+    <Compile Include="Integration\MySqlDBInitTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -63,10 +60,6 @@
     <ProjectReference Include="..\Ecos.DBInit.Core.Base\Ecos.DBInit.Core.Base.csproj">
       <Project>{D20E96B6-811C-470C-B989-38673DF2F474}</Project>
       <Name>Ecos.DBInit.Core.Base</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj">
-      <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
-      <Name>Ecos.DBInit.MySql</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.Wire\Ecos.DBInit.Wire.csproj">
       <Project>{FB585768-4EEF-460F-AEC7-5BFE3D63BCF1}</Project>
@@ -84,4 +77,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Unit\" />
+    <Folder Include="Integration\" />
+  </ItemGroup>
 </Project>

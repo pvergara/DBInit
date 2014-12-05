@@ -5,7 +5,7 @@ using Moq;
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
 
-namespace Ecos.DBInit.Test.ExplicitOperations
+namespace Ecos.DBInit.Test.Unit
 {
     [TestFixture]
     public class SchemaOperatorBehaviour
@@ -14,7 +14,7 @@ namespace Ecos.DBInit.Test.ExplicitOperations
         private Mock<ISchemaInfo> _schemaInfoMock;
         private ISchemaOperator _schemaOperator;
         private Mock<IScriptLoader> _scriptLoaderMock;
-        private Mock<ISpecificDBOperator> _specificDBOperatorMock;
+        private Mock<ISpecificDBComposer> _specificDBOperatorMock;
 
         [SetUp]
         public void BeforeEachTest()
@@ -22,7 +22,7 @@ namespace Ecos.DBInit.Test.ExplicitOperations
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _schemaInfoMock = new Mock<ISchemaInfo>();
             _scriptLoaderMock = new Mock<IScriptLoader>();
-            _specificDBOperatorMock = new Mock<ISpecificDBOperator>();
+            _specificDBOperatorMock = new Mock<ISpecificDBComposer>();
             _schemaOperator = new SchemaOperator(_unitOfWorkMock.Object, _schemaInfoMock.Object,_scriptLoaderMock.Object,_specificDBOperatorMock.Object);
         }
 

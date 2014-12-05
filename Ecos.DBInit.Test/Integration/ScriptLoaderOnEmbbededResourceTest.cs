@@ -4,7 +4,7 @@ using Ecos.DBInit.Core.Model;
 using System.Collections.Generic;
 using Ecos.DBInit.Test.ObjectMothers;
 
-namespace Ecos.DBInit.Test.Helpers
+namespace Ecos.DBInit.Test.Integration
 {
     [TestFixture]
     public class ScriptLoaderOnEmbbededResourceTest

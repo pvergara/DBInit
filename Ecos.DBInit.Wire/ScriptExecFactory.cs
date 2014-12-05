@@ -1,5 +1,5 @@
 ﻿using Ecos.DBInit.Core.Interfaces;
-using Ecos.DBInit.MySql.ScriptHelpers;
+using Ecos.DBInit.MySql;
 
 namespace Ecos.DBInit.Wire
 {
@@ -18,7 +18,7 @@ namespace Ecos.DBInit.Wire
 
         public ScriptExecFactory InitWith(string connectionString)
         {
-            _scriptExec = new MySqlScriptExec(connectionString);
+            _scriptExec = new ScriptExec(connectionString);
 
             return this;
         }

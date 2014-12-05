@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Ecos.DBInit.MySql.ScriptHelpers;
 using System.Configuration;
 using System.Collections.Generic;
 using Ecos.DBInit.Core.Interfaces;
@@ -8,28 +7,29 @@ using Ecos.DBInit.Core.Model;
 using System.Data;
 using System;
 using Ecos.DBInit.Test.ObjectMothers;
+using Ecos.DBInit.MySql;
 
-namespace Ecos.DBInit.Test.MySqlScriptHelpers
+namespace Ecos.DBInit.MySql.Test.Integration
 {
     [TestFixture]
-    public class MySqlSchemaInfoTest
+    public class SchemaInfoTest
     {
-        private readonly MySqlSchemaInfo _schemaInfo;
+        private readonly SchemaInfo _schemaInfo;
         private readonly string _connectionString;
         private Mock<IScriptExec> _helperMock;
-        private MySqlSchemaInfo _schemaInfoWithHelperMocked;
+        private SchemaInfo _schemaInfoWithHelperMocked;
 
-        public MySqlSchemaInfoTest()
+        public SchemaInfoTest()
         {
             _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
-            _schemaInfo = new MySqlSchemaInfo(_connectionString, new MySqlScriptExec(_connectionString));
+            _schemaInfo = new SchemaInfo(_connectionString, new ScriptExec(_connectionString));
         }
 
         [SetUp]
         public void SetUp(){
             _helperMock = new Mock<IScriptExec>();
 
-            _schemaInfoWithHelperMocked = new MySqlSchemaInfo(_connectionString, _helperMock.Object);
+            _schemaInfoWithHelperMocked = new SchemaInfo(_connectionString, _helperMock.Object);
         }
 
         [TestFixtureTearDown]

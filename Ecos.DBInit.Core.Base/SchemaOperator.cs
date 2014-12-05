@@ -9,9 +9,9 @@ namespace Ecos.DBInit.Core.Base
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISchemaInfo _schemaInfo;
         private readonly IScriptLoader _scriptLoader;
-        private readonly ISpecificDBOperator _specificDBOperator;
+        private readonly ISpecificDBComposer _specificDBOperator;
 
-        public SchemaOperator(IUnitOfWork unitOfWork,ISchemaInfo schemaInfo,IScriptLoader scriptLoader,ISpecificDBOperator specificDBOperator)
+        public SchemaOperator(IUnitOfWork unitOfWork,ISchemaInfo schemaInfo,IScriptLoader scriptLoader,ISpecificDBComposer specificDBOperator)
         {
             _unitOfWork = unitOfWork;
             _schemaInfo = schemaInfo;

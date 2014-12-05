@@ -3,7 +3,7 @@ using Ecos.DBInit.Core.Model;
 
 namespace Ecos.DBInit.Core.Interfaces
 {
-    public interface ISpecificDBOperator
+    public interface ISpecificDBComposer
     {
         IEnumerable<Script> ComposeScriptsDelete(IEnumerable<string> tableNames);       
 

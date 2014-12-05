@@ -2,7 +2,7 @@
 using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Base;
 
-namespace Ecos.DBInit.Wire
+namespace Ecos.DBInit.Wire.Modules
 {
     public class CoreServices : NinjectModule
     {

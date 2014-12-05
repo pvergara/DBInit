@@ -5,7 +5,7 @@ using Moq;
 using Ecos.DBInit.Core.Model;
 using System;
 
-namespace Ecos.DBInit.Test
+namespace Ecos.DBInit.Test.Unit
 {
     [TestFixture]
     public class UnitOfWorkBehaviour

@@ -1,19 +1,18 @@
 ﻿using NUnit.Framework;
-using Ecos.DBInit.MySql;
 using System.Linq;
-using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Core.Interfaces;
+using Ecos.DBInit.Core.Model;
 
-namespace Ecos.DBInit.Test.MySqlOperator
+namespace Ecos.DBInit.MySql.Test.Unit
 {
     [TestFixture]
-    public class MySqlSpecificDBOperatorTest
+    public class SpecificDBComposerTest
     {
-        private readonly ISpecificDBOperator _specificDbOperation;
+        private readonly ISpecificDBComposer _specificDbOperation;
 
-        public MySqlSpecificDBOperatorTest()
+        public SpecificDBComposerTest()
         {
-            _specificDbOperation = new SpecificDBOperator();
+            _specificDbOperation = new SpecificDBComposer();
         }
 
         [Test]

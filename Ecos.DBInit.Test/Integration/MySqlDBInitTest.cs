@@ -1,14 +1,14 @@
 ﻿using NUnit.Framework;
 using Ecos.DBInit.Core.Model;
 using System.Configuration;
-using Ecos.DBInit.Test.ObjectMothers;
 using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Wire;
+using Ecos.DBInit.Test.ObjectMothers;
 
-namespace Ecos.DBInit.Test
+namespace Ecos.DBInit.Test.Integration
 {
     [TestFixture]
-    public class DBInitTest
+    public class MySqlDBInitTest
     {
         readonly string _assemblyName = SakilaDbOM.SampleProjectAssemblyName;
 
@@ -22,7 +22,7 @@ namespace Ecos.DBInit.Test
         readonly IDBInit _dbInit;
         ModuleLoader _moduleLoader;
 
-        public DBInitTest()
+        public MySqlDBInitTest()
         {
             _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
 
@@ -55,7 +55,7 @@ namespace Ecos.DBInit.Test
             _dbInit.InitSchema();
 
             //Assert
-            Assert.That(ExecScalarByUsing(_queryToKnowNumberOfTablesAndViews), Is.EqualTo(SakilaDbOM.TablesCounter + SakilaDbOM.ViewsCounter ));
+            Assert.That(ExecScalarByUsing(_queryToKnowNumberOfTablesAndViews), Is.EqualTo(SakilaDbOM.TablesCounter + SakilaDbOM.ViewsCounter));
             Assert.That(ExecScalarByUsing(_queryToKnowNumberOfStoredProceduresAndFunctions), Is.EqualTo(SakilaDbOM.SPsCounter + SakilaDbOM.FunctionsCounter));
             Assert.That(ExecScalarByUsing(_queryToKnowNumberOfRowsOfActorsTable), Is.EqualTo(0));
         }

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
 using System.Data;
 using System;
-using Ecos.DBInit.Core.ScriptHelpers;
 using Ecos.DBInit.Core.Interfaces;
 
-namespace Ecos.DBInit.MySql.ScriptHelpers
+namespace Ecos.DBInit.MySql
 {
-    public class MySqlSchemaInfo:ISchemaInfo,IDisposable
+    public class SchemaInfo:ISchemaInfo,IDisposable
     {
         const int FirstField = 0;
 
@@ -40,7 +39,7 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
             get { return "SELECT routine_name FROM information_schema.ROUTINES WHERE ROUTINE_SCHEMA = '{0}' AND ROUTINE_TYPE = 'FUNCTION';";}
         }
 
-        public MySqlSchemaInfo(string connectionString,IScriptExec exec)
+        public SchemaInfo(string connectionString,IScriptExec exec)
         {
             _connection = new MySqlConnection(connectionString);
             _exec = exec;

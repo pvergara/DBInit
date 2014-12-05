@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Core.Interfaces;
 
-namespace Ecos.DBInit.MySql.ScriptHelpers
+namespace Ecos.DBInit.MySql
 {
-
-    public class MySqlScriptExec:IScriptExec
+    public class ScriptExec:IScriptExec
     {
         private readonly MySqlConnection _connection;
         private readonly string _connectionString;
@@ -16,7 +15,7 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
         private static MySqlConnection _executionConnection;
         private static MySqlTransaction _transaction;
 
-        public MySqlScriptExec(string connectionString)
+        public ScriptExec(string connectionString)
         {
             _connectionString = connectionString;
             _connection = new MySqlConnection(connectionString);
@@ -34,33 +33,33 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
 
         private static MySqlConnection GetExecutionConnection()
         {
-            return MySqlScriptExec._executionConnection;
+            return ScriptExec._executionConnection;
         }
 
         private static bool IsOpennedExecutionConnection()
         {
-            return MySqlScriptExec._executionConnection != null;
+            return ScriptExec._executionConnection != null;
         }
 
         private void OpenExecutionConnection()
         {
-            MySqlScriptExec._executionConnection = new MySqlConnection(_connectionString);
-            MySqlScriptExec._executionConnection.Open();
+            ScriptExec._executionConnection = new MySqlConnection(_connectionString);
+            ScriptExec._executionConnection.Open();
         }
 
         private static void BeginTransaction()
         {
-            MySqlScriptExec._transaction = MySqlScriptExec._executionConnection.BeginTransaction();
+            ScriptExec._transaction = ScriptExec._executionConnection.BeginTransaction();
         }
 
         private static void CommitTransaction()
         {
-            MySqlScriptExec._transaction.Commit();
+            ScriptExec._transaction.Commit();
         }
 
         private static void RollbackTransaction()
         {
-            MySqlScriptExec._transaction.Rollback();
+            ScriptExec._transaction.Rollback();
         }
 
         private static void TryCloseExecutionConnection()
@@ -71,9 +70,9 @@ namespace Ecos.DBInit.MySql.ScriptHelpers
 
         private static void CloseExecutionConnection()
         {
-            MySqlScriptExec._executionConnection.Close();
-            MySqlScriptExec._executionConnection.Dispose();
-            MySqlScriptExec._executionConnection = null;
+            ScriptExec._executionConnection.Close();
+            ScriptExec._executionConnection.Dispose();
+            ScriptExec._executionConnection = null;
         }
 
         public void ExecuteAndProcess<TValue>(Script script, ICollection<TValue> result, Func<IDataReader,ICollection<TValue>,ICollection<TValue>> function)

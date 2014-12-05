@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Core.Base", "Ec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.Wire", "Ecos.DBInit.Wire\Ecos.DBInit.Wire.csproj", "{FB585768-4EEF-460F-AEC7-5BFE3D63BCF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecos.DBInit.MySql.Test", "Ecos.DBInit.MySql.Test\Ecos.DBInit.MySql.Test.csproj", "{9FAEF0D3-FDFE-4CE2-BCE9-F9C1BC602447}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{672AC957-B6EC-4999-9740-60ADDFEDEC8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FAEF0D3-FDFE-4CE2-BCE9-F9C1BC602447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FAEF0D3-FDFE-4CE2-BCE9-F9C1BC602447}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FAEF0D3-FDFE-4CE2-BCE9-F9C1BC602447}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FAEF0D3-FDFE-4CE2-BCE9-F9C1BC602447}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D20E96B6-811C-470C-B989-38673DF2F474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D20E96B6-811C-470C-B989-38673DF2F474}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D20E96B6-811C-470C-B989-38673DF2F474}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,6 +60,9 @@ Global
 		$1.TabsToSpaces = False
 		$1.inheritsSet = VisualStudio
 		$1.inheritsScope = text/plain
+		$0.DotNetNamingPolicy = $2
+		$2.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$2.ResourceNamePolicy = MSBuild
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

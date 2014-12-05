@@ -3,7 +3,7 @@ using Ecos.DBInit.Core.ScriptHelpers;
 using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Test.ObjectMothers;
 
-namespace Ecos.DBInit.Test.Helpers
+namespace Ecos.DBInit.Test.Integration
 {
     [TestFixture]
     public class ScriptFinderOnEmbeddedResourceTest
