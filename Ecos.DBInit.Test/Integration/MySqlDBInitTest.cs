@@ -26,7 +26,8 @@ namespace Ecos.DBInit.Test.Integration
         {
             _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
 
-            _moduleLoader = new ModuleLoader(_connectionString, _assemblyName, ProviderType.MySql);
+            _moduleLoader = new ModuleLoader(_connectionString, _assemblyName,ProviderType.MySql);
+            _moduleLoader.Wire();
 
             _dbInit = _moduleLoader.GetDBInit();
             _scriptExec = _moduleLoader.GetScriptExec();

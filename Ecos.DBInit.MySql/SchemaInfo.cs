@@ -78,36 +78,36 @@ namespace Ecos.DBInit.MySql
             return collectionIn;
         }
 
-        public string DatabaseName
+        public virtual string DatabaseName
         {
             get { return _connection.Database; }
         }
 
-        public IEnumerable<string> GetTables()
+        public virtual IEnumerable<string> GetTables()
         {
             _tables = SetOnlyOnceTheCollectionByUsingFunction(_tables, ComposeScript,TablesScript);
             return _tables;
         }
 
-        public IEnumerable<string> GetViews()
+        public virtual IEnumerable<string> GetViews()
         {
             _views = SetOnlyOnceTheCollectionByUsingFunction(_views,ComposeScript,ViewsScript);
             return _views;
         }
 
-        public IEnumerable<string> GetStoredProcedures()
+        public virtual IEnumerable<string> GetStoredProcedures()
         {
             _storedProcedures = SetOnlyOnceTheCollectionByUsingFunction(_storedProcedures,ComposeScript,StoredProceduresScript);
             return _storedProcedures;
         }
 
-        public IEnumerable<string> GetFunctions()
+        public virtual IEnumerable<string> GetFunctions()
         {
             _functions = SetOnlyOnceTheCollectionByUsingFunction(_functions,ComposeScript,FunctionsScript);
             return _functions;
         }
             
-        public void Dispose()
+        public virtual void Dispose()
         {
             _exec.Dispose();
         }

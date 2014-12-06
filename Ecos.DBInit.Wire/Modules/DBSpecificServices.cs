@@ -2,18 +2,38 @@
 using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Model;
 using MySql = Ecos.DBInit.MySql;
+using System;
 
 namespace Ecos.DBInit.Wire.Modules
 {
     public class DBSpecificServices : NinjectModule
     {
+        private readonly string _connectionString;
+        private readonly string _namedProviderType;
+
+        public Type SchemaInfoImpType { get; set; }
+        public Type ScriptExecType  { get; set; }
+        public Type SpecificDBComposer { get; set; }
+
+        public DBSpecificServices(string connectionString,ProviderType providerType){
+
+            _connectionString = connectionString;
+            _namedProviderType = providerType.ToString();
+            switch(providerType){
+                case ProviderType.MySql:{
+                        SchemaInfoImpType = typeof(MySql.SchemaInfo);
+                        ScriptExecType = typeof(MySql.ScriptExec);
+                        SpecificDBComposer = typeof(MySql.SpecificDBComposer);
+                    }break;
+            }
+        }
+            
         public override void Load()
         {
-            var nameMySql = ProviderType.MySql.ToString();
+            Bind<IScriptExec>().To(ScriptExecType).Named(_namedProviderType).WithConstructorArgument("connectionString", _connectionString);
+            Bind<ISpecificDBComposer>().To(SpecificDBComposer).InSingletonScope().Named(_namedProviderType);
+            Bind<ISchemaInfo>().To(SchemaInfoImpType).InSingletonScope().Named(_namedProviderType).WithConstructorArgument("connectionString", _connectionString);
 
-            Bind<IScriptExec>().To<MySql.ScriptExec>().Named(nameMySql).WithConstructorArgument("connectionString",ModuleLoader.ConnectionString);
-            Bind<ISpecificDBComposer>().To<MySql.SpecificDBComposer>().InSingletonScope().Named(nameMySql);
-            Bind<ISchemaInfo>().To<MySql.SchemaInfo>().InSingletonScope().Named(nameMySql).WithConstructorArgument("connectionString",ModuleLoader.ConnectionString);
         }
     }
 }

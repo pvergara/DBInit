@@ -2,7 +2,9 @@
 using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Core.ScriptHelpers;
-using System.Reflection;
+using System;
+using Ninject.Modules;
+using Ecos.DBInit.Wire.Modules;
 
 namespace Ecos.DBInit.Wire
 {
@@ -10,45 +12,55 @@ namespace Ecos.DBInit.Wire
     {
         readonly StandardKernel _kernel;
 
-        public static string ConnectionString { get; private set; }
-        public static string AssemblyName { get; private set; }
-        public static ProviderType ProviderType { get; private set; }
+        private readonly DBSpecificServices _dbSpecificservice;
+        private readonly CoreServices _coreService;
 
-        public static IScriptLoader SchemaScriptLoader { get; private set; }
-        public static IScriptLoader DataScriptsLoader { get; private set; }
-
-        public ModuleLoader(string connectionString, string assemblyName, ProviderType providerType)
+        public ModuleLoader(string connectionString, string assemblyName,ProviderType providerType)
         {
-
-            ConnectionString = connectionString;
-            AssemblyName = assemblyName;
-            ProviderType = providerType;
-
             var schemaContainer = 
                 ScriptFinderFluentFactory.
                 FromEmbeddedResource.
-                    InitWith(AssemblyName, ScriptType.Schema).
+                    InitWith(assemblyName, ScriptType.Schema).
                 GetContainer();
 
-            SchemaScriptLoader = 
+            var schemaScriptLoader = 
                 ScriptLoaderFluentFactory.
                 FromEmbeddedResource.
-                    InitWith(AssemblyName, schemaContainer);
+                    InitWith(assemblyName, schemaContainer);
 
             var dataContainer = 
                 ScriptFinderFluentFactory.
                 FromEmbeddedResource.
-                    InitWith(AssemblyName, ScriptType.Data).
+                    InitWith(assemblyName, ScriptType.Data).
                 GetContainer();
 
-            DataScriptsLoader = 
+            var dataScriptsLoader = 
                 ScriptLoaderFluentFactory.
                 FromEmbeddedResource.
-                    InitWith(AssemblyName, dataContainer);
+                    InitWith(assemblyName, dataContainer);
 
             _kernel = new StandardKernel();
-            _kernel.Load(Assembly.GetExecutingAssembly());
+
+            _dbSpecificservice = new DBSpecificServices(connectionString,providerType);
+            _coreService = new CoreServices(schemaScriptLoader,dataScriptsLoader);
         }
+
+        public void OverwriteImplementationOf(Type interfaceType,Type implementationType){
+            if (interfaceType == typeof(ISchemaInfo))
+                _dbSpecificservice.SchemaInfoImpType = implementationType;
+
+            if (interfaceType == typeof(ISpecificDBComposer))
+                _dbSpecificservice.SpecificDBComposer = implementationType;
+
+            if (interfaceType == typeof(IScriptExec))
+                _dbSpecificservice.ScriptExecType = implementationType;
+
+        }
+
+        public void Wire(){
+            _kernel.Load(new INinjectModule[] {_dbSpecificservice,_coreService});
+        }
+
 
         public IDBInit GetDBInit()
         {
@@ -64,6 +76,6 @@ namespace Ecos.DBInit.Wire
         {
             return _kernel.Get<ISchemaInfo>();
         }
+    
     }
 }
-
