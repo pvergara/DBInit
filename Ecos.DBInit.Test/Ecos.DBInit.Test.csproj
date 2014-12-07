@@ -46,6 +46,7 @@
     <Compile Include="Integration\ScriptLoaderOnEmbbededResourceTest.cs" />
     <Compile Include="Unit\UnitOfWorkBehaviour.cs" />
     <Compile Include="Integration\MySqlDBInitTest.cs" />
+    <Compile Include="Unit\HowToOverrideAllIScriptExecMethodsTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
