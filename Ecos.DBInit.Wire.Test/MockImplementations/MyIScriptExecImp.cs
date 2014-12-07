@@ -4,7 +4,7 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 
-namespace Ecos.DBInit.Test.MockImplementations
+namespace Ecos.DBInit.Wire.Test.MockImplementations
 {
 
     public class MyIScriptExecImp : IScriptExec

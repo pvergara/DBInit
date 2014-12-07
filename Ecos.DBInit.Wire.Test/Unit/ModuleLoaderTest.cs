@@ -5,7 +5,7 @@ using Ecos.DBInit.Core.Base;
 using Mysql = Ecos.DBInit.MySql;
 
 
-namespace Ecos.DBInit.Test.Unit
+namespace Ecos.DBInit.Wire.Test.Unit
 {
     [TestFixture]
     public class ModuleLoaderTest

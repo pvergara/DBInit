@@ -4,9 +4,9 @@ using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Core.Interfaces;
 using System;
 using System.Collections.Generic;
-using Ecos.DBInit.Test.MockImplementations;
+using Ecos.DBInit.Wire.Test.MockImplementations;
 
-namespace Ecos.DBInit.Test.Unit
+namespace Ecos.DBInit.Wire.Test.Unit
 {
     [TestFixture]
     public class HowToOverrideAllIScriptExecMethodsTest

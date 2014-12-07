@@ -2,7 +2,7 @@ using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Model;
 using System.Collections.Generic;
 
-namespace Ecos.DBInit.Test.MockImplementations
+namespace Ecos.DBInit.Wire.Test.MockImplementations
 {
     public class MyISpecificDBComposer : ISpecificDBComposer
 	{

@@ -1,6 +1,6 @@
 using Ecos.DBInit.Core.Interfaces;
 
-namespace Ecos.DBInit.Test.MockImplementations
+namespace Ecos.DBInit.Wire.Test.MockImplementations
 {
     public class MyISchemaOperator : ISchemaOperator
 	{

@@ -3,11 +3,11 @@
 using Ecos.DBInit.Wire;
 using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Core.Interfaces;
-using Ecos.DBInit.Test.MockImplementations;
+using Ecos.DBInit.Wire.Test.MockImplementations;
 
 using System;
 
-namespace Ecos.DBInit.Test.Unit
+namespace Ecos.DBInit.Wire.Test.Unit
 {
     [TestFixture]
     public class ExtensionPointsAndWireTest
