@@ -4,6 +4,7 @@ namespace Ecos.DBInit.Core.Interfaces
 	{
         void CleanDB();
         void InitializeDB();
+
         void CleanData();
         void AddData();
 	}
