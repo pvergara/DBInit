@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Ecos.DBInit.Samples.ExtensionPoints</RootNamespace>
     <AssemblyName>Ecos.DBInit.Samples.ExtensionPoints</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,11 +28,25 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="MySchemaInfoImp.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj">
+      <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
+      <Name>Ecos.DBInit.MySql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.Core\Ecos.DBInit.Core.csproj">
+      <Project>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</Project>
+      <Name>Ecos.DBInit.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\Data\sakila-data.sql" />
+    <EmbeddedResource Include="Scripts\Schema\sakila-schema-onlyTables.sql" />
+  </ItemGroup>
 </Project>
