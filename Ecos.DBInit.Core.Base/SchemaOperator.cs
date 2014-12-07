@@ -19,20 +19,20 @@ namespace Ecos.DBInit.Core.Base
             _specificDBOperator = specificDBOperator;
         }
 
-        public void ActivateReferentialIntegrity()
+        public virtual void ActivateReferentialIntegrity()
         {
             var scripts = new []{ _specificDBOperator.ComposeActivateReferentialIntegrity() };
 
             _unitOfWork.Add(scripts);
         }
 
-        public void DeactivateReferentialIntegrity()
+        public virtual void DeactivateReferentialIntegrity()
         {
             var scripts = new []{ _specificDBOperator.ComposeDeactivateReferentialIntegrity() };
             _unitOfWork.Add(scripts);
         }
 
-        public void DropDataBaseObjects()
+        public virtual void DropDataBaseObjects()
         {
             var scripts = new List<Script>();
 
@@ -54,8 +54,7 @@ namespace Ecos.DBInit.Core.Base
             return dropAllObjectsScript;
         }
             
-
-        public void CreateDataBaseObjects()
+        public virtual void CreateDataBaseObjects()
         {
             var scripts = _scriptLoader.GetScripts();
 

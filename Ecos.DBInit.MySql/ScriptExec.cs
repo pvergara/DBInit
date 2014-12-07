@@ -75,7 +75,7 @@ namespace Ecos.DBInit.MySql
             ScriptExec._executionConnection = null;
         }
 
-        public void ExecuteAndProcess<TValue>(Script script, ICollection<TValue> result, Func<IDataReader,ICollection<TValue>,ICollection<TValue>> function)
+        public virtual void ExecuteAndProcess<TValue>(Script script, ICollection<TValue> result, Func<IDataReader,ICollection<TValue>,ICollection<TValue>> function)
         {
             const int firstItem = 0;
 
@@ -89,7 +89,7 @@ namespace Ecos.DBInit.MySql
             ExecuteAndProcess<int,TValue>(indexedScript, indexedResult, par);
         }
 
-        public void ExecuteAndProcess<TKey,TValue>(IDictionary<TKey, Script> indexedQueries, IDictionary<TKey, ICollection<TValue>> indexedResults, Func<IDataReader,TKey,ICollection<TValue>,ICollection<TValue>> functionOnEachQueryToEachResult)
+        public virtual void ExecuteAndProcess<TKey,TValue>(IDictionary<TKey, Script> indexedQueries, IDictionary<TKey, ICollection<TValue>> indexedResults, Func<IDataReader,TKey,ICollection<TValue>,ICollection<TValue>> functionOnEachQueryToEachResult)
         {
             foreach (KeyValuePair<TKey,Script> element in indexedQueries)
             {
@@ -109,7 +109,7 @@ namespace Ecos.DBInit.MySql
             }
         }
 
-        public T ExecuteScalar<T>(Script script)
+        public virtual T ExecuteScalar<T>(Script script)
         {
             T result;
             _connection.Open();
@@ -123,7 +123,7 @@ namespace Ecos.DBInit.MySql
 
         }
 
-        public void TryConnectionAndExecuteInsideTransaction(Script script)
+        public virtual void TryConnectionAndExecuteInsideTransaction(Script script)
         {
             if (!IsOpennedExecutionConnection())
             {
@@ -135,19 +135,19 @@ namespace Ecos.DBInit.MySql
 
         }
 
-        public void CommitAndClose()
+        public virtual void CommitAndClose()
         {
             CommitTransaction();
             TryCloseExecutionConnection();
         }
 
-        public void RollbackAndClose()
+        public virtual void RollbackAndClose()
         {
             RollbackTransaction();
             TryCloseExecutionConnection();
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             TryCloseExecutionConnection();
             _connection.Dispose();

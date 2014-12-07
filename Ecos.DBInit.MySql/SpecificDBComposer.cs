@@ -7,7 +7,7 @@ namespace Ecos.DBInit.MySql
 {
     public class SpecificDBComposer:ISpecificDBComposer
     {
-        public IEnumerable<Script> ComposeScriptsDelete(IEnumerable<string> tableNames)
+        public Ivirtual Enumerable<Script> ComposeScriptsDelete(IEnumerable<string> tableNames)
         {
             return tableNames.
                 Select(tableName => 
@@ -15,32 +15,32 @@ namespace Ecos.DBInit.MySql
                 );
         }
 
-        public Script ComposeActivateReferentialIntegrity()
+        public virtual Script ComposeActivateReferentialIntegrity()
         {
             return Script.From("SET @@foreign_key_checks = 1;");
         }
 
-        public Script ComposeDeactivateReferentialIntegrity()
+        public virtual Script ComposeDeactivateReferentialIntegrity()
         {
             return Script.From("SET @@foreign_key_checks = 0;");
         }
 
-        public IEnumerable<Script> ComposeScriptsDropTables(IEnumerable<string> tableNames)
+        public virtual IEnumerable<Script> ComposeScriptsDropTables(IEnumerable<string> tableNames)
         {
             return ComposeScriptsWithDropUsing("TABLE", tableNames);
         }
 
-        public IEnumerable<Script> ComposeScriptsDropViews(IEnumerable<string> viewNames)
+        public virtual IEnumerable<Script> ComposeScriptsDropViews(IEnumerable<string> viewNames)
         {
             return ComposeScriptsWithDropUsing("VIEW", viewNames);
         }
 
-        public IEnumerable<Script> ComposeScriptsDropStoredProcedures(IEnumerable<string> storedProcedureNames)
+        public virtual IEnumerable<Script> ComposeScriptsDropStoredProcedures(IEnumerable<string> storedProcedureNames)
         {
             return ComposeScriptsWithDropUsing("PROCEDURE", storedProcedureNames);
         }
 
-        public IEnumerable<Script> ComposeScriptsDropFunctions(IEnumerable<string> functionNames)
+        public virtual IEnumerable<Script> ComposeScriptsDropFunctions(IEnumerable<string> functionNames)
         {
             return ComposeScriptsWithDropUsing("FUNCTION", functionNames);
         }

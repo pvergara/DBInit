@@ -19,7 +19,7 @@ namespace Ecos.DBInit.Core.Base
             _specificDBOperator = specificDBOperator;
         }
 
-        public void CleanEachTable()
+        public virtual void CleanEachTable()
         {
             var scripts = new List<Script>();
 
@@ -33,7 +33,7 @@ namespace Ecos.DBInit.Core.Base
             return _specificDBOperator.ComposeScriptsDelete(_schemaInfo.GetTables());
         }
 
-        public void LoadDataScripts()
+        public virtual void LoadDataScripts()
         {
             var scripts = _loader.GetScripts();
 

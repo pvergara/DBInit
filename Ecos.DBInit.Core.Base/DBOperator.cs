@@ -15,26 +15,25 @@ namespace Ecos.DBInit.Core.Base
 
         private DBOperator(){}
 
-        public void CleanDB()
+        public virtual void CleanDB()
         {
             _schemaOperator.DeactivateReferentialIntegrity();
             _schemaOperator.DropDataBaseObjects();
         }
 
-        public void InitializeDB()
+        public virtual void InitializeDB()
         {
             _schemaOperator.CreateDataBaseObjects();
             _schemaOperator.ActivateReferentialIntegrity();
         }
 
-        public void CleanData()
+        public virtual void CleanData()
         {
             _schemaOperator.DeactivateReferentialIntegrity();
             _dataOperator.CleanEachTable();
         }
-
-
-        public void AddData()
+            
+        public virtual void AddData()
         {
             _dataOperator.LoadDataScripts();
             _schemaOperator.ActivateReferentialIntegrity();
