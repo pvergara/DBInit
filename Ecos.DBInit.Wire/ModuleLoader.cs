@@ -17,32 +17,27 @@ namespace Ecos.DBInit.Wire
 
         public ModuleLoader(string connectionString, string assemblyName,ProviderType providerType)
         {
-            var schemaContainer = 
-                ScriptFinderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(assemblyName, ScriptType.Schema).
-                GetContainer();
-
-            var schemaScriptLoader = 
-                ScriptLoaderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(assemblyName, schemaContainer);
-
-            var dataContainer = 
-                ScriptFinderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(assemblyName, ScriptType.Data).
-                GetContainer();
-
-            var dataScriptsLoader = 
-                ScriptLoaderFluentFactory.
-                FromEmbeddedResource.
-                    InitWith(assemblyName, dataContainer);
+            var schemaScriptLoader = InitializeDefaultSchemaScriptLoader(assemblyName);
+            var dataScriptsLoader = InitializeDefaultDataScriptLoader(assemblyName);
 
             _kernel = new StandardKernel();
 
             _dbSpecificservice = new DBSpecificServices(connectionString,providerType);
             _coreService = new CoreServices(schemaScriptLoader,dataScriptsLoader);
+        }
+
+        private static ScriptLoaderOnEmbeddedResource InitializeDefaultSchemaScriptLoader(string assemblyName)
+        {
+            var schemaContainer = ScriptFinderFluentFactory.FromEmbeddedResource.InitWith(assemblyName, ScriptType.Schema).GetContainer();
+            var schemaScriptLoader = ScriptLoaderFluentFactory.FromEmbeddedResource.InitWith(assemblyName, schemaContainer);
+            return schemaScriptLoader;
+        }
+
+        private static ScriptLoaderOnEmbeddedResource InitializeDefaultDataScriptLoader(string assemblyName)
+        {
+            var dataContainer = ScriptFinderFluentFactory.FromEmbeddedResource.InitWith(assemblyName, ScriptType.Data).GetContainer();
+            var dataScriptsLoader = ScriptLoaderFluentFactory.FromEmbeddedResource.InitWith(assemblyName, dataContainer);
+            return dataScriptsLoader;
         }
 
         public void OverwriteImplementationOf(Type interfaceType,Type implementationType){
@@ -54,6 +49,15 @@ namespace Ecos.DBInit.Wire
 
             if (interfaceType == typeof(IScriptExec))
                 _dbSpecificservice.ScriptExecType = implementationType;
+
+            if (interfaceType == typeof(ISchemaOperator))
+                _coreService.SchemaOperatorType = implementationType;
+
+            if (interfaceType == typeof(IDataOperator))
+                _coreService.DataOperatorType = implementationType;
+
+            if (interfaceType == typeof(IDBOperator))
+                _coreService.DBOperatorType = implementationType;
 
         }
 
@@ -77,5 +81,24 @@ namespace Ecos.DBInit.Wire
             return _kernel.Get<ISchemaInfo>();
         }
     
+        public ISpecificDBComposer GetScriptComposer()
+        {
+            return _kernel.Get<ISpecificDBComposer>();
+        }
+
+        public ISchemaOperator GetSchemaOperator()
+        {
+            return _kernel.Get<ISchemaOperator>();
+        }
+
+        public object GetDataOperator()
+        {
+            return _kernel.Get<IDataOperator>();
+        }
+
+        public object GetDBOperator()
+        {
+            return _kernel.Get<IDBOperator>();
+        }
     }
 }

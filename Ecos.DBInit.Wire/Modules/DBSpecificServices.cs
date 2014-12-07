@@ -11,9 +11,9 @@ namespace Ecos.DBInit.Wire.Modules
         private readonly string _connectionString;
         private readonly string _namedProviderType;
 
-        public Type SchemaInfoImpType { get; set; }
-        public Type ScriptExecType  { get; set; }
-        public Type SpecificDBComposer { get; set; }
+        public Type SchemaInfoImpType { private get; set; }
+        public Type ScriptExecType  { private get; set; }
+        public Type SpecificDBComposer { private get; set; }
 
         public DBSpecificServices(string connectionString,ProviderType providerType){
 
