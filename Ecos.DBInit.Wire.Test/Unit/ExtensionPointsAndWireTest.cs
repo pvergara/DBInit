@@ -2,7 +2,6 @@
 
 using Ecos.DBInit.Wire;
 using Ecos.DBInit.Core.Model;
-using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Wire.Test.MockImplementations;
 
 using System;
@@ -12,10 +11,10 @@ namespace Ecos.DBInit.Wire.Test.Unit
     [TestFixture]
     public class ExtensionPointsAndWireTest
     {
-        static ModuleLoader InitModLoader(Type interfaceType,Type implementationType)
+        private static ModuleLoader InitModLoader(Action<ModuleLoader> specificImpTypeSetter)
         {
             var moduleLoader = new ModuleLoader("", "", ProviderType.MySql);
-            moduleLoader.OverwriteImplementationOf(interfaceType,implementationType);
+            specificImpTypeSetter(moduleLoader);
             moduleLoader.Wire();
             return moduleLoader;
         }
@@ -23,7 +22,7 @@ namespace Ecos.DBInit.Wire.Test.Unit
         [Test]
         public void HowToOverrideIScriptExec()
         {
-            var moduleLoader = InitModLoader(typeof(IScriptExec), typeof(MyIScriptExecImp));
+            var moduleLoader = InitModLoader(ml => {ml.ScriptExecImpType = typeof(MyIScriptExecImp);});
 
             Assert.That(moduleLoader.GetScriptExec(), Is.TypeOf<MyIScriptExecImp>());
         }
@@ -31,7 +30,7 @@ namespace Ecos.DBInit.Wire.Test.Unit
         [Test]
         public void HowToOverrideISchemaInfo()
         {
-            var moduleLoader = InitModLoader(typeof(ISchemaInfo), typeof(MyISchemaInfo));
+            var moduleLoader = InitModLoader(ml => {ml.SchemaInfoImpType = typeof(MyISchemaInfo);});
 
             Assert.That(moduleLoader.GetSchemaInfo(), Is.TypeOf<MyISchemaInfo>());
         }
@@ -39,7 +38,7 @@ namespace Ecos.DBInit.Wire.Test.Unit
         [Test]
         public void HowToOverrideISpecificDBScriptComposer()
         {
-            var moduleLoader = InitModLoader(typeof(ISpecificDBComposer), typeof(MyISpecificDBComposer));
+            var moduleLoader = InitModLoader(ml => {ml.SpecificDBComposerImpType = typeof(MyISpecificDBComposer);});
 
             Assert.That(moduleLoader.GetScriptComposer(), Is.TypeOf<MyISpecificDBComposer>());
         }
@@ -47,7 +46,7 @@ namespace Ecos.DBInit.Wire.Test.Unit
         [Test]
         public void HowToOverrideISchemaOperator()
         {
-            var moduleLoader = InitModLoader(typeof(ISchemaOperator), typeof(MyISchemaOperator));
+            var moduleLoader = InitModLoader(ml => {ml.SchemaOperatorImpType = typeof(MyISchemaOperator);});
 
             Assert.That(moduleLoader.GetSchemaOperator(), Is.TypeOf<MyISchemaOperator>());
         }
@@ -55,15 +54,15 @@ namespace Ecos.DBInit.Wire.Test.Unit
         [Test]
         public void HowToOverrideIDataOperator()
         {
-            var moduleLoader = InitModLoader(typeof(IDataOperator), typeof(MyIDataOperator));
+            var moduleLoader = InitModLoader(ml => {ml.DataOperatorImpType = typeof(MyIDataOperator);});
 
             Assert.That(moduleLoader.GetDataOperator(), Is.TypeOf<MyIDataOperator>());
         }
 
-        [Test]
+        [Test]        
         public void HowToOverrideIDBOperator()
         {
-            var moduleLoader = InitModLoader(typeof(IDBOperator), typeof(MyIDBOperator));
+            var moduleLoader = InitModLoader(ml => {ml.DBOperatorImpType = typeof(MyIDBOperator);});
 
             Assert.That(moduleLoader.GetDBOperator(), Is.TypeOf<MyIDBOperator>());
         }

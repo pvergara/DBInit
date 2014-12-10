@@ -27,9 +27,7 @@ namespace Ecos.DBInit.Wire.Test.Integration
             _connectionString = ConfigurationManager.ConnectionStrings[SakilaDbOM.ConnectionStringName].ConnectionString;
 
             _moduleLoader = new ModuleLoader(_connectionString, _assemblyName,ProviderType.MySql);
-
-            _moduleLoader.OverwriteImplementationOf(typeof(ISchemaInfo),typeof(SchemaInfoNoDropSomeDBObjects));
-
+            _moduleLoader.SchemaInfoImpType = typeof(SchemaInfoNoDropSomeDBObjects);
             _moduleLoader.Wire();
 
             var _scriptExec = _moduleLoader.GetScriptExec();

@@ -20,7 +20,7 @@ namespace Ecos.DBInit.Wire.Test.Unit
         {
             _moduleLoader = new ModuleLoader("", "", ProviderType.MySql);
 
-            _moduleLoader.OverwriteImplementationOf(typeof(IScriptExec), typeof(MyIScriptExecImp));
+            _moduleLoader.ScriptExecImpType = typeof(MyIScriptExecImp);
             _moduleLoader.Wire();
             _scriptExec = _moduleLoader.GetScriptExec();
             _specificScriptExec = _scriptExec as MyIScriptExecImp;

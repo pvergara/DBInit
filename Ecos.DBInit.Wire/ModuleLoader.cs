@@ -3,6 +3,7 @@ using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Model;
 using Ecos.DBInit.Core.ScriptHelpers;
 using System;
+using System.Linq;
 using Ninject.Modules;
 using Ecos.DBInit.Wire.Modules;
 
@@ -40,25 +41,64 @@ namespace Ecos.DBInit.Wire
             return dataScriptsLoader;
         }
 
-        public void OverwriteImplementationOf(Type interfaceType,Type implementationType){
-            if (interfaceType == typeof(ISchemaInfo))
-                _dbSpecificservice.SchemaInfoImpType = implementationType;
+        private static void ValidateTypeWithExpectedInterface(Type interfaceType,Type implType)
+        {
+            if (implType.GetInterfaces().All(t => t != interfaceType))
+                throw new ArgumentException(string.Format("The expected type must implement {0}.", interfaceType.Name));
+        }
 
-            if (interfaceType == typeof(ISpecificDBComposer))
-                _dbSpecificservice.SpecificDBComposer = implementationType;
+        public Type SchemaInfoImpType 
+        { 
+            set
+            {
+                ValidateTypeWithExpectedInterface(typeof(ISchemaInfo),value);
+                _dbSpecificservice.SchemaInfoImpType = value;
+            }
+        }
 
-            if (interfaceType == typeof(IScriptExec))
-                _dbSpecificservice.ScriptExecType = implementationType;
+        public Type SpecificDBComposerImpType 
+        { 
+            set
+            {
+                ValidateTypeWithExpectedInterface(typeof(ISpecificDBComposer),value);
+                _dbSpecificservice.SpecificDBComposer = value;
+            }
+        }
 
-            if (interfaceType == typeof(ISchemaOperator))
-                _coreService.SchemaOperatorType = implementationType;
+        public Type ScriptExecImpType
+        {
+            set
+            {
+                ValidateTypeWithExpectedInterface(typeof(IScriptExec),value);
+                _dbSpecificservice.ScriptExecType = value;
+            }
+        }
 
-            if (interfaceType == typeof(IDataOperator))
-                _coreService.DataOperatorType = implementationType;
+        public Type SchemaOperatorImpType
+        {
+            set
+            {
+                ValidateTypeWithExpectedInterface(typeof(ISchemaOperator),value);
+                _coreService.SchemaOperatorType = value;
+            }
+        }
 
-            if (interfaceType == typeof(IDBOperator))
-                _coreService.DBOperatorType = implementationType;
+        public Type DataOperatorImpType
+        {
+            set
+            {
+                ValidateTypeWithExpectedInterface(typeof(IDataOperator),value);
+                _coreService.DataOperatorType = value;
+            }
+        }
 
+        public Type DBOperatorImpType
+        {
+            set
+            {
+                ValidateTypeWithExpectedInterface(typeof(IDBOperator),value);
+                _coreService.DBOperatorType = value;
+            }
         }
 
         public void Wire(){
