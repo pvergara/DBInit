@@ -31,8 +31,8 @@ namespace Ecos.DBInit.Wire.Test.Integration
             _moduleLoader.Wire();
 
             var _scriptExec = _moduleLoader.GetScriptExec();
-            _scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DROP VIEW IF EXISTS vwActor;"));
-            _scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("CREATE VIEW vwActor AS SELECT * FROM actor;"));
+            _scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("DROP VIEW IF EXISTS vw_actor;"));
+            _scriptExec.TryConnectionAndExecuteInsideTransaction(Script.From("CREATE VIEW vw_actor AS SELECT * FROM actor;"));
             _scriptExec.CommitAndClose();
             _dbInit = _moduleLoader.GetDBInit();
             var _schemaInfo = _moduleLoader.GetSchemaInfo();
@@ -48,7 +48,7 @@ namespace Ecos.DBInit.Wire.Test.Integration
                     });
 
             //Assert
-            Assert.That(views.FirstOrDefault(v => v == "vwActor"), Is.Not.Null);
+            Assert.That(views.FirstOrDefault(v => v.Equals("vw_actor")), Is.Not.Null);
         }
     }
 }

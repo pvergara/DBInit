@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -65,10 +65,10 @@
       <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
       <Name>Ecos.DBInit.MySql</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.Samples.SakilaDataBase\Ecos.DBInit.Samples.SakilaDataBase.csproj">
+      <Project>{f5de2173-6dff-4238-8539-1a57f92492ba}</Project>
+      <Name>Ecos.DBInit.Samples.SakilaDataBase</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Integration\" />
-    <Folder Include="Unit\" />
-    <Folder Include="ObjectMothers\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
