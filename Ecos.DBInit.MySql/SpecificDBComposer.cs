@@ -7,7 +7,7 @@ namespace Ecos.DBInit.MySql
 {
     public class SpecificDBComposer:ISpecificDBComposer
     {
-        public Ivirtual Enumerable<Script> ComposeScriptsDelete(IEnumerable<string> tableNames)
+        public virtual IEnumerable<Script> ComposeScriptsDelete(IEnumerable<string> tableNames)
         {
             return tableNames.
                 Select(tableName => 
