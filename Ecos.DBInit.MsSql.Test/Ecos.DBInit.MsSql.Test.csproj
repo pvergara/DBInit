@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -41,8 +41,8 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Ecos.DBInit.Samples.NorthwindDataBase\app.config">
@@ -52,11 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecos.DBInit.Core\Ecos.DBInit.Core.csproj">
-      <Project>{672ac957-b6ec-4999-9740-60addfedec8a}</Project>
+      <Project>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</Project>
       <Name>Ecos.DBInit.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.MsSql\Ecos.DBInit.MsSql.csproj">
-      <Project>{2df1e783-0795-4f8b-841d-00ad84208a70}</Project>
+      <Project>{2DF1E783-0795-4F8B-841D-00AD84208A70}</Project>
       <Name>Ecos.DBInit.MsSql</Name>
     </ProjectReference>
   </ItemGroup>

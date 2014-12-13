@@ -66,16 +66,12 @@
       <Project>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</Project>
       <Name>Ecos.DBInit.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecos.DBInit.Core.Base\Ecos.DBInit.Core.Base.csproj">
-      <Project>{D20E96B6-811C-470C-B989-38673DF2F474}</Project>
-      <Name>Ecos.DBInit.Core.Base</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj">
       <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
       <Name>Ecos.DBInit.MySql</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.Samples.ExtensionPoints\Ecos.DBInit.Samples.ExtensionPoints.csproj">
-      <Project>{a5819a48-d424-4b52-8ea5-ce4d294c5977}</Project>
+      <Project>{A5819A48-D424-4B52-8EA5-CE4D294C5977}</Project>
       <Name>Ecos.DBInit.Samples.ExtensionPoints</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.Wire\Ecos.DBInit.Wire.csproj">

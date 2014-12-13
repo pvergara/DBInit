@@ -51,25 +51,21 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Ecos.DBInit.Core\Ecos.DBInit.Core.csproj">
-      <Project>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</Project>
-      <Name>Ecos.DBInit.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.Samples.NorthwindDataBase\Ecos.DBInit.Samples.NorthwindDataBase.csproj">
-      <Project>{24a040e8-e8ca-409c-85bf-56542e33332d}</Project>
+      <Project>{24A040E8-E8CA-409C-85BF-56542E33332D}</Project>
       <Name>Ecos.DBInit.Samples.NorthwindDataBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.Samples.SakilaDataBase\Ecos.DBInit.Samples.SakilaDataBase.csproj">
       <Project>{F5DE2173-6DFF-4238-8539-1A57F92492BA}</Project>
       <Name>Ecos.DBInit.Samples.SakilaDataBase</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Ecos.DBInit.Core.Base\Ecos.DBInit.Core.Base.csproj">
-      <Project>{D20E96B6-811C-470C-B989-38673DF2F474}</Project>
-      <Name>Ecos.DBInit.Core.Base</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.Wire\Ecos.DBInit.Wire.csproj">
       <Project>{FB585768-4EEF-460F-AEC7-5BFE3D63BCF1}</Project>
       <Name>Ecos.DBInit.Wire</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.Core\Ecos.DBInit.Core.csproj">
+      <Project>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</Project>
+      <Name>Ecos.DBInit.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -66,7 +66,7 @@ namespace Ecos.DBInit.Test.Integration
             //Arrange           
 
             //Act
-            _dbInit.InitData();
+			_dbInit.InitData();
 
             //Assert
             Assert.That(ExecScalarByUsing(_queryToKnowNumberOfRowsOfOrderDetails), Is.EqualTo(NorthwindDbOM.OrderDetailsCounter));
