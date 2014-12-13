@@ -2,7 +2,8 @@
 {
     public enum ProviderType
     {
-        MySql
+        MySql,
+        MsSql
     }
 }
 

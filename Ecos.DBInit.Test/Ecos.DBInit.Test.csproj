@@ -39,6 +39,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Integration\MsSqlDBInitTest.cs" />
+    <Compile Include="ObjectMothers\NorthwindDbOM.cs" />
     <Compile Include="ObjectMothers\SakilaDbOM.cs" />
     <Compile Include="Unit\DataOperatorBehaviour.cs" />
     <Compile Include="Unit\SchemaOperatorBehaviour.cs" />
@@ -52,6 +54,10 @@
     <ProjectReference Include="..\Ecos.DBInit.Core\Ecos.DBInit.Core.csproj">
       <Project>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</Project>
       <Name>Ecos.DBInit.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.Samples.NorthwindDataBase\Ecos.DBInit.Samples.NorthwindDataBase.csproj">
+      <Project>{24a040e8-e8ca-409c-85bf-56542e33332d}</Project>
+      <Name>Ecos.DBInit.Samples.NorthwindDataBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.Samples.SakilaDataBase\Ecos.DBInit.Samples.SakilaDataBase.csproj">
       <Project>{F5DE2173-6DFF-4238-8539-1A57F92492BA}</Project>
@@ -67,9 +73,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Ecos.DBInit.Samples.SakilaDataBase\app.config">
-      <Link>app.config</Link>
-    </None>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="..\Ecos.DBInit.Samples.SakilaDataBase\app.config.dist">
       <Link>app.config.dist</Link>
@@ -77,8 +81,5 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Unit\" />
-    <Folder Include="Integration\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

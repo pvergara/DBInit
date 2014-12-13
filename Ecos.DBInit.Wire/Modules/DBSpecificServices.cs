@@ -2,6 +2,7 @@
 using Ecos.DBInit.Core.Interfaces;
 using Ecos.DBInit.Core.Model;
 using MySql = Ecos.DBInit.MySql;
+using MsSql = Ecos.DBInit.MsSql;
 using System;
 
 namespace Ecos.DBInit.Wire.Modules
@@ -25,6 +26,12 @@ namespace Ecos.DBInit.Wire.Modules
                         ScriptExecType = typeof(MySql.ScriptExec);
                         SpecificDBComposer = typeof(MySql.SpecificDBComposer);
                     }break;
+                case ProviderType.MsSql:
+                    {
+                        SchemaInfoImpType = typeof(MsSql.SchemaInfo);
+                        ScriptExecType = typeof(MsSql.ScriptExec);
+                        SpecificDBComposer = typeof(MsSql.SpecificDBComposer);
+                    } break;
             }
         }
             

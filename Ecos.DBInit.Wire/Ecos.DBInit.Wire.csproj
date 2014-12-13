@@ -40,6 +40,10 @@
       <Project>{672AC957-B6EC-4999-9740-60ADDFEDEC8A}</Project>
       <Name>Ecos.DBInit.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ecos.DBInit.MsSql\Ecos.DBInit.MsSql.csproj">
+      <Project>{2df1e783-0795-4f8b-841d-00ad84208a70}</Project>
+      <Name>Ecos.DBInit.MsSql</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ecos.DBInit.MySql\Ecos.DBInit.MySql.csproj">
       <Project>{6655574E-35A1-47FC-94F5-E4C2623BA5D0}</Project>
       <Name>Ecos.DBInit.MySql</Name>
