@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace Ecos.DBInit.MySql
 {
-    public class SpecificDBComposer:ISpecificDBComposer
+    public class SpecificDBComposer : ISpecificDBComposer
     {
         public virtual IEnumerable<Script> ComposeScriptsDelete(IEnumerable<string> tableNames)
         {
             return tableNames.
-                Select(tableName => 
+                Select(tableName =>
                     Script.From(string.Format("DELETE FROM {0};", tableName))
                 );
         }
@@ -48,7 +48,7 @@ namespace Ecos.DBInit.MySql
         private static IEnumerable<Script> ComposeScriptsWithDropUsing(string typeOfObject, IEnumerable<string> objectNames)
         {
             return objectNames.
-                Select(objectName => 
+                Select(objectName =>
                     Script.From(string.Format("DROP {0} IF EXISTS {1};", typeOfObject, objectName))
                 );
 
