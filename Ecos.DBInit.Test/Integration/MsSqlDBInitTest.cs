@@ -16,7 +16,6 @@ namespace Ecos.DBInit.Test.Integration
         readonly string _queryToKnowNumberOfRowsOfProductsTable;
         readonly string _queryToKnowNumberOfTablesAndViews;
         readonly string _queryToKnowNumberOfStoredProcedures;
-        readonly string _dbName;
         readonly string _connectionString;
         readonly IScriptExec _scriptExec;
         readonly IDBInit _dbInit;
@@ -31,7 +30,6 @@ namespace Ecos.DBInit.Test.Integration
 
             _dbInit = _moduleLoader.GetDBInit();
             _scriptExec = _moduleLoader.GetScriptExec();
-            _dbName = _moduleLoader.GetSchemaInfo().DatabaseName;
 
             _queryToKnowNumberOfRowsOfOrderDetails = "SELECT count(*) FROM [Order Details];";
             _queryToKnowNumberOfRowsOfProductsTable = "SELECT count(*) FROM [Products];";
@@ -70,7 +68,7 @@ namespace Ecos.DBInit.Test.Integration
             //Act
             _dbInit.InitData();
 
-            ////Assert
+            //Assert
             Assert.That(ExecScalarByUsing(_queryToKnowNumberOfRowsOfOrderDetails), Is.EqualTo(NorthwindDbOM.OrderDetailsCounter));
             Assert.That(ExecScalarByUsing(_queryToKnowNumberOfRowsOfProductsTable), Is.EqualTo(NorthwindDbOM.ProductsCounter));
         }

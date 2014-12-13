@@ -1,0 +1,2 @@
+#Each one must try to use here own app.config file the only that you need is to rename the ".dist" file and include the correct connection string
+app.config
