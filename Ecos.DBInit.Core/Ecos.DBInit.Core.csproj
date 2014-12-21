@@ -52,6 +52,7 @@
     <Compile Include="Base\DBOperator.cs" />
     <Compile Include="Base\SchemaOperator.cs" />
     <Compile Include="Base\UnitOfWorkCurrent.cs" />
+    <Compile Include="Base\Global.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
