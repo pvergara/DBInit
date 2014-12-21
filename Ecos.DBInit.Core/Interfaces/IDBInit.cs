@@ -4,5 +4,6 @@
 	{
 		void InitData();
 		void InitSchema();
+        void SmartInit();
 	}
 }

@@ -42,10 +42,10 @@ namespace Ecos.DBInit.Core.Base
             if(Global.IsFirstTime)
                 InitSchemaNoFlush();
             InitDataNoFlush();
-            ExecuteAllScripts();
+            FlushAllScripts();
         }
 
-        private void ExecuteAllScripts()
+        private void FlushAllScripts()
         {
             _unitOfWork.Flush();
         }
