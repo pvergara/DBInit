@@ -7,65 +7,110 @@ namespace Ecos.DBInit.Test.Unit
     [TestFixture]
     public class DBInitBehaviour
     {
-        private static byte _testCounter;
+        private readonly Mock<IUnitOfWork> _uowMock;
+        private readonly Mock<IDBOperator> _dbOperatorMock;
+        private readonly IDBInit _dbInit;
+
+        private static byte _testCounterThatUsesSmartInit;
+
+        public DBInitBehaviour()
+        {
+            _uowMock = new Mock<IUnitOfWork>();
+            _dbOperatorMock = new Mock<IDBOperator>();
+            _dbInit = new Core.Base.DBInit(_uowMock.Object, _dbOperatorMock.Object);
+        }
+
+        private static void UpdateTheTestCounterThatUsesSmartInit()
+        {
+            _testCounterThatUsesSmartInit++;
+        }
 
         [Test]
-        public void SmartInitRunsOnlyOnceInitSchemaEvenBetweenDifferentInvocations()
-        {
+        public void InitSchemaConsistsToInvokeToCleanDBInitializeDBAndFlush(){
+            //Arrange
             var uowMock = new Mock<IUnitOfWork>();
             var dbOperatorMock = new Mock<IDBOperator>();
             var dbInit = new Core.Base.DBInit(uowMock.Object, dbOperatorMock.Object);
 
-            dbInit.SmartInit();
-            dbInit.SmartInit();
-            dbInit.SmartInit();
-            dbInit.SmartInit();
+            //Act
+            dbInit.InitSchema();
 
-            if(_testCounter==0)
-                dbOperatorMock.Verify(db => db.CleanDB(), Times.Once);
-            else
-                dbOperatorMock.Verify(db => db.CleanDB(), Times.Never);
-
-            UpdateTheTestCounter();
+            //Assert
+            dbOperatorMock.Verify(db => db.CleanDB(), Times.Once);
+            dbOperatorMock.Verify(db => db.InitializeDB(), Times.Once);
+            uowMock.Verify(uo => uo.Flush(), Times.Once);
         }
 
-        private static void UpdateTheTestCounter()
+
+        [Test]
+        public void InitDataConsistsToInvokeToCleanDBInitializeDBAndFlush(){
+            //Arrange
+            var uowMock = new Mock<IUnitOfWork>();
+            var dbOperatorMock = new Mock<IDBOperator>();
+            var dbInit = new Core.Base.DBInit(uowMock.Object, dbOperatorMock.Object);
+
+            //Act
+            dbInit.InitData();
+
+            //Assert
+            dbOperatorMock.Verify(db => db.CleanData(), Times.Once);
+            dbOperatorMock.Verify(db => db.AddData(), Times.Once);
+            uowMock.Verify(uo => uo.Flush(), Times.Once);
+        }
+
+        [Test]
+        public void SmartInitRunsOnlyOnceInitSchemaEvenBetweenDifferentInvocations()
         {
-            _testCounter++;
+            //Act
+            _dbInit.SmartInit();
+            _dbInit.SmartInit();
+            _dbInit.SmartInit();
+            _dbInit.SmartInit();
+
+            //Assert
+            _dbOperatorMock.Verify(db => db.CleanDB(), Times.Once);
+            _dbOperatorMock.Verify(db => db.InitializeDB(), Times.Once);
+
+            //Post-Assert
+            UpdateTheTestCounterThatUsesSmartInit();
         }
 
         [Test]
         public void SmartInitRunsInitDataAsTimesAsItHasInvoked()
         {
-            var uowMock = new Mock<IUnitOfWork>();
-            var dbOperatorMock = new Mock<IDBOperator>();
-            var dbInit = new Core.Base.DBInit(uowMock.Object, dbOperatorMock.Object);
+            //Arrange
+            const int numberOfSmartInitLocalInvocations = 4;
 
-            dbInit.SmartInit();
-            dbInit.SmartInit();
-            dbInit.SmartInit();
-            dbInit.SmartInit();
+            //Act
+            _dbInit.SmartInit();
+            _dbInit.SmartInit();
+            _dbInit.SmartInit();
+            _dbInit.SmartInit();
 
-            dbOperatorMock.Verify(db => db.AddData(), Times.Exactly(4));
+            //Assert
+            _dbOperatorMock.Verify(db => db.AddData(), Times.Exactly((_testCounterThatUsesSmartInit + 1) * numberOfSmartInitLocalInvocations));
 
-            UpdateTheTestCounter();
+            //Post-Assert
+            UpdateTheTestCounterThatUsesSmartInit();
         }
 
         [Test]
         public void OnEverySmartInitInvokationTheresOnlyOneFlushMethodCall()
         {
-            var uowMock = new Mock<IUnitOfWork>();
-            var dbOperatorMock = new Mock<IDBOperator>();
-            var dbInit = new Core.Base.DBInit(uowMock.Object, dbOperatorMock.Object);
+            //Arrange
+            const int numberOfSmartInitLocalInvocations = 4;
 
-            dbInit.SmartInit();
-            dbInit.SmartInit();
-            dbInit.SmartInit();
-            dbInit.SmartInit();
+            //Act
+            _dbInit.SmartInit();
+            _dbInit.SmartInit();
+            _dbInit.SmartInit();
+            _dbInit.SmartInit();
 
-            uowMock.Verify(uo => uo.Flush(), Times.Exactly(4));
+            //Assert
+            _uowMock.Verify(uo => uo.Flush(), Times.Exactly((_testCounterThatUsesSmartInit+1) * numberOfSmartInitLocalInvocations));
 
-            UpdateTheTestCounter();
+            //Post-Assert
+            UpdateTheTestCounterThatUsesSmartInit();
         }
 
     }
