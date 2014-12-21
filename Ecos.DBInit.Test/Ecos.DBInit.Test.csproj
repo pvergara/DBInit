@@ -43,6 +43,7 @@
     <Compile Include="ObjectMothers\NorthwindDbOM.cs" />
     <Compile Include="ObjectMothers\SakilaDbOM.cs" />
     <Compile Include="Unit\DataOperatorBehaviour.cs" />
+    <Compile Include="Unit\DBInitBehaviour.cs" />
     <Compile Include="Unit\SchemaOperatorBehaviour.cs" />
     <Compile Include="Integration\ScriptFinderOnEmbeddedResourceTest.cs" />
     <Compile Include="Integration\ScriptLoaderOnEmbbededResourceTest.cs" />

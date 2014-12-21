@@ -15,15 +15,38 @@ namespace Ecos.DBInit.Core.Base
 
         public void InitSchema()
         {
+            InitSchemaNoFlush();
+            _unitOfWork.Flush();
+        }
+
+        private void InitSchemaNoFlush()
+        {
             _operator.CleanDB();
             _operator.InitializeDB();
-            _unitOfWork.Flush();
         }
 
         public void InitData()
         {
+            InitDataNoFlush();
+            _unitOfWork.Flush();
+        }
+
+        private void InitDataNoFlush()
+        {
             _operator.CleanData();
             _operator.AddData();
+        }
+
+        public void SmartInit()
+        {
+            if(Global.IsFirstTime)
+                InitSchemaNoFlush();
+            InitDataNoFlush();
+            ExecuteAllScripts();
+        }
+
+        private void ExecuteAllScripts()
+        {
             _unitOfWork.Flush();
         }
     }

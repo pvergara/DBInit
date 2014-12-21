@@ -28,6 +28,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Base\Global.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Container.cs" />
     <Compile Include="Model\Script.cs" />
@@ -62,7 +63,5 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Base\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
