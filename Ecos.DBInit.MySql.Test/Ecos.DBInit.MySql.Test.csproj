@@ -8,6 +8,7 @@
     <RootNamespace>Ecos.DBInit.MySql.Test</RootNamespace>
     <AssemblyName>Ecos.DBInit.MySql.Test</AssemblyName>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <ReleaseVersion>0.7</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -87,6 +87,7 @@ Global
 		$0.DotNetNamingPolicy = $2
 		$2.DirectoryNamespaceAssociation = PrefixedHierarchical
 		$2.ResourceNamePolicy = MSBuild
+		version = 0.7
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,6 +8,7 @@
     <RootNamespace>Ecos.DBInit.Core</RootNamespace>
     <AssemblyName>Ecos.DBInit.Core</AssemblyName>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <ReleaseVersion>0.7</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,7 +29,6 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Base\Global.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Container.cs" />
     <Compile Include="Model\Script.cs" />
@@ -64,4 +64,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Base\" />
+  </ItemGroup>
 </Project>
